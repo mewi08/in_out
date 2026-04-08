@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Entrada/Salida</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/attendance.style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <div class="header">
+        <h1 class="title">Asistencia</h1>
+        <p class="subtitle">Registrar entrada/salida</p>
+
+        <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        
+        <!-- ALERT GLOBAL (visible en todos los pasos) -->
+        <div class="alert" id="alert"></div>
+
+        <!-- STEP 1 -->
+        <div class="step active" id="step-1">
+
+            <div class="form-group">
+                <label>Ingresa tu número de DNI</label>
+
+                <input
+                    type="text"
+                    id="codeInput"
+                    maxlength="8"
+                    autocomplete="off"
+                >
+            </div>
+
+            <button type="button" class="btn-primary" id="validateCodeBtn">
+                Continuar
+            </button>
+
+            <button type="button" class="btn-secondary" id="backBtn">
+                Volver
+            </button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+
+            <div class="employee-card">
+                <div class="employee-header">
+                    <div class="employee-avatar" id="avatarInitials"></div>
+
+                    <div class="employee-info">
+                        <h3 id="employeeName"></h3>
+                        <p id="employeeCategory"></p>
+                    </div>
+                </div>
+
+                <div class="employee-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Código</div>
+                        <div class="detail-value" id="employeeCode"></div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-label">Area de trabajo</div>
+                        <div class="detail-value" id="employeeWorkArea"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem;">
+                Verifica tus datos
+            </p>
+
+            <button type="button" class="btn-primary" id="confirmDataBtn">
+                Datos correctos
+            </button>
+
+            <button type="button" class="btn-secondary" id="changeCodeBtn">
+                Cambiar código
+            </button>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+
+            <p style="text-align:center;margin-bottom:1rem;">
+                Selecciona acción
+            </p>
+
+            <div class="action-options">
+
+                <div class="option-btn entrada" id="checkInBtn">
+                    <div class="option-title">Entrada</div>
+                </div>
+
+                <div class="option-btn salida" id="checkOutBtn">
+                    <div class="option-title">Salida</div>
+                </div>
+
+            </div>
+
+            <button type="button" class="btn-secondary" id="backStep2Btn">
+                Volver
+            </button>
+
+            <div class="time-display" id="currentTime"></div>
+        </div>
+
+    </div>
+</div>
+
+<script type="module" src="/js/attendance/ui/attendance.controller.js"></script>
+
+</body>
+</html>

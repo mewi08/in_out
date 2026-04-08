@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Empleado</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/register_profile.style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Registro</h1>
+            <p class="subtitle">Crear tu cuenta en el sistema</p>
+        </div>
+        
+        <div id="alert" class="alert"></div>
+
+            <form id="registerForm">
+
+                <!-- NOMBRES -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Nombre <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Apellido <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Tu apellido" required>
+                    </div>
+                </div>
+
+                <!-- DNI -->
+                <div class="form-group">
+                    <label for="code">DNI <span class="required">*</span></label>
+                    <input type="text" id="code" name="code" placeholder="Ej: 11223344" maxlength="8" required>
+                    <span class="code-input-hint">
+                        Será tu código para registrar tu entrada y salida
+                    </span>
+                </div>
+
+                <!-- CATEGORÍA -->
+                <div class="form-group">
+                    <label for="category">Categoría <span class="required">*</span></label>
+                    <select id="category" name="category" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="trabajador_planilla">Trabajador planilla</option>
+                        <option value="personal_habitual">Personal habitual</option>
+                        <option value="practicante">Practicante</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+
+                <!-- CATEGORÍA OTRO -->
+                <div class="form-group category-extra" id="categoryExtra">
+                    <label for="categoryOther">
+                        Especifica la categoría <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="categoryOther" 
+                        name="categoryOther"
+                        placeholder="Describe tu categoría"
+                        maxlength="50"
+                    >
+                </div>
+
+                <!-- ÁREA DE TRABAJO -->
+                <div class="form-group">
+                    <label for="workArea">Área de trabajo <span class="required">*</span></label>
+                    <select id="workArea" name="workArea" required>
+                        <option value="">Selecciona un área</option>
+                        <option value="administracion">Administración</option>
+                        <option value="sistemas">Sistemas</option>
+                        <option value="recursos_humanos">Recursos Humanos</option>
+                        <option value="logistica">Logística</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+
+                <!-- ÁREA OTRO -->
+                <div class="form-group category-extra" id="workAreaExtra">
+                    <label for="workAreaOther">
+                        Especifica el área <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="workAreaOther" 
+                        name="workAreaOther"
+                        placeholder="Describe el área"
+                        maxlength="50"
+                    >
+                </div>
+
+                <!-- BOTONES -->
+                <div class="button-group">
+                    <button type="button" class="btn-secondary" id="backBtn">
+                        Volver
+                    </button>
+
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        Registrar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script type="module" src="/js/users/ui/users.controller.js"></script>
+</body>
+</html>
