@@ -1,11 +1,12 @@
 function formatWorkedTime(totalMinutes) {
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
+    const minutes = Math.floor(totalMinutes);
+
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
 
     return {
         hours,
-        minutes,
-        formatted: `${hours}h ${minutes}m`
+        minutes: remainingMinutes
     };
 }
 
