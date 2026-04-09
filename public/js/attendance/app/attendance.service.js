@@ -1,3 +1,4 @@
+import { error } from 'winston';
 import {api} from '../../shared/http.client.js';
 export const attendanceService = {
     /**
@@ -5,10 +6,14 @@ export const attendanceService = {
      * @param {Object} data - { user_id, type: 'entry'|'exit', timestamp }
      */
     async createRecord(data){
-        return await api.post(`/attendance`,data);
+        const res = await api.post(`/attendance`, data);
+        if(!res.success) throw new Error(res.message);
+        return res.data;
     },
 
     async getTodayHours(user_id){
-        return await api.get(`attendance/${user_id}`);
+        const res = await api.get(`/attendance/${user_id}`);
+        if(!res.success) throw new Error(res.message);
+        return res.data;
     }
-}
+};
