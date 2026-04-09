@@ -6,13 +6,18 @@
 
 export function showAlert(message, type, containerId='alert') {
     const alertBox = document.getElementById(containerId);
+    if(!alertBox) return;
+    
     alertBox.textContent = message;
     alertBox.className   = `alert ${type}`;
 }
 
 /** Limpia cualquier alerta visible. */
 export function clearAlert(containerId='alert') {
-    document.getElementById(containerId).className = 'alert';
+    const el = document.getElementById(containerId);
+    if(!el) return;
+    el.className = 'alert';
+    el.textContent = '';
 }
 
 export function setFieldError(field, show) {
@@ -20,10 +25,15 @@ export function setFieldError(field, show) {
     document.getElementById(`${field}-error`).classList.toggle('visible', show);
 }
 
-export function setLoading(loading, btnId='submitBtn') {
-    const btn    = document.getElementById(btnId);
-    btn.disabled = loading;
-    btn.classList.toggle('loading', loading);
+export function setLoading(element, loading) {
+    element.disabled = loading;
+
+    if(loading){
+        element.dataset.originalText = element.textContent;
+        element.textContent = 'Procesando...';
+    }else{
+        element.textContent = element.dataset.originalText || element.textContent;
+    }
 }
 
 export function autoHideAlert(containerId = 'alert', delay = 5000){
