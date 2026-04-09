@@ -14,19 +14,22 @@ setupToggleExtraField("workArea", "workAreaExtra", "otro");
 
 document.getElementById('registerForm').addEventListener('submit', handleSubmit);
 
+const form = document.getElementById('registerForm');
 const backBtn = document.getElementById('backBtn');
+const submitBtn = document.getElementById('submitBtn');
 
 backBtn.addEventListener('click', () => {
     window.location.href = '/index.html';
 });
 
+function showError(message) {
+    showAlert(message, 'error');
+    autoHideAlert('alert');
+}
+
 async function handleSubmit(e) {
     e.preventDefault();
-    console.log('1. Formulario enviado');
-
-    clearAlert();
-    setLoading(true);
-    console.log('2. Loading activado');
+    clearAlert('alert');
 
     // ===== LECTURA DE DATOS =====
     const name = document.getElementById('name').value.trim();
@@ -41,58 +44,42 @@ async function handleSubmit(e) {
     
     // ===== VALIDACIONES BÁSICAS =====
     if (!name) {
-        //console.log('ERROR: name vacío'); 
-        showAlert('Por favor ingresa tus nombres', 'error');
-        autoHideAlert();
+        showError('Por favor ingresa tus nombres');
         return;
     }
 
-    if (!last_name) {
-        //console.log('ERROR: last_name vacío');  
-        showAlert('Por favor ingresa tus apellidos', 'error');
-        autoHideAlert();
+    if (!last_name) { 
+        showError('Por favor ingresa tus apellidos');
         return;
     }
 
     if (!entered_code) {
-        //console.log('ERROR: entered_code vacío');  
-        showAlert('Por favor ingresa tu DNI', 'error');
-        autoHideAlert();
+        showError('Por favor ingresa tu DNI');
         return;
     }
 
     if (!/^\d{8}$/.test(entered_code)) {
-        //console.log('ERROR: DNI inválido:', entered_code);  
-        showAlert('El DNI debe tener 8 caracteres numéricos', 'error');
-        autoHideAlert();
+        showError('El DNI debe tener 8 caracteres numéricos');
         return;
     }
 
     if (!categorySelect) {
-        //console.log('ERROR: categorySelect vacío');  
-        showAlert('Por favor selecciona la categoría', 'error');
-        autoHideAlert();
+        showError('Por favor selecciona la categoría');
         return;
     }
 
     if (categorySelect === "otro" && !categoryOther) {
-        //console.log('ERROR: categoryOther vacío');  
-        showAlert('Por favor especifica la categoría', 'error');
-        autoHideAlert();
+        showError('Por favor especifica la categoría');
         return;
     }
 
     if (!workAreaSelect) {
-        //console.log('ERROR: workAreaSelect vacío');  
-        showAlert('Por favor selecciona el área de trabajo', 'error');
-        autoHideAlert();
+        showError('Por favor selecciona el área de trabajo');
         return;
     }
 
     if (workAreaSelect === "otro" && !workAreaOther) {
-        //console.log('ERROR: workAreaOther vacío');  
-        showAlert('Por favor especifica el área de trabajo', 'error');
-        autoHideAlert();
+        showError('Por favor especifica el área de trabajo');
         return;
     }
 
@@ -108,31 +95,23 @@ async function handleSubmit(e) {
         category,
         work_area
     };
-    console.log('3. Datos listos:', data);
-    setLoading(true);
+    setLoading(submitBtn, true);
 
     try {
-        console.log('4. Antes de createUser'); 
-        const result = await userService.createUser(data);
-        console.log('5. Resultado recibido:', result);
+        await userService.createUser(data);
 
-        if (result.success) {
-            console.log('6. Éxito - mostrando alerta'); 
+        showAlert(`Usuario ${name} ${last_name} registrado correctamente`, 'success');
+        autoHideAlert('alert');
+        
+        form.reset();
 
-            showAlert(result.message, 'success');
-            autoHideAlert();
-            
-            sessionStorage.setItem('tempCode',entered_code);
+        sessionStorage.setItem('tempDni', entered_code);
 
-            setTimeout(() => {
-                window.location.href = '/pages/attendance/register_attendance.html';
-            }, 2000);
-        } else{
-            console.log('6b. Success false:', result);
-        }
+        setTimeout(() => {
+            window.location.href = '/pages/attendance/register_attendance.html'
+        }, 2000);
 
     } catch (err) {
-        console.log('ERROR catch:', err.message, err);
         const isNetwork = err instanceof TypeError;
 
         showAlert(
@@ -142,10 +121,8 @@ async function handleSubmit(e) {
             'error'
         );
 
-        autoHideAlert();
-
+        autoHideAlert('alert');
     } finally {
-        console.log('7. Finally - desactivando loading');
-        setLoading(false);
+        setLoading(submitBtn, false);
     }
 }
