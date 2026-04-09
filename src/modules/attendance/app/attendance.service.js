@@ -1,7 +1,7 @@
 const { AttendanceRepository } = require('../infrastructure/attendance.repository');
 const { UserRepository} = require('../../users/infrastructure/users.repository')
 const { Attendance } = require('../domain/attendance.model');
-const { formatWorkedTime } = require('../../../shared/utils/formattedTime ');
+const { formatWorkedTime } = require('../../../shared/utils/formattedTime');
 
 class AttendanceService {
 
