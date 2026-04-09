@@ -52,17 +52,17 @@ class AttendanceService {
 
         if (last) {
             if (last.isCheckIn() && attendance.isCheckIn()) {
-                throw new AppError('Ya existe un check-in sin check-out', 400);
+                throw new AppError('Ya registraste tu entrada. Debes marcar salida antes de volver a ingresar.', 400);
             }
 
             if (last.isCheckOut() && attendance.isCheckOut()) {
-                throw new AppError('No puedes hacer check-out dos veces seguidas', 400);
+                throw new AppError('Ya registraste tu salida. Debes marcar una nueva entrada antes de salir nuevamente.', 400);
             }
         }
 
         if (attendance.isCheckOut()) {
             if (!last|| !last.isCheckIn()) {
-                throw new AppError('No hay entrada pendiente para cerrar', 400);
+                throw new AppError('No tienes una entrada registrada. Debes marcar entrada antes de salir.', 400);
             }
         }
 
