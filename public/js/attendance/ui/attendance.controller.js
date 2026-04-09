@@ -66,7 +66,8 @@ backBtn.addEventListener('click', () => {
     window.location.href = '/index.html';
 });
 
-confirmDataBtn.addEventListener('click', () => {
+confirmDataBtn.addEventListener('click', async () => {
+    await showTodayHours(currentEmployee.id);
     goToStep(3);
 });
 
@@ -108,6 +109,17 @@ async function validateCode(code) {
         autoHideAlert('alert');
     } finally {
         setLoading(validateCodeBtn, false);
+    }
+}
+async function showTodayHours(user_id) {
+    try{
+        const data = await attendanceService.getTodayHours(user_id);
+        const hours = document.getElementById('todayHours');
+        if(!hours) return;
+
+        hours.textContent = `Hoy llevas ${data.hours}h ${data.minutes.toString().padStart(2,'0')}m`;
+    }catch(err){
+        console.error('Error obteniendo horas', err.message);
     }
 }
 
