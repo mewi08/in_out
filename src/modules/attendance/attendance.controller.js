@@ -10,8 +10,8 @@ async function create(req, res) {
     } catch (error) {
         logger.error('Error en create attendance', error);
         return Response.sendError(res, error);
-    };
-};
+    }
+}
 
 async function getTodayHours(req, res) {
     try {
@@ -20,7 +20,18 @@ async function getTodayHours(req, res) {
     } catch (error) {
         logger.error(`Error en getTodayHours attendance (${req.params.user_id})`, error);
         return Response.sendError(res, error);
-    };
-};
+    }
+}
 
-module.exports = { create, getTodayHours };
+async function getTodayStatus(req, res) {
+    try{
+        const { user_id } = req.params;
+        const status = await AttendanceService.getTodayStatus(user_id);
+        return Response.sendSuccess(res, status);
+    }catch(error){
+        logger.error(`Error en getTodayStatus (${req.params.user_id})`, error);
+        return Response.sendError(res, error);
+    }
+}
+
+module.exports = { create, getTodayHours, getTodayStatus };
