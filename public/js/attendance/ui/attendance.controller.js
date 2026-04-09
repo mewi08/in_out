@@ -3,8 +3,10 @@ import { attendanceService } from '../app/attendance.service.js';
 import {
     showAlert,
     clearAlert,
-    autoHideAlert
+    autoHideAlert,
+    setLoading
 } from '../../shared/message.ui.js';
+import { startClock } from '../../shared/clock.js';
 
 // ===== ELEMENTOS DOM =====
 const step1 = document.getElementById('step-1');
@@ -44,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         validateCode(savedDni);
     }
     
-    updateTime();
-    setInterval(updateTime, 1000);
+    startClock('currentTime');
 });
 
 // ===== EVENT LISTENERS =====
@@ -94,23 +95,16 @@ async function validateCode(code) {
     setLoading(validateCodeBtn, true);
 
     try {
-        const result = await userService.getUserByCode(code);
+        const user = await userService.getUserByCode(code);
         
-        if (result.success && result.data) {
-            currentEmployee = result.data;
-            currentDni = code;
-            
-            sessionStorage.setItem('tempDni', code);
-            
-            showEmployeeData(currentEmployee);
-            goToStep(2);
-        } else {
-            showAlert('DNI no encontrado', 'error', 'alert');
-            autoHideAlert('alert');
-        }
+        currentEmployee = user;
+        currentDni = code;
+        sessionStorage.setItem('tempDni', code);
+        showEmployeeData(currentEmployee);
+        goToStep(2);
 
     } catch (err) {
-        showAlert(err.message || 'Error al validar', 'error', 'alert');
+        showAlert(err.message , 'error', 'alert');
         autoHideAlert('alert');
     } finally {
         setLoading(validateCodeBtn, false);
@@ -139,31 +133,31 @@ function showEmployeeData(employee) {
 }
 
 async function markAttendance(type) {
-    if (!currentEmployee || !currentDni) return;
+    if (!currentEmployee || !currentDni) {
+        showAlert('Usuario no válido', 'error', 'alert');
+        return;
+    };
     
     const btn = type === 'check_in' ? checkInBtn : checkOutBtn;
     setLoading(btn, true);
 
     try {
-        const result = await attendanceService.createRecord({
+        await attendanceService.createRecord({
             entered_code: currentDni,
             type: type
         });
 
-        if (result.success) {
-            const msg = type === 'check_in' ? '¡Entrada registrada!' : '¡Salida registrada!';
-            showAlert(msg, 'success', 'alert');
-            
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
-            
-            setTimeout(() => {
-                resetAndGoHome();
-            }, 2000);
-        } else {
-            showAlert(result.message || 'Error al registrar', 'error', 'alert');
-            autoHideAlert('alert');
-        }
+        const msg = type === 'check_in'
+            ? '¡Entrada registrada!'
+            : 'Salida registrada!';
+        showAlert(msg, 'success', 'alert');
+
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+
+        setTimeout(() => {
+            resetAndGoHome();
+        }, 2000);
 
     } catch (err) {
         if (err.message && err.message.includes('check-in sin check-out')) {
@@ -205,25 +199,4 @@ function goToStep(stepNumber) {
     });
     
     clearAlert('alert');
-}
-
-function updateTime() {
-    if (currentTime) {
-        const now = new Date();
-        currentTime.textContent = now.toLocaleTimeString('es-ES', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-    }
-}
-
-function setLoading(element, loading) {
-    element.disabled = loading;
-    if (loading) {
-        element.dataset.originalText = element.textContent;
-        element.textContent = 'Procesando...';
-    } else {
-        element.textContent = element.dataset.originalText || element.textContent;
-    }
 }
