@@ -3,29 +3,30 @@
  * Casos de uso: getUsers, getUserById, getUserByCode, createUser, updateUser, updateUserStatus.
  * Orquesta el dominio y los adaptadores; no conoce el DOM salvo redirects.
  */
-import { api } from '../../shared/http.client.js'
-export const userService ={
-    async getUsers(){
-        return await api.get('/user');
+export const userService = {
+    getUsers() {
+        return api.get('/user');
     },
 
-    async getUserById(id){
-        return await api.get(`/user/${id}`);
+    getUserById(id) {
+        return api.get(`/user/${id}`);
     },
 
-    async getUserByCode(code){
-        return await api.get(`/user/code/${code}`)
+    async getUserByCode(code) {
+        const res = await api.get(`/user/code/${code}`);
+        if (!res.success) throw new Error(res.message);
+        return res.data;
     },
 
-    async createUser(data){
-        return await api.post('/user',data);
+    createUser(data) {
+        return api.post('/user', data);
     },
 
-    async updateUser(id,data){
-        return await api.put(`/user/${id}`,data);
+    updateUser(id, data) {
+        return api.put(`/user/${id}`, data);
     },
-    
-    async updateUserStatus(id){
-        return await api.patch(`/user/${id}/status`)
+
+    updateUserStatus(id, status) {
+        return api.patch(`/user/${id}/status`, { status });
     }
-}
+};
