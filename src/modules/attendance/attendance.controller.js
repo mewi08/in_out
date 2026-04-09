@@ -5,25 +5,22 @@ const logger = require('../../shared/utils/logger');
 async function create(req, res) {
     try {
         const record = await AttendanceService.register(req.body);
-
-        logger.info(`Asistencia registrada: ${record.id}`);
-
-        Response.sendSuccess(res, record);
+        logger.info(`Asistencia registrada para usuario ${req.body.entered_code}: ${record.id}`);
+        return Response.sendCreated(res, record);
     } catch (error) {
-        logger.error(`Error en create attendance: ${error.message}`);
-        Response.sendError(res, error);
-    }
-}
+        logger.error('Error en create attendance', error);
+        return Response.sendError(res, error);
+    };
+};
 
 async function getTodayHours(req, res) {
     try {
         const hours = await AttendanceService.getTodayHours(req.params.user_id);
-
-        Response.sendSuccess(res, hours);
+        return Response.sendSuccess(res, hours);
     } catch (error) {
-        logger.error(`Error en getTodayHours attendance (${req.params.user_id}): ${error.message}`);
-        Response.sendError(res, error);
-    }
-}
+        logger.error(`Error en getTodayHours attendance (${req.params.user_id})`, error);
+        return Response.sendError(res, error);
+    };
+};
 
 module.exports = { create, getTodayHours };
