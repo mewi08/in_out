@@ -34,8 +34,6 @@ const currentTime = document.getElementById('currentTime');
 // ===== VARIABLES =====
 let currentEmployee = null;
 let currentDni = null;
-//let hasCheckedInToday = null;
-//let hasCheckedOutToday = null;
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -100,6 +98,8 @@ async function validateCode(code) {
         currentEmployee = user;
         currentDni = code;
         sessionStorage.setItem('tempDni', code);
+
+        await handleTodayStatus(user.id);
         showEmployeeData(currentEmployee);
         goToStep(2);
 
@@ -110,22 +110,33 @@ async function validateCode(code) {
         setLoading(validateCodeBtn, false);
     }
 }
-/*
-async function checkTodayStatus(user_id){
-    try{
-        const result = await attendanceService.getTodayHours(user_id);
-        
-    }catch(err){
 
+async function handleTodayStatus(user_id) {
+    try {
+        const status = await attendanceService.getTodayStatus(user_id);
+
+        checkInBtn.disabled = false;
+        checkOutBtn.disabled = false;
+        
+        if (status.hasCheckIn) {
+            checkInBtn.disabled = true;
+        }
+
+        if (status.hasCheckOut) {
+            checkOutBtn.disabled = true;
+        }
+
+    } catch (err) {
+        showAlert(err.message, 'error', 'alert');
+        autoHideAlert('alert');
     }
-}*/
+}
 
 function showEmployeeData(employee) {
     employeeName.textContent = `${employee.name} ${employee.last_name}`;
     employeeCategory.textContent = employee.category;
     employeeCode.textContent = employee.entered_code || employee.code;
     
-    // ✅ CAMBIADO: Mostrar work_area en lugar de category repetido
     employeeWorkArea.textContent = employee.work_area || 'No especificado';
     
     const initials = `${employee.name[0]}${employee.last_name[0]}`.toUpperCase();
