@@ -117,7 +117,9 @@ async function showTodayHours(user_id) {
         const hours = document.getElementById('todayHours');
         if(!hours) return;
 
-        hours.textContent = `Hoy llevas ${data.hours}h ${data.minutes.toString().padStart(2,'0')}m`;
+        hours.textContent = data.total_minutes === 0
+        ? 'Aún no registras asistencias hoy'
+        : `Hoy llevas ${data.hours}h ${data.minutes.toString().padStart(2,'0')}m`;
     }catch(err){
         console.error('Error obteniendo horas', err.message);
     }
