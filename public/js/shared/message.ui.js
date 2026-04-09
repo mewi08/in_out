@@ -7,12 +7,11 @@
 export function showAlert(message, type, containerId='alert') {
     const alertBox = document.getElementById(containerId);
     if(!alertBox) return;
-    
+
     alertBox.textContent = message;
     alertBox.className   = `alert ${type}`;
 }
 
-/** Limpia cualquier alerta visible. */
 export function clearAlert(containerId='alert') {
     const el = document.getElementById(containerId);
     if(!el) return;
