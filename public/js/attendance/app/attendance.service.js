@@ -15,5 +15,11 @@ export const attendanceService = {
         const res = await api.get(`/attendance/today-hours/${user_id}`);
         if(!res.success) throw new Error(res.message);
         return res.data;
+    },
+
+    async getTodayStatus(user_id){
+        const res = await api.get(`/attendance/today-status/${user_id}`);
+        if(!res.success) throw new Error(res.message);
+        return res.data;
     }
 };
