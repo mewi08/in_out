@@ -1,4 +1,8 @@
-import { error } from 'winston';
+/**
+ * ATTENDANCE — Application Service
+ * Casos de uso: createRecord, getTodayHours.
+ * Orquesta el dominio y los adaptadores; no conoce el DOM salvo redirects.
+ */
 import {api} from '../../shared/http.client.js';
 export const attendanceService = {
     /**
