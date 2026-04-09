@@ -171,13 +171,14 @@ async function markAttendance(type) {
         }, 2000);
 
     } catch (err) {
-        if (err.message && err.message.includes('check-in sin check-out')) {
-            showAlert('Ya marcaste entrada. Debes marcar salida primero.', 'error', 'alert');
-        } else if (err.message && err.message.includes('check-out sin check-in')) {
-            showAlert('No has marcado entrada. Debes marcar entrada primero.', 'error', 'alert');
-        } else {
-            showAlert(err.message || 'Error al registrar asistencia', 'error', 'alert');
-        }
+        const isNetwork = err instanceof TypeError;
+
+        showAlert(
+            isNetwork
+                ? 'No se pudo conectar con el servidor'
+                : err.message,
+            'error'
+        );
         autoHideAlert('alert');
     } finally {
         setLoading(btn, false);
