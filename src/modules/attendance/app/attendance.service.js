@@ -36,7 +36,7 @@ class AttendanceService {
 
         this.#validateAttendance(attendance);
 
-        const user = await UserService.findByCode(attendance.entered_code);
+        const user = await UserService.getByCode(attendance.entered_code);
         
         const last = await AttendanceRepository.findLastByUserId(attendance.user_id);
 
