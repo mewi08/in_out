@@ -12,11 +12,12 @@ class Response {
     }
 
     static sendError(res, error) {
-        const status = error.status || 500;
-        const message = error.message || 'Error interno del servidor';
+
+        const status = error.statusCode || error.status || 500;
+
         return res.status(status).json({
             success: false,
-            error: message
+            error: error.message || 'Error interno del servidor'
         });
     }
 
