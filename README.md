@@ -1,8 +1,8 @@
-# 📋 Attendance Registration System
+# Attendance Registration System
 
 Web system for employee registration and entry/exit control with clean architecture.
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ├── backend/           # REST API (Node.js + Express + MySQL)
@@ -29,7 +29,7 @@ Web system for employee registration and entry/exit control with clean architect
     └── pages/
 ```
 
-## 🚀 Technologies
+## Technologies
 
 | Layer | Technology |
 |-------|-----------|
@@ -38,29 +38,29 @@ Web system for employee registration and entry/exit control with clean architect
 | Architecture | Clean Architecture / Layered Architecture |
 
 
-## ⚙️ Instalación
+## Instalación
 
 ```bash
-# Clonar repositorio
-git clone [url-del-repo]
-cd [nombre-carpeta]
+# Clone repository
+git clone [url-repo]
+cd [folder-name]
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Configurar variables de entorno
+# Configure environment variables
 cp .env.example .env
-# Editar .env con tus credenciales de MySQL
+# Edit .env with your MySQL credentials
 
-# Crear base de datos y tablas
+# Create database and tables
 npm run db:setup
 
-# Iniciar servidor
+# Start server
 npm run dev
 
 ```
 
-## 📖 Usage
+## Usage
 
 ### 1. Employee Registration
 - Go to `/pages/users/register_profile.html`
@@ -75,9 +75,9 @@ npm run dev
   - Click **Check In** → Gets locked, enables Check Out
   - Click **Check Out** → Gets locked, end of shift
 
-```
 
-## 🔌 API Endpoints
+
+## API Endpoints
 
 ### Users
 | Method | Endpoint | Description |
@@ -102,7 +102,7 @@ npm run dev
 }
 ```
 
-## 🗂️ Detailed Folder Structure
+## Detailed Folder Structure
 
 ```
 inout/
@@ -178,7 +178,7 @@ inout/
 
 ```
 
-## 🎯 Key Features
+## Key Features
 
 - ✅ **3-step wizard** for intuitive attendance tracking
 - ✅ **Real-time validations** (8-digit ID, required fields)
@@ -199,17 +199,17 @@ inout/
 - Does not allow check out without previous check in
 - Does not allow check in without previous check out
 
-## 📝 Environment Variables (.env)
+## Environment Variables (.env)
 
 ```env
-PORT=3000
+PORT=
 DB_HOST=
 DB_USER=
 DB_PASSWORD=
 DB_NAME=
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/new-feature`
@@ -217,6 +217,6 @@ DB_NAME=
 4. Push to the branch: `git push origin feature/new-feature`
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 MIT License - Free for personal and commercial use.
