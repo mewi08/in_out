@@ -5,28 +5,44 @@ Web system for employee registration and entry/exit control with clean architect
 ## Architecture
 
 ```
-├── backend/           # REST API (Node.js + Express + MySQL)
-│   ├── src/
-│   │   ├── users/          # Users module
-│   │   │   ├── app/        # Business logic (services)
-│   │   │   ├── domain/     # Models and domain rules
-│   │   │   ├── infrastructure/  # Repositories (DB)
-│   │   │   └── files       # Controllers and routes
-│   │   ├── attendance/     # Attendance module
-│   │   └── shared/         # Utilities, middlewares, DB config
-│   └── package.json
+├── src/                        # REST API (Node.js + Express + MySQL)
+│   ├── modules/
+│   │   ├── users/              # Users module
+│   │   │   ├── app/            # Business logic (services)
+│   │   │   ├── domain/         # Models & validation rules
+│   │   │   ├── infrastructure/ # Repositories (DB queries)
+│   │   │   ├── users.controller.js # Handles request 
+│   │   │   └── users.routes.js
+│   │   └── attendance/         # Attendance module
+│   │       ├── app/
+│   │       ├── domain/
+│   │       ├── infrastructure/
+│   │       ├── attendance.controller.js
+│   │       └── attendance.routes.js
+│   ├── shared/
+│   │   ├── infrastructure/     # DB connection
+│   │   ├── middleware/         # Param & existence guards
+│   │   └── utils/              # Logger, response helpers, time formatting
+│   └── app.js                  # Express app setup
 │
-└── frontend/          # Web application (Vanilla JS)
-    ├── js/
-    │   ├── users/           # Users module
-    │   │   ├── app/         # Services (API calls)
-    │   │   └── ui/          # Controllers (DOM)
-    │   ├── attendance/      # Attendance module
-    │   │   ├── app/         # Services
-    │   │   └── ui/          # Controllers
-    │   └── shared/          # Utilities, HTTP client, UI helpers
-    ├── css/
-    └── pages/
+├── public/                     # Frontend (Vanilla JS)
+│   ├── js/
+│   │   ├── users/
+│   │   │   ├── app/            # API service calls
+│   │   │   └── ui/             # DOM controllers
+│   │   ├── attendance/
+│   │   │   ├── app/
+│   │   │   └── ui/
+│   │   ├── shared/             # Clock, HTTP client, UI helpers
+│   │   └── main.js             # Entry point
+│   └── css/                    # Per-page stylesheets
+│
+└── views/                      # HTML pages
+    ├── pages/
+    │   ├── users/
+    │   └── attendance/
+    └── index.html
+
 ```
 
 ## Technologies
