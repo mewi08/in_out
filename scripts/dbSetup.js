@@ -15,7 +15,7 @@ async function setupDatabase() {
 
     console.log('Conectado a MySQL');
 
-    const sql = fs.readFileSync('/database/schema.sql', 'utf8');
+    const sql = fs.readFileSync('./database/schema.sql', 'utf8');
 
     await connection.query(sql);
 
