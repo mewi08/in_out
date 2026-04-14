@@ -23,7 +23,7 @@ backBtn.addEventListener('click', () => {
 });
 
 function showError(message) {
-    showAlert(message, 'error');
+    showAlert(message, 'error', 'alert');
     autoHideAlert('alert');
 }
 
@@ -99,8 +99,8 @@ async function handleSubmit(e) {
 
     try {
         await userService.createUser(data);
-
-        showAlert(`Usuario ${name} ${last_name} registrado correctamente`, 'success');
+        
+        showAlert(`Usuario ${name} ${last_name} registrado correctamente`, 'success', 'alert');
         autoHideAlert('alert');
         
         form.reset();

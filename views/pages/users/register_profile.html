@@ -14,10 +14,8 @@
             <h1 class="title">Registro</h1>
             <p class="subtitle">Crear tu cuenta en el sistema</p>
         </div>
-        
-        <div id="alert" class="alert"></div>
-
             <form id="registerForm">
+                <div class="alert" id="alert"></div>
 
                 <!-- NOMBRES -->
                 <div class="form-row">
@@ -35,7 +33,7 @@
                 <!-- DNI -->
                 <div class="form-group">
                     <label for="code">DNI <span class="required">*</span></label>
-                    <input type="text" id="code" name="code" placeholder="Ej: 11223344" maxlength="8" required>
+                    <input type="text" id="code" name="code" maxlength="8" required>
                     <span class="code-input-hint">
                         Será tu código para registrar tu entrada y salida
                     </span>
