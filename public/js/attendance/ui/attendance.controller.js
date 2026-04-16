@@ -17,7 +17,7 @@ const stepDots = document.querySelectorAll('.step-dot');
 const codeInput = document.getElementById('codeInput');
 const validateCodeBtn = document.getElementById('validateCodeBtn');
 const backBtn = document.getElementById('backBtn');
-
+const updateDataBtn = document.getElementById('updateDataBtn');
 const employeeName = document.getElementById('employeeName');
 const employeeCategory = document.getElementById('employeeCategory');
 const employeeCode = document.getElementById('employeeCode');
@@ -84,6 +84,11 @@ backStep2Btn.addEventListener('click', () => {
     goToStep(2);
 });
 
+updateDataBtn.addEventListener('click', ()=>{
+    sessionStorage.setItem('temDni', codeInput);
+    window.location.href = '/pages/users/update_profile.html'
+})
+
 checkInBtn.addEventListener('click', () => markAttendance('check_in'));
 checkOutBtn.addEventListener('click', () => markAttendance('check_out'));
 
@@ -118,7 +123,7 @@ async function showTodayHours(user_id) {
         if(!hours) return;
 
         hours.textContent = data.total_minutes === 0
-        ? 'Aún no registras asistencias hoy'
+        ? ''
         : `Hoy llevas ${data.hours}h ${data.minutes.toString().padStart(2,'0')}m`;
     }catch(err){
         console.error('Error obteniendo horas', err.message);
@@ -191,7 +196,8 @@ async function markAttendance(type) {
             isNetwork
                 ? 'No se pudo conectar con el servidor'
                 : err.message,
-            'error'
+            'error',
+            'alert'
         );
         autoHideAlert('alert');
     } finally {
