@@ -82,10 +82,6 @@ label {
     color: var(--text);
 }
 
-label .required {
-    color: var(--error);
-    margin-left: 0.2rem;
-}
 
 input[type="text"],
 input[type="password"],
@@ -123,13 +119,10 @@ input::placeholder {
     margin-bottom: 0;
 }
 
-.code-input-wrapper {
-    position: relative;
-}
-
-.code-input-hint {
+.helper-text{
     font-size: 0.75rem;
     color: var(--muted);
+    display: block;
     margin-top: 0.3rem;
 }
 
