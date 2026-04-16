@@ -1,7 +1,7 @@
 const { UserRepository } = require('../infrastructure/users.repository');
 const { User } = require('../domain/users.model');
 const { AppError } = require('../../../shared/utils/appError');
-
+require('dotenv').config();
 class UserService {
 
     static #ensureCode(entered_code) {
@@ -42,7 +42,7 @@ class UserService {
         return user;
     };
 
-    // ── Métodos públicos ─────────────────────────────
+    // ── public methods ─────────────────────────────
 
     static async getAll() {
         return await UserRepository.findAll();
@@ -109,6 +109,16 @@ class UserService {
             message: `Usuario ${is_active ? 'activado' : 'desactivado'}`
         };
     };
-};
+
+    static async verifySecurityCode(security_code) {
+        const validCode = process.env.SECURITY_CODE;
+
+        if(!validCode){
+            throw new Error('Código de seguridad no configurado');
+        }
+
+        return security_code === validCode;
+    }
+}
 
 module.exports = { UserService };
