@@ -17,7 +17,6 @@ async function request(endpoint, options = {}) {
             } else if (data.message && typeof data.message === 'string') {
                 msg = data.message;
             } else if (data.error && typeof data.error === 'string') {
-                
                 msg = data.error;
             } else if (typeof data === 'string') {
                 msg = data;
@@ -25,7 +24,6 @@ async function request(endpoint, options = {}) {
             throw new Error(msg);
         }
 
-        // ✅ También manejar success: false con error
         if (data.success === false && data.error) {
             throw new Error(data.error);
         }
