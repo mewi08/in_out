@@ -4,7 +4,7 @@ function validateInfo(req, res, next){
     }
 
     let {
-        name, last_name, entered_code, category, work_area
+        name, last_name, dni, category, work_area
     } = req.body;
 
     const errors = [];
@@ -15,7 +15,7 @@ function validateInfo(req, res, next){
     if (!last_name || last_name.trim() === '')
         errors.push('Apellidos requeridos');
 
-    if (!entered_code || !/^\d{8}$/.test(entered_code.trim()))
+    if (!dni || !/^\d{8}$/.test(dni.trim()))
         errors.push('DNI debe tener 8 dígitos numéricos');
 
     if (!category || category.trim() === '')
@@ -30,7 +30,7 @@ function validateInfo(req, res, next){
 
     req.body.name = name.trim();
     req.body.last_name = last_name.trim();
-    req.body.entered_code = entered_code.trim();
+    req.body.dni = dni.trim();
     req.body.category = category.trim();
     req.body.work_area = work_area.trim();
     next();

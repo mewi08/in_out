@@ -26,12 +26,12 @@ async function getById(req, res) {
     };
 };
 
-async function getByCode(req, res) {
+async function getByDni(req, res) {
     try {
-        const user = await UserService.getByCode(req.params.entered_code);
+        const user = await UserService.getByDni(req.params.dni);
         return Response.sendSuccess(res, user);
     } catch (error) {
-        logger.error(`Error en getByCode user (${req.params.entered_code})`, error);
+        logger.error(`Error en getByDni user (${req.params.dni})`, error);
         return Response.sendError(res, error);
     };
 };
@@ -39,7 +39,7 @@ async function getByCode(req, res) {
 async function create(req, res) {
     try {
         const user = await UserService.create(req.body);
-        logger.info(`Usuario creado: ${user.entered_code}`);
+        logger.info(`Usuario creado: ${user.dni}`);
         return Response.sendCreated(res, user); 
     } catch (error) {
         logger.error('Error en create user', error);
@@ -87,7 +87,7 @@ async function verifySecurityCode(req, res) {
 module.exports = {
     getAll,
     getById,
-    getByCode,
+    getByDni,
     create,
     update,
     updateStatus,
