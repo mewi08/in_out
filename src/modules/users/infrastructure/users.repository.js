@@ -3,7 +3,7 @@ class UserRepository{
     
     static async findAll(){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, entered_code, category, work_area, is_active, created_at
+            `SELECT id, name, last_name, dni, category, work_area, is_active, created_at
             FROM users
             ORDER BY created_at DESC`
         );
@@ -12,7 +12,7 @@ class UserRepository{
 
     static async findById(id){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, entered_code, category, work_area, is_active
+            `SELECT id, name, last_name, dni, category, work_area, is_active
             FROM users
             WHERE id = ? `,
             [id]
@@ -20,27 +20,27 @@ class UserRepository{
         return rows[0] || null; 
     };
 
-    static async findByCode(entered_code){
+    static async findByCode(dni){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, entered_code, category, work_area, is_active
+            `SELECT id, name, last_name, dni, category, work_area, is_active
             FROM users
-            WHERE entered_code = ? AND is_active = TRUE`,
-            [entered_code]
+            WHERE dni = ? AND is_active = TRUE`,
+            [dni]
         );
         return rows[0] || null;
     }
 
     static async create(data) {
         const {
-            name, last_name, entered_code, category, work_area
+            name, last_name, dni, category, work_area
         } = data;
         
         const [result] = await pool.query(
             `INSERT INTO users(
-                name, last_name, entered_code, category, work_area
+                name, last_name, dni, category, work_area
             )VALUES (?,?,?,?,?)`,
             [
-                name, last_name, entered_code, category, work_area
+                name, last_name, dni, category, work_area
             ]
         );
         return result.insertId;
@@ -48,15 +48,15 @@ class UserRepository{
 
     static async update(id, data) {
         const {
-            name, last_name, entered_code, category, work_area
+            name, last_name, dni, category, work_area
         } = data;
 
         const [result] = await pool.query(
             `UPDATE users SET 
-                name = ?, last_name = ?, entered_code = ?, category = ?, work_area = ?, updated_at = NOW()
+                name = ?, last_name = ?, dni = ?, category = ?, work_area = ?, updated_at = NOW()
             WHERE id = ?`,
             [
-                name, last_name, entered_code, category, work_area, id
+                name, last_name, dni, category, work_area, id
             ]
         );
         return result.affectedRows;
