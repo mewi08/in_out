@@ -3,12 +3,12 @@ function validateAttendance(req, res, next) {
         return res.status(400).json({ errors: ['Body requerido'] });
     }
 
-    let { entered_code, type } = req.body;
+    let { code, type } = req.body;
 
     const errors = [];
 
-    if (!entered_code || !/^\d{8}$/.test(entered_code.trim())) {
-        errors.push('Código debe tener 8 dígitos numéricos');
+    if (!code) {
+        errors.push('Código requerido');
     }
 
     if (!type || type.trim() === '') {
@@ -19,7 +19,7 @@ function validateAttendance(req, res, next) {
         return res.status(400).json({ errors });
     }
 
-    req.body.entered_code = entered_code.trim();
+    req.body.code = code.trim();
     req.body.type = type.trim();
 
     next();

@@ -5,7 +5,7 @@ const logger = require('../../shared/utils/logger');
 async function create(req, res) {
     try {
         const record = await AttendanceService.register(req.body);
-        logger.info(`Asistencia registrada para usuario ${req.body.entered_code}: ${record.id}`);
+        logger.info(`Asistencia registrada para usuario ${req.body.user_id}: ${record.id}`);
         return Response.sendCreated(res, record);
     } catch (error) {
         logger.error('Error en create attendance', error);

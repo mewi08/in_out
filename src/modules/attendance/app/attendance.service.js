@@ -43,7 +43,7 @@ class AttendanceService {
 
         this.#validateAttendance(attendance);
 
-        const user = await UserService.getByCode(attendance.entered_code);
+        const user = await UserService.getById(attendance.code);
         
         attendance.user_id = user.id;
         const todayRecords = await this.#getTodayAttendances(user.id);
