@@ -20,7 +20,7 @@ class UserRepository{
         return rows[0] || null; 
     };
 
-    static async findByCode(dni){
+    static async findByDni(dni){
         const [rows] = await pool.query(
             `SELECT id, name, last_name, dni, category, work_area, is_active
             FROM users
