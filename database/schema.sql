@@ -6,7 +6,7 @@ CREATE TABLE users(
 	id 				INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name			VARCHAR(100) NOT NULL,
     last_name		VARCHAR(100) NOT NULL,
-    entered_code 	CHAR(8)		UNIQUE NOT NULL,
+    dni          	CHAR(8)		UNIQUE NOT NULL,
     category		VARCHAR(50) NOT NULL,
     work_area        VARCHAR(50) NOT NULL,
     is_active		BOOLEAN DEFAULT TRUE,
@@ -20,7 +20,7 @@ CREATE TABLE attendance_records(
     user_id			INT UNSIGNED NOT NULL,
     type 			ENUM('check_in','check_out') NOT NULL,
     time_stamp		DATETIME NOT NULL,
-    entered_code 	CHAR(8) NOT NULL,
+    code         	CHAR(8) NOT NULL,
     created_at 		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES users(id)    
