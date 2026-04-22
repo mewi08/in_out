@@ -5,7 +5,6 @@ import {
     setLoading,
     autoHideAlert
 } from "../../shared/message.ui.js";
-
 import { setupToggleExtraField } from './toggleExtraField.ui.js';
 
 // Mostrar/ocultar campos "otro"
@@ -17,6 +16,7 @@ document.getElementById('registerForm').addEventListener('submit', handleSubmit)
 const form = document.getElementById('registerForm');
 const backBtn = document.getElementById('backBtn');
 const submitBtn = document.getElementById('submitBtn');
+
 
 backBtn.addEventListener('click', () => {
     window.location.href = '/index.html';
@@ -34,7 +34,7 @@ async function handleSubmit(e) {
     // ===== LECTURA DE DATOS =====
     const name = document.getElementById('name').value.trim();
     const last_name = document.getElementById('lastName').value.trim();
-    const entered_code  = document.getElementById('code').value.trim();
+    const dni  = document.getElementById('code').value.trim();
 
     const categorySelect = document.getElementById('category').value;
     const categoryOther = document.getElementById('categoryOther').value.trim();
@@ -53,12 +53,12 @@ async function handleSubmit(e) {
         return;
     }
 
-    if (!entered_code) {
+    if (!dni) {
         showError('Por favor ingresa tu DNI');
         return;
     }
 
-    if (!/^\d{8}$/.test(entered_code)) {
+    if (!/^\d{8}$/.test(dni)) {
         showError('El DNI debe tener 8 caracteres numéricos');
         return;
     }
@@ -83,44 +83,31 @@ async function handleSubmit(e) {
         return;
     }
 
-
     // ===== NORMALIZACIÓN FINAL =====
     const category = categorySelect === "otro" ? categoryOther : categorySelect;
     const work_area = workAreaSelect === "otro" ? workAreaOther : workAreaSelect;
-
     const data = {
         name,
         last_name,
-        entered_code,
+        dni,
         category,
         work_area
     };
     setLoading(submitBtn, true);
-
     try {
-        await userService.createUser(data);
-        
+        const id = await userService.createUser(data);
         showAlert(`Usuario ${name} ${last_name} registrado correctamente`, 'success', 'alert');
         autoHideAlert('alert');
-        
         form.reset();
-
-        sessionStorage.setItem('tempDni', entered_code);
-
-        setTimeout(() => {
-            window.location.href = '/pages/attendance/register_attendance.html'
-        }, 2000);
-
+        sessionStorage.setItem('tempCode', id);
     } catch (err) {
         const isNetwork = err instanceof TypeError;
-
         showAlert(
             isNetwork
                 ? 'No se pudo conectar con el servidor'
                 : err.message,
             'error'
         );
-
         autoHideAlert('alert');
     } finally {
         setLoading(submitBtn, false);

@@ -25,7 +25,7 @@ const verifySecurityCodeBtn = document.getElementById('verifySecurityCodeBtn');
 const confirmChanges = document.getElementById('confirmChanges');
 const securityCode = document.getElementById('securityCode');
 
-const entered_code = document.getElementById('code');
+const dni = document.getElementById('code');
 const name = document.getElementById('name');
 const last_name = document.getElementById('lastName');
 const categorySelect = document.getElementById('category');
@@ -104,7 +104,7 @@ async function findEmployee(code) {
 }
 
 function showEmployeeData(employee) {
-    entered_code.value = employee.entered_code || '';
+    dni.value = employee.dni || '';
     name.value = employee.name || '';
     last_name.value = employee.last_name || '';
 
@@ -140,7 +140,7 @@ function getFormData() {
         : workAreaSelect.value;
 
     return {
-        entered_code: entered_code.value,
+        dni: dni.value,
         name: name.value.trim(),
         last_name: last_name.value.trim(),
         category,
