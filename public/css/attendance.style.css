@@ -194,57 +194,6 @@ input::placeholder {
     color: var(--text);
 }
 
-.action-options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-.options-row {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-}
-
-.option-btn {
-    flex: 1;
-    padding: 1.5rem;
-    border: 2px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-}
-
-.option-btn:hover {
-    border-color: var(--accent);
-    box-shadow: 0 4px 12px rgba(214, 51, 132, 0.1);
-    transform: translateY(-2px);
-}
-
-.option-btn.entrada:hover {
-    border-color: var(--success);
-}
-
-.option-btn.salida:hover {
-    border-color: var(--warning);
-}
-
-.option-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-}
-
-.time-display {
-    font-size: 0.9rem;
-    color: var(--muted);
-    text-align: center;
-}
-
 .alert {
     padding: 1rem;
     border-radius: var(--radius-sm);
@@ -310,13 +259,6 @@ button {
 }
 
 
-.time-display {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-top: 1rem;
-    text-align: center;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -359,9 +301,6 @@ button {
         flex-direction: column;
     }
 
-    .action-options {
-        grid-template-columns: 1fr;
-    }
 
     .employee-details {
         grid-template-columns: 1fr;
