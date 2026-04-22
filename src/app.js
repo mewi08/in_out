@@ -1,5 +1,5 @@
 const express = require ('express');
-const cors = require ('cors');
+const helmet = require('helmet');
 const app = express();
 const logger = require('./shared/utils/logger');
 require('./shared/infrastructure/database');
@@ -7,7 +7,7 @@ require('./shared/infrastructure/database');
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
-app.use(cors());
+app.use(helmet());
 
 app.use(express.static('public'));
 app.use(express.static('views'));
