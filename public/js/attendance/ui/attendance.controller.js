@@ -6,52 +6,39 @@ import {
     autoHideAlert,
     setLoading
 } from '../../shared/message.ui.js';
-import { startClock } from '../../shared/clock.js';
 
 // ===== ELEMENTOS DOM =====
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
-const step3 = document.getElementById('step-3');
 const stepDots = document.querySelectorAll('.step-dot');
 
 const codeInput = document.getElementById('codeInput');
 const validateCodeBtn = document.getElementById('validateCodeBtn');
 const backBtn = document.getElementById('backBtn');
-const updateDataBtn = document.getElementById('updateDataBtn');
 const employeeName = document.getElementById('employeeName');
 const employeeCategory = document.getElementById('employeeCategory');
-const employeeCode = document.getElementById('employeeCode');
+const employeeDni = document.getElementById('employeeDni');
 const employeeWorkArea = document.getElementById('employeeWorkArea');
 const avatarInitials = document.getElementById('avatarInitials');
-const confirmDataBtn = document.getElementById('confirmDataBtn');
+const confirmBtn = document.getElementById('confirmBtn');
 const changeCodeBtn = document.getElementById('changeCodeBtn');
 
-const checkInBtn = document.getElementById('checkInBtn');
-const checkOutBtn = document.getElementById('checkOutBtn');
-const backStep2Btn = document.getElementById('backStep2Btn');
-const currentTime = document.getElementById('currentTime');
+const subtitle = document.getElementById('subtitle');
 
 // ===== VARIABLES =====
 let currentEmployee = null;
-let currentDni = null;
+let currentId = null;
 
-// ===== INICIALIZACIÓN =====
-document.addEventListener('DOMContentLoaded', () => {
-    
-    const savedDni = sessionStorage.getItem('tempDni');
-    if (savedDni) {
-        codeInput.value = savedDni;
-        validateCode(savedDni);
-    }
-    
-    startClock('currentTime');
-});
+document.addEventListener('DOMContentLoaded',()=>{
+    setType();
+    clearAlert('alert');
+})
 
 // ===== EVENT LISTENERS =====
-validateCodeBtn.addEventListener('click', () => {
+validateCodeBtn.addEventListener('click', ()=>{
     const code = codeInput.value.trim();
     if (!code) {
-        showAlert('Ingresa tu DNI', 'error', 'alert');
+        showAlert('Ingresa tu Código', 'error', 'alert');
         autoHideAlert('alert');
         return;
     }
@@ -66,46 +53,29 @@ backBtn.addEventListener('click', () => {
     window.location.href = '/index.html';
 });
 
-confirmDataBtn.addEventListener('click', async () => {
-    await showTodayHours(currentEmployee.id);
-    goToStep(3);
+confirmBtn.addEventListener('click', async () => {
+    setType();
 });
 
 changeCodeBtn.addEventListener('click', () => {
     goToStep(1);
     codeInput.value = '';
     codeInput.focus();
-    sessionStorage.removeItem('tempDni');
+    sessionStorage.removeItem('tempCode');
     currentEmployee = null;
-    currentDni = null;
+    currentId = null;
 });
-
-backStep2Btn.addEventListener('click', () => {
-    goToStep(2);
-});
-
-updateDataBtn.addEventListener('click', ()=>{
-    sessionStorage.setItem('temDni', codeInput);
-    window.location.href = '/pages/users/update_profile.html'
-})
-
-checkInBtn.addEventListener('click', () => markAttendance('check_in'));
-checkOutBtn.addEventListener('click', () => markAttendance('check_out'));
 
 // ===== FUNCIONES =====
-
 async function validateCode(code) {
     clearAlert('alert');
     setLoading(validateCodeBtn, true);
 
     try {
-        const user = await userService.getUserByCode(code);
-        
+        const user = await userService.getUserById(code);
         currentEmployee = user;
-        currentDni = code;
-        sessionStorage.setItem('tempDni', code);
+        currentId = code;
 
-        await handleTodayStatus(user.id);
         showEmployeeData(currentEmployee);
         goToStep(2);
 
@@ -116,74 +86,46 @@ async function validateCode(code) {
         setLoading(validateCodeBtn, false);
     }
 }
-async function showTodayHours(user_id) {
-    try{
-        const data = await attendanceService.getTodayHours(user_id);
-        const hours = document.getElementById('todayHours');
-        if(!hours) return;
-
-        hours.textContent = data.total_minutes === 0
-        ? ''
-        : `Hoy llevas ${data.hours}h ${data.minutes.toString().padStart(2,'0')}m`;
-    }catch(err){
-        console.error('Error obteniendo horas', err.message);
-    }
-}
-
-async function handleTodayStatus(user_id) {
-    try {
-        const status = await attendanceService.getTodayStatus(user_id);
-
-        checkInBtn.disabled = false;
-        checkOutBtn.disabled = false;
-        
-        if (status.hasCheckIn) {
-            checkInBtn.disabled = true;
-        }
-
-        if (status.hasCheckOut) {
-            checkOutBtn.disabled = true;
-        }
-
-    } catch (err) {
-        showAlert(err.message, 'error', 'alert');
-        autoHideAlert('alert');
-    }
-}
 
 function showEmployeeData(employee) {
     employeeName.textContent = `${employee.name} ${employee.last_name}`;
     employeeCategory.textContent = employee.category;
-    employeeCode.textContent = employee.entered_code || employee.code;
-    
+    employeeDni.textContent = employee.dni;
     employeeWorkArea.textContent = employee.work_area || 'No especificado';
     
     const initials = `${employee.name[0]}${employee.last_name[0]}`.toUpperCase();
     avatarInitials.textContent = initials;
 }
 
+function setType(){
+    const type = sessionStorage.getItem('type');
+    if(type == 'checkInBtn'){
+        subtitle.textContent = 'Registra entrada';
+        markAttendance('check_in');
+    }else{
+        subtitle.textContent = 'Registra salida';
+        markAttendance('check_out');
+    }
+}
+
 async function markAttendance(type) {
-    if (!currentEmployee || !currentDni) {
+    if (!currentEmployee || !currentId) {
         showAlert('Usuario no válido', 'error', 'alert');
         return;
     };
     
-    const btn = type === 'check_in' ? checkInBtn : checkOutBtn;
-    setLoading(btn, true);
+    setLoading(confirmBtn, true);
 
     try {
         await attendanceService.createRecord({
-            entered_code: currentDni,
+            code: currentId,
             type: type
         });
 
         const msg = type === 'check_in'
             ? '¡Entrada registrada!'
-            : 'Salida registrada!';
+            : '¡Salida registrada!';
         showAlert(msg, 'success', 'alert');
-
-        btn.disabled = true;
-        btn.style.opacity = '0.5';
 
         setTimeout(() => {
             resetAndGoHome();
@@ -191,7 +133,6 @@ async function markAttendance(type) {
 
     } catch (err) {
         const isNetwork = err instanceof TypeError;
-
         showAlert(
             isNetwork
                 ? 'No se pudo conectar con el servidor'
@@ -201,34 +142,29 @@ async function markAttendance(type) {
         );
         autoHideAlert('alert');
     } finally {
-        setLoading(btn, false);
+        setLoading(confirmBtn, false);
     }
 }
 
 function resetAndGoHome() {
-    sessionStorage.removeItem('tempDni');
+    sessionStorage.removeItem('tempCode');
+    sessionStorage.removeItem('type');
     currentEmployee = null;
-    currentDni = null;
+    currentId = null;
     codeInput.value = '';
     
-    checkInBtn.disabled = false;
-    checkOutBtn.disabled = false;
-    checkInBtn.style.opacity = '1';
-    checkOutBtn.style.opacity = '1';
+    confirmBtn.disabled = false;
+    confirmBtn.style.opacity = '1';
     
-    goToStep(1);
+    window.location.href = '/index.html';
 }
 
 function goToStep(stepNumber) {
     step1.classList.remove('active');
     step2.classList.remove('active');
-    step3.classList.remove('active');
-    
     document.getElementById(`step-${stepNumber}`).classList.add('active');
-    
     stepDots.forEach((dot, index) => {
         dot.classList.toggle('active', index < stepNumber);
     });
-    
     clearAlert('alert');
 }
