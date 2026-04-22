@@ -34,7 +34,7 @@ async function handleSubmit(e) {
     // ===== LECTURA DE DATOS =====
     const name = document.getElementById('name').value.trim();
     const last_name = document.getElementById('lastName').value.trim();
-    const dni  = document.getElementById('code').value.trim();
+    const dni  = document.getElementById('dni').value.trim();
 
     const categorySelect = document.getElementById('category').value;
     const categoryOther = document.getElementById('categoryOther').value.trim();
@@ -95,11 +95,10 @@ async function handleSubmit(e) {
     };
     setLoading(submitBtn, true);
     try {
-        const id = await userService.createUser(data);
-        showAlert(`Usuario ${name} ${last_name} registrado correctamente`, 'success', 'alert');
+        const user = await userService.createUser(data);
+        showAlert(`¡Registro exitos!`, 'success', 'alert');
         autoHideAlert('alert');
         form.reset();
-        sessionStorage.setItem('tempCode', id);
     } catch (err) {
         const isNetwork = err instanceof TypeError;
         showAlert(
