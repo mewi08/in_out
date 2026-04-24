@@ -35,7 +35,7 @@ class UserRepository{
             `SELECT id, name, last_name, dni, category, work_area, code, is_active
             FROM users
             WHERE code = ? AND is_active = TRUE`,
-            [code]
+            [Number(code)]
         );
         return rows[0] || null;
     }
@@ -44,17 +44,15 @@ class UserRepository{
         const {
             name, last_name, dni, category, work_area
         } = data;
-        
+
         const [result] = await pool.query(
-            `INSERT INTO users(
+            `INSERT INTO users (
                 name, last_name, dni, category, work_area
-            )VALUES (?,?,?,?,?)`,
-            [
-                name, last_name, dni, category, work_area
-            ]
+            ) VALUES (?,?,?,?,?)`,
+            [name, last_name, dni, category, work_area]
         );
         return result.insertId;
-    };
+    }
 
     static async update(id, data) {
         const {
