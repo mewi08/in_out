@@ -14,10 +14,13 @@ class Response {
     static sendError(res, error) {
 
         const status = error.statusCode || error.status || 500;
-
+        const message = 
+            process.env.NODE_ENV === 'production'
+                ? 'Error interno del servidor'
+                : error.message;
         return res.status(status).json({
             success: false,
-            error: error.message || 'Error interno del servidor'
+            error: message
         });
     }
 
