@@ -12,12 +12,25 @@ class UserService {
         return user;
     };
     static async #validateDniExists(dni){
-        const user = await UserRepository.findById(dni);
+        const user = await UserRepository.findByDni(dni);
         if(!user){
             throw new AppError('Usuario no encontrado', 404);
         }
         return user;
     };
+    static async #ensureDniNotExists(dni){
+        const user = await UserRepository.findByDni(dni);
+        if(user){
+            throw new AppError('El DNI ya está registrado', 400);
+        }
+    };
+    static async #validateCodeExists(code){
+        const user = await UserRepository.findByCode(code);
+        if(!user){
+            throw new AppError('Usuario no encontrado', 404);
+        }
+        return user;
+    }
 
     // ── public methods ─────────────────────────────
 
@@ -38,6 +51,7 @@ class UserService {
             throw new AppError('Datos inválidos', 400);
         }
         const user = new User(data);
+        await this.#ensureDniNotExists(user.dni);
         const userId = await UserRepository.create(user.toJSON());
         return await UserRepository.findById(userId);
     };
@@ -46,6 +60,12 @@ class UserService {
         await this.#validateUserExists(id);
         if (!data) {
             throw new AppError('Datos inválidos para actualizar', 400);
+        };
+        if(data.dni){
+            const existing = await UserRepository.findByDni(data.dni);
+            if(existing && existing.id !== id){
+                throw new AppError('El DNI ya está registrado', 400);
+            }
         };
         const user = new User(data);
         await UserRepository.update(id, user.toJSON());
