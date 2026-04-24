@@ -50,7 +50,7 @@ async function create(req, res) {
 async function update(req, res) {
     try {
         const user = await UserService.update(req.params.id, req.body);
-        logger.info(`Usuario actualizado: ${req.params.id}`, { body: req.body });
+        logger.info(`Usuario actualizado: ${req.params.id}`);
         return Response.sendSuccess(res, user);
     } catch (error) {
         logger.error(`Error en update user (${req.params.id})`, error);
