@@ -3,7 +3,7 @@ class UserRepository{
     
     static async findAll(){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, is_active, created_at
+            `SELECT id, name, last_name, dni, category, work_area, code, is_active, created_at
             FROM users
             ORDER BY created_at DESC`
         );
@@ -12,7 +12,7 @@ class UserRepository{
 
     static async findById(id){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, is_active
+            `SELECT id, name, last_name, dni, category, work_area, code, is_active
             FROM users
             WHERE id = ? `,
             [id]
@@ -22,10 +22,20 @@ class UserRepository{
 
     static async findByDni(dni){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, is_active
+            `SELECT id, name, last_name, dni, category, work_area, code, is_active
             FROM users
             WHERE dni = ? AND is_active = TRUE`,
             [dni]
+        );
+        return rows[0] || null;
+    }
+
+    static async findByCode(code){
+        const [rows] = await pool.query(
+            `SELECT id, name, last_name, dni, category, work_area, code, is_active
+            FROM users
+            WHERE code = ? AND is_active = TRUE`,
+            [code]
         );
         return rows[0] || null;
     }
