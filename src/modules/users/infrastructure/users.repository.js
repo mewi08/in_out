@@ -42,29 +42,29 @@ class UserRepository{
 
     static async create(data) {
         const {
-            name, last_name, dni, category, work_area
+            name, last_name, dni, category, work_area, code
         } = data;
 
         const [result] = await pool.query(
             `INSERT INTO users (
-                name, last_name, dni, category, work_area
-            ) VALUES (?,?,?,?,?)`,
-            [name, last_name, dni, category, work_area]
+                name, last_name, dni, category, work_area, code
+            ) VALUES (?,?,?,?,?,?)`,
+            [name, last_name, dni, category, work_area, code]
         );
         return result.insertId;
     }
 
     static async update(id, data) {
         const {
-            name, last_name, dni, category, work_area
+            name, last_name, dni, category, work_area, code
         } = data;
 
         const [result] = await pool.query(
             `UPDATE users SET 
-                name = ?, last_name = ?, dni = ?, category = ?, work_area = ?, updated_at = NOW()
+                name = ?, last_name = ?, dni = ?, category = ?, work_area = ?, code = ?, updated_at = NOW()
             WHERE id = ?`,
             [
-                name, last_name, dni, category, work_area, id
+                name, last_name, dni, category, work_area, code, id
             ]
         );
         return result.affectedRows;
