@@ -6,10 +6,8 @@ const { formatWorkedTime } = require('../../../shared/utils/formattedTime');
 
 class AttendanceService {
     static async #getTodayAttendances(user_id) {
-        const today = new Date().toISOString().slice(0, 10);
-
+        const today = new Date().toLocaleDateString('en-CA');
         const records = await AttendanceRepository.findByUserAndDate(user_id, today);
-
         return records.map(r => new Attendance(r));
     }
 
@@ -27,45 +25,37 @@ class AttendanceService {
             if (record.isCheckIn()) {
                 lastCheckIn = record.time_stamp;
             };
-
             if (record.isCheckOut() && lastCheckIn) {
                 const diff = (record.time_stamp - lastCheckIn) / 60000;
                 total += diff;
                 lastCheckIn = null;
             };
         };
-
         return total;
     }
 
     static async register(data) {
         const attendance = new Attendance(data);
-
         this.#validateAttendance(attendance);
 
-        const user = await UserService.getById(attendance.code);
-        
+        const user = await UserService.getByCode(attendance.code);
         attendance.user_id = user.id;
         const todayRecords = await this.#getTodayAttendances(user.id);
-
         const last = todayRecords[todayRecords.length - 1];
 
         if (last) {
             if (last.isCheckIn() && attendance.isCheckIn()) {
                 throw new AppError('Ya registraste tu entrada. Debes marcar salida antes de volver a ingresar.', 400);
             }
-
             if (last.isCheckOut() && attendance.isCheckOut()) {
                 throw new AppError('Ya registraste tu salida. Debes marcar una nueva entrada antes de salir nuevamente.', 400);
             }
         }
-
         if (attendance.isCheckOut()) {
             if (!last|| !last.isCheckIn()) {
                 throw new AppError('No tienes una entrada registrada. Debes marcar entrada antes de salir.', 400);
             }
         }
-
         const id = await AttendanceRepository.create(attendance.toJSON());
 
         return {
@@ -78,9 +68,7 @@ class AttendanceService {
 
     static async getTodayHours(user_id) {
         const attendance = await this.#getTodayAttendances(user_id);
-
         const minutes = this.#calculateWorkedMinutes(attendance);
-
         const formattedTime  = formatWorkedTime(minutes);
 
         return {
