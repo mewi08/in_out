@@ -8,7 +8,8 @@ const {validateInfo, validateStatus} = require('../users/domain/users.validator'
 
 
 router.get('/', UserController.getAll);
-router.get('/:dni', UserController.getByDni);
+router.get('/dni/:dni', UserController.getByDni);
+router.get('/code/:code', UserController.getByCode);
 router.post('/verify-security-code', UserController.verifySecurityCode);
 
 router.get('/:id', validateId(), verifyExists('users'), UserController.getById);
