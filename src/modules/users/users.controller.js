@@ -36,6 +36,16 @@ async function getByDni(req, res) {
     };
 };
 
+async function getByCode(req, res) {
+    try{
+        const user = await UserService.getByCode(req.params.code);
+        return Response.sendSuccess(res, user);
+    }catch(error){
+        logger.error(`Error en getByCode user (${req.params.code})`, error);
+        return Response.sendError(res, error);
+    };
+};
+
 async function create(req, res) {
     try {
         const user = await UserService.create(req.body);
@@ -88,6 +98,7 @@ module.exports = {
     getAll,
     getById,
     getByDni,
+    getByCode,
     create,
     update,
     updateStatus,
