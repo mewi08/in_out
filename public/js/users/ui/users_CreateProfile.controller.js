@@ -35,7 +35,8 @@ async function handleSubmit(e) {
     const name = document.getElementById('name').value.trim();
     const last_name = document.getElementById('lastName').value.trim();
     const dni  = document.getElementById('dni').value.trim();
-
+    const code = document.getElementById('code').value.trim();
+    
     const categorySelect = document.getElementById('category').value;
     const categoryOther = document.getElementById('categoryOther').value.trim();
 
@@ -60,6 +61,11 @@ async function handleSubmit(e) {
 
     if (!/^\d{8}$/.test(dni)) {
         showError('El DNI debe tener 8 caracteres numéricos');
+        return;
+    }
+
+    if(!code){
+        showError('Por favor ingresa el código');
         return;
     }
 
@@ -91,12 +97,13 @@ async function handleSubmit(e) {
         last_name,
         dni,
         category,
-        work_area
+        work_area,
+        code
     };
     setLoading(submitBtn, true);
     try {
         const user = await userService.createUser(data);
-        showAlert(`¡Registro exitos!`, 'success', 'alert');
+        showAlert(`¡Registro exitoso!`, 'success', 'alert');
         autoHideAlert('alert');
         form.reset();
     } catch (err) {
