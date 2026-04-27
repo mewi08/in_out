@@ -24,7 +24,7 @@ class UserRepository{
         const [rows] = await pool.query(
             `SELECT id, name, last_name, dni, category, work_area, code, is_active
             FROM users
-            WHERE dni = ? AND is_active = TRUE`,
+            WHERE dni = ?`,
             [dni]
         );
         return rows[0] || null;
@@ -34,8 +34,8 @@ class UserRepository{
         const [rows] = await pool.query(
             `SELECT id, name, last_name, dni, category, work_area, code, is_active
             FROM users
-            WHERE code = ? AND is_active = TRUE`,
-            [Number(code)]
+            WHERE code = ?`,
+            [code]
         );
         return rows[0] || null;
     }
