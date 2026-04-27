@@ -1,10 +1,11 @@
 class User {
-    constructor({ name, last_name, dni, category, work_area }) {
+    constructor({ name, last_name, dni, category, work_area, code }) {
         this.name = name?.trim();
         this.last_name = last_name?.trim();
         this.dni = dni?.trim();
         this.category = category?.trim();
         this.work_area = work_area?.trim();
+        this.code = code?.trim();
     }
 
     // 🔹 normalizar datos
@@ -14,7 +15,8 @@ class User {
             last_name: this.last_name,
             dni: this.dni,
             category: this.category,
-            work_area: this.work_area
+            work_area: this.work_area,
+            code: this.code
         };
     }
 }
