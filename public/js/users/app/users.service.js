@@ -19,8 +19,14 @@ export const userService = {
     },
 
     async getUserByDni(dni) {
-        const res = await api.get(`/user/${dni}`);
+        const res = await api.get(`/user/dni/${dni}`);
         if (!res.success) throw new Error(res.message);
+        return res.data;
+    },
+
+    async getUserByCode(code){
+        const res = await api.get(`/user/code/${code}`);
+        if(!res.success) throw new Error(res.message);
         return res.data;
     },
 
