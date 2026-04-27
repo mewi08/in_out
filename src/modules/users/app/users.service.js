@@ -37,6 +37,7 @@ class UserService {
     }
 
     static async #ensureCodeNotExists(code){
+        if (!code) return;
         const user = await UserRepository.findByCode(code);
         if(user){
             throw new AppError('El código ya está registrado', 404);
@@ -55,6 +56,10 @@ class UserService {
 
     static async getByDni(dni) {
         return await this.#validateDniExists(dni);
+    }
+
+    static async getByCode(code){
+        return await this.#validateCodeExists(code);
     }
 
     static async create(data) {
