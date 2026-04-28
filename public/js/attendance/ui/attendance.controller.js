@@ -27,22 +27,35 @@ const subtitle = document.getElementById('subtitle');
 
 // ===== VARIABLES =====
 let currentEmployee = null;
-let currentId = null;
+let code = null;
+let currentType = null;
 
+// ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded',()=>{
-    setType();
     clearAlert('alert');
-})
+    const type = getTypeFromURL();
+
+    if (type === 'check_in') {
+        subtitle.textContent = 'Registra entrada';
+        currentType = 'check_in';
+    } else if (type === 'check_out') {
+        subtitle.textContent = 'Registra salida';
+        currentType = 'check_out';
+    } else {
+        subtitle.textContent = 'Registrar asistencia';
+        currentType = 'check_in';
+    }
+});
 
 // ===== EVENT LISTENERS =====
 validateCodeBtn.addEventListener('click', ()=>{
-    const code = codeInput.value.trim();
-    if (!code) {
-        showAlert('Ingresa tu Código', 'error', 'alert');
+    const codeClean = codeInput.value.trim();
+    if (!codeClean) {
+        showAlert('Ingresa tu código', 'error', 'alert');
         autoHideAlert('alert');
         return;
     }
-    validateCode(code);
+    validateCode(codeClean);
 });
 
 codeInput.addEventListener('keypress', (e) => {
@@ -54,27 +67,26 @@ backBtn.addEventListener('click', () => {
 });
 
 confirmBtn.addEventListener('click', async () => {
-    setType();
+    markAttendance(currentType);
 });
 
 changeCodeBtn.addEventListener('click', () => {
     goToStep(1);
     codeInput.value = '';
     codeInput.focus();
-    sessionStorage.removeItem('tempCode');
     currentEmployee = null;
-    currentId = null;
+    code = null;
 });
 
 // ===== FUNCIONES =====
-async function validateCode(code) {
+async function validateCode(codeClean) {
     clearAlert('alert');
     setLoading(validateCodeBtn, true);
 
     try {
-        const user = await userService.getUserById(code);
+        const user = await userService.getUserByCode(codeClean);
         currentEmployee = user;
-        currentId = code;
+        code = codeClean;
 
         showEmployeeData(currentEmployee);
         goToStep(2);
@@ -97,19 +109,13 @@ function showEmployeeData(employee) {
     avatarInitials.textContent = initials;
 }
 
-function setType(){
-    const type = sessionStorage.getItem('type');
-    if(type == 'checkInBtn'){
-        subtitle.textContent = 'Registra entrada';
-        markAttendance('check_in');
-    }else{
-        subtitle.textContent = 'Registra salida';
-        markAttendance('check_out');
-    }
+function getTypeFromURL(){
+    const params = new URLSearchParams(window.location.search);
+    return params.get('type');
 }
 
 async function markAttendance(type) {
-    if (!currentEmployee || !currentId) {
+    if (!currentEmployee || !code) {
         showAlert('Usuario no válido', 'error', 'alert');
         return;
     };
@@ -117,15 +123,12 @@ async function markAttendance(type) {
     setLoading(confirmBtn, true);
 
     try {
-        await attendanceService.createRecord({
-            code: currentId,
+        const attendance = await attendanceService.createRecord({
+            code: code,
             type: type
         });
 
-        const msg = type === 'check_in'
-            ? '¡Entrada registrada!'
-            : '¡Salida registrada!';
-        showAlert(msg, 'success', 'alert');
+        showAlert(attendance.message, 'success', 'alert');
 
         setTimeout(() => {
             resetAndGoHome();
@@ -147,15 +150,9 @@ async function markAttendance(type) {
 }
 
 function resetAndGoHome() {
-    sessionStorage.removeItem('tempCode');
-    sessionStorage.removeItem('type');
     currentEmployee = null;
-    currentId = null;
-    codeInput.value = '';
-    
-    confirmBtn.disabled = false;
-    confirmBtn.style.opacity = '1';
-    
+    code = null;
+    codeInput.value = '';  
     window.location.href = '/index.html';
 }
 
