@@ -3,7 +3,7 @@
  * Casos de uso: getUsers, getUserById, getUserByCode, createUser, updateUser, updateUserStatus.
  * Orquesta el dominio y los adaptadores; no conoce el DOM salvo redirects.
  */
-import { api } from '../../shared/http.client.js';
+import { api } from '../../shared/http/http.client.js';
 
 export const userService = {
     async getUsers() {

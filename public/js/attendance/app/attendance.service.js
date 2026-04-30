@@ -3,7 +3,7 @@
  * Casos de uso: createRecord, getTodayHours.
  * Orquesta el dominio y los adaptadores; no conoce el DOM salvo redirects.
  */
-import {api} from '../../shared/http.client.js';
+import {api} from '../../shared/http/http.client.js';
 export const attendanceService = {
     async createRecord(data){
         const res = await api.post(`/attendance`, data);
