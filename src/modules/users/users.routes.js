@@ -5,7 +5,7 @@ const UserController = require('./users.controller');
 const {validateId} = require('../../shared/middleware/param.middleware');
 const {verifyExists} = require('../../shared/middleware/exists.middleware');
 const {validateInfo, validateStatus} = require('../users/domain/users.validator');
-const {authMiddleware, authorizeRoles} = require('../../shared/middleware/auth.middleware');
+const {authMiddleware, requireAdmin} = require('../../shared/middleware/auth.middleware');
 
 router.get(
     '/', 
@@ -31,29 +31,29 @@ router.get(
 
 router.post(
     '/', 
-    authMiddleware, 
-    authorizeRoles('admin'), 
+    authMiddleware,  
     validateInfo, 
+    requireAdmin, 
     UserController.create
 );
 
 router.put(
     '/:id', 
     authMiddleware,
-    authorizeRoles('admin'), 
     validateId(), 
     verifyExists('users'), 
-    validateInfo, 
+    validateInfo,     
+    requireAdmin, 
     UserController.update
 );
 
 router.patch(
     '/:id/status', 
     authMiddleware,
-    authorizeRoles('admin'), 
     validateId(), 
     verifyExists('users'),
-    validateStatus, 
+    validateStatus,
+    requireAdmin,  
     UserController.updateStatus
 );
 
