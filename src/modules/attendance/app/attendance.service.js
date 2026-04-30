@@ -1,7 +1,7 @@
 const { AttendanceRepository } = require('../infrastructure/attendance.repository');
 const { UserService} = require('../../users/app/users.service');
 const { Attendance } = require('../domain/attendance.model');
-const { AppError } = require('../../../shared/utils/appError');
+const { AppError } = require('../../../shared/core/error/appError');
 const { formatWorkedTime } = require('../../../shared/utils/formattedTime');
 
 class AttendanceService {

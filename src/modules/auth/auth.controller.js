@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const { Response } = require('../../shared/utils/response');
+const { Response } = require('../../shared/core/http/response');
 const pool = require('../../shared/infrastructure/database');
-const logger = require('../../shared/utils/logger');
-const { AppError } = require('../../shared/utils/appError');
+const logger = require('../../shared/infrastructure/logger');
+const { AppError } = require('../../shared/core/error/appError');
 
 async function login(req, res) {
     try{

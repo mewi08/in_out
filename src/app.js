@@ -1,7 +1,7 @@
 const express = require ('express');
 const helmet = require('helmet');
 const app = express();
-const logger = require('./shared/utils/logger');
+const logger = require('./shared/infrastructure/logger');
 require('./shared/infrastructure/database');
 
 app.use(express.json());

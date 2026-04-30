@@ -1,6 +1,6 @@
 const { UserService } = require('./app/users.service');
-const { Response } = require('../../shared/utils/response');
-const logger = require('../../shared/utils/logger');
+const { Response } = require('../../shared/core/http/response');
+const logger = require('../../shared/infrastructure/logger');
 
 async function getAll(req, res) {
     try {

@@ -1,6 +1,6 @@
 const { UserRepository } = require('../infrastructure/users.repository');
 const { User } = require('../domain/users.model');
-const { AppError } = require('../../../shared/utils/appError');
+const { AppError } = require('../../../shared/core/error/appError');
 require('dotenv').config();
 class UserService {
 

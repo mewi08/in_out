@@ -1,6 +1,6 @@
 const { AttendanceService } = require('./app/attendance.service');
-const { Response } = require('../../shared/utils/response');
-const logger = require('../../shared/utils/logger');
+const { Response } = require('../../shared/core/http/response');
+const logger = require('../../shared/infrastructure/logger');
 
 async function create(req, res) {
     try {
