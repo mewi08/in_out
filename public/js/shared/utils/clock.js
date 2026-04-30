@@ -1,5 +1,3 @@
-// clock.js
-
 export function startClock(timeId, dateId = null) {
     function updateTime() {
         const now = new Date();
