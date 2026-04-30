@@ -61,6 +61,17 @@ class UserService {
     static async getByCode(code){
         return await this.#validateCodeExists(code);
     }
+    
+    static async getByCodeActive(code) {
+        const user = await UserRepository.findByCode(code);
+        if (!user) {
+            throw new AppError('Usuario no encontrado', 404);
+        }
+        if (!user.is_active) {
+            throw new AppError('Usuario inactivo', 400);
+        }
+        return user;
+    }
 
     static async create(data) {
         if (!data) {
