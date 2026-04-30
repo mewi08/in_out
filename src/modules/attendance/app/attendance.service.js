@@ -38,7 +38,7 @@ class AttendanceService {
         const attendance = new Attendance(data);
         this.#validateAttendance(attendance);
 
-        const user = await UserService.getByCode(attendance.code);
+        const user = await UserService.getByCodeActive(attendance.code);
         attendance.user_id = user.id;
         const todayRecords = await this.#getTodayAttendances(user.id);
         const last = todayRecords[todayRecords.length - 1];
