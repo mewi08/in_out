@@ -8,7 +8,7 @@ const {validateInfo, validateStatus} = require('../users/domain/users.validator'
 const {authMiddleware, requireAdmin} = require('../../shared/middleware/auth.middleware');
 
 router.get(
-    '/', 
+    '/',
     UserController.getAll);
 
 router.get(
@@ -18,10 +18,6 @@ router.get(
 router.get(
     '/code/:code', 
     UserController.getByCode);
-    
-router.post(
-    '/verify-security-code', 
-    UserController.verifySecurityCode);
 
 router.get(
     '/:id', 
