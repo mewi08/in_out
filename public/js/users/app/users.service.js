@@ -48,8 +48,8 @@ export const userService = {
         return res.data;
     },
 
-    async updateUserStatus(id, status) {
-        const res = await api.patch(`/user/${id}/status`, { status });
+    async updateUserStatus(id, is_active) {
+        const res = await api.patch(`/user/${id}/status`, { is_active });
         if (!res.success) throw new Error(res.message);
         return res.data;
     },
