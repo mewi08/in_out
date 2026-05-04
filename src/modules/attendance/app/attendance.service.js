@@ -91,6 +91,50 @@ class AttendanceService {
             lastType: last?.type || null
         };
     }
+
+    static buildShifts(records) {
+        const result = {};
+        for (const r of records) {
+            const key = r.user_id;
+            if (!result[key]) {
+                result[key] = {
+                    dni: r.dni,
+                    name: r.name,
+                    shifts: []
+                };
+            }
+            const user = result[key];
+            if (r.type === 'ENTRY') {
+                user.shifts.push({
+                    date: r.time_stamp.toISOString().split('T')[0],
+                    entry: r.time_stamp,
+                    exit: null
+                });
+            }
+            if (r.type === 'EXIT') {
+                const lastShift = user.shifts.findLast(s => !s.exit);
+                if (lastShift) lastShift.exit = r.time_stamp;
+            }
+        }
+        return result;
+    }
+
+    static toExcelRows(shiftsByUser) {
+        const rows = [];
+        for (const userId in shiftsByUser) {
+            const user = shiftsByUser[userId];
+            user.shifts.forEach(s => {
+                rows.push({
+                    dni: user.dni,
+                    name: user.name,
+                    date: s.date,
+                    entry: s.entry?.toTimeString().slice(0,5),
+                    exit: s.exit?.toTimeString().slice(0,5) || ''
+                });
+            });
+        }
+        return rows;
+    }
 }
 
 module.exports = { AttendanceService };
