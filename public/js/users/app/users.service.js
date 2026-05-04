@@ -36,12 +36,6 @@ export const userService = {
         return res.data;
     },
 
-    async verifySecurityCode(security_code){
-        const res = await api.post('/user/verify-security-code', {security_code});
-        if(!res.success) throw new Error(res.message);
-        return res.data;
-    },
-
     async updateUser(id, data) {
         const res = await api.put(`/user/${id}`, data);
         if (!res.success) throw new Error(res.message);
