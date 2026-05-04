@@ -4,7 +4,7 @@ import {
     clearAlert, 
     autoHideAlert, 
     setLoading 
-} from "../../shared/message.ui.js";
+} from "../../shared/ui/message.ui.js";
 
 // ==== ELEMENTOS DOM ====
 const codeInput = document.getElementById('code');
