@@ -2,6 +2,43 @@ const pool = require('../../../shared/infrastructure/database');
 
 class AttendanceRepository {
 
+    static async findByUserAndRange(dni, startDate, endDate) {
+        const [rows] = await pool.query(
+            `SELECT 
+                u.id as user_id,
+                u.dni,
+                u.name,
+                ar.type,
+                ar.time_stamp
+            FROM attendance_records ar
+            INNER JOIN users u ON ar.user_id = u.id
+            WHERE u.dni = ?
+            AND ar.time_stamp >= ?
+            AND ar.time_stamp < ?
+            ORDER BY ar.time_stamp ASC`,
+            [dni, startDate, endDate]
+        );
+        return rows;
+    }
+
+    static async findAllByRange(startDate, endDate) {
+        const [rows] = await pool.query(
+            `SELECT 
+                u.id as user_id,
+                u.dni,
+                u.name,
+                ar.type,
+                ar.time_stamp
+             FROM attendance_records ar
+             INNER JOIN users u ON ar.user_id = u.id
+             WHERE ar.time_stamp >= ?
+             AND ar.time_stamp < ?
+             ORDER BY u.id ASC, ar.time_stamp ASC`,
+            [startDate, endDate]
+        );
+        return rows;
+    }
+
     static async findByUserAndDate(user_id, date) {
         const [rows] = await pool.query(
             `SELECT user_id, type, time_stamp
