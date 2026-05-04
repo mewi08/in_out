@@ -135,6 +135,25 @@ class AttendanceService {
         }
         return rows;
     }
+
+    static async exportByUser(dni, startDate, endDate) {
+        const records = await AttendanceRepository.findByUserAndRange(
+            dni,
+            startDate,
+            endDate
+        );
+        const shifts = this.buildShifts(records);
+        return this.toExcelRows(shifts);
+    }
+
+    static async exportAll(startDate, endDate) {
+        const records = await AttendanceRepository.findAllByRange(
+            startDate,
+            endDate
+        );
+        const shifts = this.buildShifts(records);
+        return this.toExcelRows(shifts);
+    }
 }
 
 module.exports = { AttendanceService };
