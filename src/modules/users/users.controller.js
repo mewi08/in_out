@@ -82,18 +82,6 @@ async function updateStatus(req, res) {
     };
 };
 
-
-async function verifySecurityCode(req, res) {
-    try{
-        const { security_code } = req.body;
-        const isCorrect = await UserService.verifySecurityCode(security_code);
-        return Response.sendSuccess(res, {valid: isCorrect});
-    }catch(error){
-        logger.error('Error al verificar código de seguridad', error);
-        return Response.sendError(res, error);
-    };
-};
-
 module.exports = {
     getAll,
     getById,
@@ -101,6 +89,5 @@ module.exports = {
     getByCode,
     create,
     update,
-    updateStatus,
-    verifySecurityCode
+    updateStatus
 };
