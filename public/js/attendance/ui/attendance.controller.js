@@ -5,7 +5,7 @@ import {
     clearAlert,
     autoHideAlert,
     setLoading
-} from '../../shared/message.ui.js';
+} from '../../shared/ui/message.ui.js';
 
 // ===== ELEMENTOS DOM =====
 const step1 = document.getElementById('step-1');
