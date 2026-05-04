@@ -1,10 +1,15 @@
 const API_URL = 'http://localhost:3000/api';
+import { authService } from "../../auth/app/auth.service.js";
 
 async function request(endpoint, options = {}) {
+    const token = authService.getToken();
     try {
         const res = await fetch(`${API_URL}${endpoint}`, {
             ...options,
-            headers: { 'Content-Type': 'application/json', ...options.headers }
+            headers: { 
+                'Content-Type': 'application/json', 
+                ...(token && { Authorization: `Bearer ${token}`}),
+                ...options.headers }
         });
 
         const data = await res.json();
