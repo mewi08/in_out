@@ -9,7 +9,7 @@ export function showAlert(message, type, containerId='alert') {
     if(!alertBox) return;
 
     alertBox.textContent = message;
-    alertBox.className   = `alert ${type}`;
+    alertBox.className   = `alert alert-${type}`;
 }
 
 export function clearAlert(containerId='alert') {
