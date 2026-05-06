@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 validateCodeBtn.addEventListener('click', ()=>{
     const codeClean = codeInput.value.trim();
     if (!codeClean) {
-        showAlert('Ingresa tu código', 'error', 'alert');
+        showAlert('Ingresa tu código', 'warning', 'alert');
         autoHideAlert('alert');
         return;
     }
@@ -92,7 +92,7 @@ async function validateCode(codeClean) {
         goToStep(2);
 
     } catch (err) {
-        showAlert(err.message , 'error', 'alert');
+        showAlert(err.message , 'danger', 'alert');
         autoHideAlert('alert');
     } finally {
         setLoading(validateCodeBtn, false);
@@ -116,7 +116,7 @@ function getTypeFromURL(){
 
 async function markAttendance(type) {
     if (!currentEmployee || !code) {
-        showAlert('Usuario no válido', 'error', 'alert');
+        showAlert('Usuario no válido', 'danger', 'alert');
         return;
     };
     
@@ -140,7 +140,7 @@ async function markAttendance(type) {
             isNetwork
                 ? 'No se pudo conectar con el servidor'
                 : err.message,
-            'error',
+            'danger',
             'alert'
         );
         autoHideAlert('alert');
@@ -157,11 +157,12 @@ function resetAndGoHome() {
 }
 
 function goToStep(stepNumber) {
-    step1.classList.remove('active');
-    step2.classList.remove('active');
-    document.getElementById(`step-${stepNumber}`).classList.add('active');
+    step1.classList.add('d-none');
+    step2.classList.add('d-none'); 
+    document.getElementById(`step-${stepNumber}`).classList.remove('d-none');
     stepDots.forEach((dot, index) => {
-        dot.classList.toggle('active', index < stepNumber);
+        dot.classList.remove('bg-primary', 'bg-secondary');
+        dot.classList.add(index < stepNumber ? 'bg-primary' : 'bg-secondary');
     });
     clearAlert('alert');
 }
