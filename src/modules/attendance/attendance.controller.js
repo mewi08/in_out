@@ -1,5 +1,6 @@
 const { AttendanceService } = require('./app/attendance.service');
 const { Response } = require('../../shared/core/http/response');
+const { generateExcel } = require('../../shared/utils/excel');
 const logger = require('../../shared/infrastructure/logger');
 
 async function create(req, res) {
@@ -35,4 +36,48 @@ async function getTodayStatus(req, res) {
     }
 }
 
-module.exports = { create, getTodayHours, getTodayStatus };
+async function getAttendanceReport(req, res) {
+    try {
+        const report = await AttendanceService.getAttendanceReport();
+        return Response.sendSuccess(res, report);
+    } catch (error) {
+        logger.error('Error en getAttendanceReport', error);
+        return Response.sendError(res, error);
+    }
+}
+
+async function exportByUser(req, res) {
+    try {
+        const { dni } = req.params;
+        const { startDate, endDate } = req.query;
+
+        const rows = await AttendanceService.exportByUser(
+            dni,
+            startDate,
+            endDate
+        );
+
+        await generateExcel(rows, res, `asistencia_${dni}.xlsx`);
+    } catch (error) {
+        logger.error('Error en exportByUser', error);
+        return Response.sendError(res, error);
+    }
+}
+
+async function exportAll(req, res) {
+    try {
+        const { startDate, endDate } = req.query;
+
+        const rows = await AttendanceService.exportAll(
+            startDate,
+            endDate
+        );
+
+        await generateExcel(rows, res, `asistencia_general.xlsx`);
+    } catch (error) {
+        logger.error('Error en exportAll', error);
+        return Response.sendError(res, error);
+    }
+}
+
+module.exports = { create, getTodayHours, getTodayStatus, getAttendanceReport, exportByUser, exportAll };
