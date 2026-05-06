@@ -6,6 +6,7 @@ export function applyRolePermissions() {
     if (!user || user.role !== 'admin') {
         document.querySelectorAll('[data-admin]').forEach(el => el.remove());
     }else{
-        document.querySelector('[data-page="index"]').remove();
+        const indexLink = document.querySelector('[data-page="index"]');
+        if (indexLink) indexLink.remove();
     }
 }
