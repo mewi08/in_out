@@ -1,4 +1,4 @@
-const  Response  = require('../infrastructure/response');
+const { Response } = require('../core/http/response');
 function validateId(paramName = 'id') {
     return (req, res, next) => {
         const value = req.params[paramName];
