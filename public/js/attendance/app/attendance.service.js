@@ -21,5 +21,23 @@ export const attendanceService = {
         const res = await api.get(`/attendance/today-status/${user_id}`);
         if(!res.success) throw new Error(res.message);
         return res.data;
+    },
+
+    async getAttendanceReport(){
+        const res = await api.get('/attendance/daily-report');
+        if(!res.success) throw new Error(res.message);
+        return res.data;
+    },
+
+    async exportAll({ startDate, endDate }){
+        window.open(
+            `/attendance/export?startDate=${startDate}&endDate=${endDate}`
+        );
+    },
+
+    async exportByUser({dni, startDate, endDate}){
+        window.open(
+            `/attendance/export/${dni}?startDate=${startDate}&endDate=${endDate}`
+        );
     }
 };
