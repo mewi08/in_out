@@ -23,7 +23,7 @@ form.addEventListener('submit', async (e) => {
     clearAlert('alert');
     const code = codeInput.value.trim();
     if (!code) {
-        showAlert('Ingrese su código','error','alert');
+        showAlert('Ingrese su código','warning','alert');
         autoHideAlert('alert');
         return;
     }
