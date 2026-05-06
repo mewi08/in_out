@@ -1,5 +1,5 @@
 const pool = require('../infrastructure/database');
-const Response = require('../infrastructure/response');
+const { Response } = require('../core/http/response');
 function verifyExists(table, paramName = 'id') {
     return async (req, res, next) => {
         const id = req.params[paramName];
