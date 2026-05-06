@@ -1,13 +1,17 @@
 import { formatDate } from '../../shared/utils/date.helper.js';
 
 const statTotal = document.getElementById("statTotal");
+const statAdmin = document.getElementById("statAdmin");
+const statEmployee = document.getElementById("statEmployee");
+const statActive = document.getElementById("statActive");
+const statInactive = document.getElementById("statInactive");
 
-export function updateStats(users) {
-    if(statTotal){
-        statTotal.textContent = users.length;
-    }
-    document.getElementById("statActive").textContent =
-        users.filter(u => u.is_active).length;
+export function updateStats(stats) {
+    if(statTotal){statTotal.textContent = stats[0].total}
+    if(statAdmin){statAdmin.textContent = stats[0].admins}
+    if(statEmployee){statEmployee.textContent = stats[0].employee}
+    if(statActive){statActive.textContent = stats[0].active}
+    if(statInactive){statInactive.textContent = stats[0].inactive}    
 }
 
 export function renderTable(users, { onEdit, onToggle } = {}) {
@@ -21,6 +25,7 @@ export function renderTable(users, { onEdit, onToggle } = {}) {
             <td class="td-muted">${u.category}</td>
             <td class="td-muted">${u.work_area}</td>
             <td class="td-muted">${u.code}</td>
+            <td data-admin class="td-muted">${u.role}</td>
             <td data-admin>
                 <span class="badge ${u.is_active ? 'badge-success' : 'badge-error'}">
                     ${u.is_active ? 'Activo' : 'Inactivo'}
