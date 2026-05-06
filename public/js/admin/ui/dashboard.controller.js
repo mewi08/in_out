@@ -33,7 +33,6 @@ wh.addEventListener('click',()=>{
 async function loadStats() {
     try {
         stats = await userService.getStats();
-        console.log(stats);
         updateStats(stats);
     } catch (error) {
         console.error('Error cargando stats', error.message);
