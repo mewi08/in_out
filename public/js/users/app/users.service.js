@@ -6,9 +6,21 @@
 import { api } from '../../shared/http/http.client.js';
 
 export const userService = {
-    async getUsers() {
-        const res = await api.get('/user');
+    async getUsers(query) {
+        const res = await api.get(`/user/private?${query}`);
         if (!res.success) throw new Error(res.message);
+        return res.data;
+    },
+
+    async getActiveUsers(query) {
+        const res = await api.get(`/user/public?${query}`);
+        if (!res.success) throw new Error(res.message);
+        return res.data;
+    },
+
+    async getStats(){
+        const res = await api.get('/user/stats');
+        if(!res.success) throw new Error(res.message);
         return res.data;
     },
 
