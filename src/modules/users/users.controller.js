@@ -2,23 +2,62 @@ const { UserService } = require('./app/users.service');
 const { Response } = require('../../shared/core/http/response');
 const logger = require('../../shared/infrastructure/logger');
 
-async function getAll(req, res) {
+async function getAdminUsers(req, res) {
     try {
-        const {status} = req.query;
-        const users = await UserService.getAll(status);
+        const filters = {
+            is_active: req.query.status !== undefined
+                ? Boolean(Number(req.query.status))
+                : undefined,
+            work_area: req.query.area || undefined,
+            category: req.query.category || undefined,
+            role: req.query.role || undefined,
+            search: req.query.search || undefined
+        };
+
+        const users = await UserService.getUsers(filters);
         return Response.sendSuccess(res, users);
     } catch (error) {
-        logger.error('Error en getAll users', error);
+        logger.error('Error en getAdminUsers', error);
+        return Response.sendError(res, error);
+    }
+};
+
+async function getPublicUsers(req, res) {
+    try{
+        const filters = {
+            is_active: 1, 
+            search: req.query.search || undefined,
+            work_area: req.query.area || undefined
+        };
+
+        const users = await UserService.getUsers(filters);
+        const safeUsers = users.map(u => ({
+            name: u.name,
+            last_name: u.last_name,
+            dni: u.dni,
+            category: u.category,
+            work_area: u.work_area,
+            code: u.code
+        }));
+        return Response.sendSuccess(res, safeUsers);
+    } catch (error) {
+        logger.error('Error en getPublicUsers', error);
+        return Response.sendError(res, error);
+    };
+};
+
+async function getStats(req, res) {
+    try {
+        const stats = await UserService.getStats();
+        return Response.sendSuccess(res, stats);
+    } catch (error) {
+        logger.error('Error en getStats', error);
         return Response.sendError(res, error);
     };
 };
 
 async function getById(req, res) {
     try {
-        if (!req.params.id) {
-            return Response.sendBadRequest(res, 'ID requerido');
-        }
-
         const user = await UserService.getById(req.params.id);
         return Response.sendSuccess(res, user);
     } catch (error) {
@@ -84,7 +123,9 @@ async function updateStatus(req, res) {
 };
 
 module.exports = {
-    getAll,
+    getAdminUsers,
+    getPublicUsers,
+    getStats,
     getById,
     getByDni,
     getByCode,
