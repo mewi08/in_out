@@ -45,17 +45,18 @@ class UserService {
 
     // ── public methods ─────────────────────────────
 
-    static async getAll(status) {
-        if(status === 'active'){
-            return await UserRepository.findActive();
-        }
-        return await UserRepository.findAll();    
+    static async getUsers(filters) {
+        return await UserRepository.find(filters);    
     }
 
     static async getById(id) {
         return await this.#validateUserExists(id);
     }
 
+    static async getStats(){
+        return await UserRepository.getStats();
+    }
+    
     static async getByDni(dni) {
         return await this.#validateDniExists(dni);
     }
