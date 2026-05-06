@@ -10,6 +10,16 @@ class UserRepository{
         return rows;
     };
 
+    static async findActive(){
+        const [rows] = await pool.query(
+            `SELECT id, name, last_name, dni, category, work_area, code, is_active, created_at
+            FROM users
+            WHERE is_active = 1
+            ORDER BY created_at DESC`
+        );
+        return rows;
+    };
+
     static async findById(id){
         const [rows] = await pool.query(
             `SELECT id, name, last_name, dni, category, work_area, code, is_active
