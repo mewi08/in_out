@@ -8,22 +8,39 @@ const {validateInfo, validateStatus} = require('../users/domain/users.validator'
 const {authMiddleware, requireAdmin} = require('../../shared/middleware/auth.middleware');
 
 router.get(
-    '/',
-    UserController.getAll);
+    '/public',
+    UserController.getPublicUsers
+);
+router.get(
+    '/private',
+    authMiddleware,
+    requireAdmin,
+    UserController.getAdminUsers
+);
+
+router.get(
+    '/stats',
+    authMiddleware,
+    requireAdmin,
+    UserController.getStats
+);    
 
 router.get(
     '/dni/:dni', 
-    UserController.getByDni);
+    UserController.getByDni
+);
 
 router.get(
     '/code/:code', 
-    UserController.getByCode);
+    UserController.getByCode
+);
 
 router.get(
     '/:id', 
     validateId(), 
     verifyExists('users'), 
-    UserController.getById);
+    UserController.getById
+);
 
 router.post(
     '/', 
