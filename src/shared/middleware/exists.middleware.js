@@ -1,5 +1,5 @@
 const pool = require('../infrastructure/database');
-
+const Response = require('../infrastructure/response');
 function verifyExists(table, paramName = 'id') {
     return async (req, res, next) => {
         const id = req.params[paramName];
@@ -10,9 +10,7 @@ function verifyExists(table, paramName = 'id') {
         );
 
         if (rows.length === 0) {
-            return res.status(404).json({
-                error: `Recurso no encontrado en '${table}'`
-            });
+            return Response.sendNotFound(res, `Recurso no encontrado en '${table}'`);
         }
 
         next();
