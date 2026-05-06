@@ -35,3 +35,9 @@ export function renderFooter() {
         `;
     }
 }
+
+export function setActiveSidebar(page) {
+    document
+        .querySelector(`[data-page="${page}"]`)
+        ?.classList.add('active');
+}
