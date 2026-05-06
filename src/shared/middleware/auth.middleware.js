@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
+const { Response } = require('../infrastructure/response');
 
 function authMiddleware(req, res, next){
     const authHead = req.headers.authorization;
 
     if(!authHead){
-        return res.status(401).json({message: 'Token requerido'});
+        return Response.sendUnauthorized(res, 'Token requerido');
     }
 
     const token = authHead.split(' ')[1];
@@ -14,14 +15,14 @@ function authMiddleware(req, res, next){
         req.user = decoded;
         next();
     }catch(error){
-        return res.status(401).json({message:'Token inválido'});
+        return Response.sendUnauthorized(res, 'Token inválido');
     }
 }
 
 function authorizeRoles(...roles) {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return res.status(403).json({ message: 'No autorizado' });
+            return Response.sendForbidden(res, 'No autorizado');
         }
         next();
     };
@@ -29,7 +30,7 @@ function authorizeRoles(...roles) {
 
 function requireAdmin(req, res, next) {
     if (req.user.role !== 'admin') {
-        return res.status(403).json({ message: 'No autorizado' });
+        return Response.sendForbidden(res, 'No autorizado');
     }
     next();
 }
