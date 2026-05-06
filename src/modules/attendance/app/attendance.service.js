@@ -92,6 +92,10 @@ class AttendanceService {
         };
     }
 
+    static async getAttendanceReport(){
+        return await AttendanceRepository.findAttendanceReport();
+    }
+
     static buildShifts(records) {
         const result = {};
         for (const r of records) {
