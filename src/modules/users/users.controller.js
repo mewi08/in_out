@@ -4,7 +4,8 @@ const logger = require('../../shared/infrastructure/logger');
 
 async function getAll(req, res) {
     try {
-        const users = await UserService.getAll();
+        const {status} = req.query;
+        const users = await UserService.getAll(status);
         return Response.sendSuccess(res, users);
     } catch (error) {
         logger.error('Error en getAll users', error);
