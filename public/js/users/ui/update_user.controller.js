@@ -8,14 +8,8 @@ import {
 } from "../../shared/ui/message.ui.js";
 
 // ===== DOM =====
-const step1 = document.getElementById('step-1');
-const step2 = document.getElementById('step-2');
-const stepDots = document.querySelectorAll('.step-dot');
-
-const submitBtn = document.getElementById('submitBtn');
-const backBtn = document.getElementById('backBtn');
-const backStep1Btn = document.getElementById('goBackToStep1');
-const continueBtn = document.getElementById('continueBtn');
+const submit = document.getElementById('submitBtn');
+const back = document.getElementById('backBtn');
 
 const dni = document.getElementById('dni');
 const name = document.getElementById('name');
@@ -23,13 +17,6 @@ const code = document.getElementById('code');
 const last_name = document.getElementById('lastName');
 const categorySelect = document.getElementById('category');
 const workAreaSelect = document.getElementById('workArea');
-
-const employeeName = document.getElementById('summaryName');
-const employeeLastName = document.getElementById('summaryLastName');
-const employeeDni = document.getElementById('summaryDni');
-const employeeCode = document.getElementById('summaryCode');
-const employeeCategory = document.getElementById('summaryCategory');
-const employeeWorkArea = document.getElementById('summaryWorkArea');
 
 // ===== VARIABLES =====
 let currentEmployee = null;
@@ -41,7 +28,7 @@ async function init() {
     const id = params.get('id');
 
     if (!id) {
-        showAlert('Usuario no encontrado', 'error', 'alert');
+        showAlert('Usuario no encontrado', 'danger', 'alert');
         return;
     }
 
@@ -49,21 +36,11 @@ async function init() {
 };
 
 // ===== EVENT LISTENERS =====
-backBtn.addEventListener('click', ()=> {
+back.addEventListener('click', ()=> {
     window.location.href = '/pages/users/list_users.html';
 });
 
-continueBtn.addEventListener('click', ()=> {
-    const formdata = getFormData();
-    confirmChangeData(formdata);
-    goToStep(2);
-});
-
-backStep1Btn.addEventListener('click', ()=> {
-    goToStep(1);
-});
-
-submitBtn.addEventListener('click', ()=> {
+submit.addEventListener('click', ()=> {
     updateData();
 });
 
@@ -75,7 +52,7 @@ async function findEmployee(id) {
         currentEmployee = user;
         setEmployeeData(currentEmployee);
     } catch (err) {
-        showAlert(err.message, 'error', 'alert');
+        showAlert(err.message, 'danger', 'alert');
         autoHideAlert('alert');
     }
 }
@@ -122,7 +99,7 @@ async function updateData() {
             isNetwork
                 ? 'No se pudo conectar con el servidor'
                 : err.message, 
-            'error', 
+            'danger', 
             'alert'
         );
         autoHideAlert('alert');
@@ -131,28 +108,7 @@ async function updateData() {
     }
 }
 
-function confirmChangeData(formdata){
-    employeeName.textContent = formdata.name;
-    employeeLastName.textContent = formdata.last_name;
-    employeeDni.textContent = formdata.dni;
-    employeeCode.textContent = formdata.code;
-    employeeCategory.textContent = formdata.category;
-    employeeWorkArea.textContent = formdata.work_area;
-}
-
 function resetAndGoHome(){
     currentEmployee = null;
     window.location.href = '/pages/admin/dashboard.html'
-}
-
-function goToStep(stepNumber){
-    step1.classList.remove('active');
-    step2.classList.remove('active');
-
-    document.getElementById(`step-${stepNumber}`).classList.add('active');
-    stepDots.forEach((dot, index)=>{
-        dot.classList.toggle('active', index < stepNumber);
-    });
-
-    clearAlert('alert');
 }
