@@ -29,14 +29,14 @@ export const attendanceService = {
         return res.data;
     },
 
-    async exportAll({ startDate, endDate }){
-        window.open(
+    async exportAllUrl({ startDate, endDate }){
+        return await api.getBlob( 
             `/attendance/export?startDate=${startDate}&endDate=${endDate}`
         );
     },
 
-    async exportByUser({dni, startDate, endDate}){
-        window.open(
+    async exportByUserUrl({ dni, startDate, endDate }) {
+        return await api.getBlob( 
             `/attendance/export/${dni}?startDate=${startDate}&endDate=${endDate}`
         );
     }
