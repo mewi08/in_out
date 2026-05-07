@@ -1,117 +1,30 @@
-*, *::before, *::after { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-}
-
-:root {
-    --bg:#faf9f7;
-    --surface:#ffffff;
-    --border:#ede9e4;
-    --accent:#d63384;
-    --accent-dim:#b02070;
-    --accent-bg:#fdf0f6;
-    --text:#1a1a1f;
-    --muted:#9e97a0;
-    --error:#e0364a;
-    --success:#2dac72;
-    --warning:#e08c2d;
-    --font-display:'DM Serif Display', serif;
-    --font-body:'DM Sans', sans-serif;
-    --radius-sm:6px;
-    --radius-md:10px;
-    --radius-lg:12px;
-}
-
-body {
-    font-family: var(--font-body);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-}
-
 .container {
-    width: 100%;
-    max-width: 1000px;   
-    margin: 0 auto;      
-    padding: 2rem 2rem;  
+    max-width: 100%;
+    padding-top: 2rem;
 }
 
-.header {
-    text-align: center;
-    margin-bottom: 3rem;
-    animation: fadeIn 0.5s ease forwards;
-}
-
-.title {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: var(--text);
-}
-
-.subtitle {
-    font-size: 0.95rem;
-    color: var(--muted);
-    margin: 0;
-}
-
+/* Clock */
 .clock-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 2.5rem 2rem;
-    margin-bottom: 2.5rem;
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
     text-align: center;
-    animation: fadeIn 0.5s ease 0.1s forwards;
-    opacity: 0;
 }
 
 .time-display {
-    font-size: 56px;
+    font-size: 55px;
     font-weight: 700;
     color: var(--accent);
     font-variant-numeric: tabular-nums;
-    margin-bottom: 1rem;
-    font-family: var(--font-body);
-    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
 }
 
 .date-display {
-    font-size: 1rem;
-    color: var(--text);
-    margin-bottom: 1rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    color: var(--muted);
 }
 
-
-.actions-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-    margin-bottom: 2rem;
-    animation: fadeIn 0.5s ease 0.2s forwards;
-    opacity: 0;
-}
-
-.action-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem 1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.action-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(214, 51, 132, 0.12);
-}
-
+/* Actions */
 .action-card.primary {
     background: var(--accent);
     border-color: var(--accent);
@@ -123,59 +36,34 @@ body {
     border-color: var(--accent-dim);
 }
 
-.action-title {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--text);
+.action-card {
+    border-radius: var(--radius-lg);
+    padding: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-.action-card.primary .action-title {
+.action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(214, 51, 132, 0.1);
+}
+
+.action-card.primary {
     color: white;
 }
 
+.action-card.primary:hover {
+    background: var(--accent-dim);
+}
+
+/* Text */
+.action-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
 .action-description {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.5;
-}
-
-.action-card.primary .action-description {
-    color: rgba(255, 255, 255, 0.85);
-}
-
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 520px) {
-    .title {
-        font-size: 1.75rem;
-    }
-
-    .time-display {
-        font-size: 48px;
-    }
-
-    .actions-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .header {
-        margin-bottom: 2rem;
-    }
-
-    .clock-card {
-        padding: 2rem 1.5rem;
-        margin-bottom: 1.5rem;
-    }
+    font-size: 1rem;
+    opacity: 0.9;
 }
