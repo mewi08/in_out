@@ -1,0 +1,220 @@
+:root {
+    --bg:#faf9f7;
+    --surface:#ffffff;
+    --border:#ede9e4;
+
+    --accent:#d63384;
+    --accent-dim:#b02070;
+    --accent-bg:#fdf0f6;
+
+    --text:#1a1a1f;
+    --muted:#9e97a0;
+
+    --error:#e0364a;
+    --success:#2dac72;
+    --warning:#e08c2d;
+
+    --font-display:'DM Serif Display', serif;
+    --font-body:'DM Sans', sans-serif;
+
+    --radius-sm:6px;
+    --radius-md:10px;
+    --radius-lg:12px;
+
+    /* =========================
+        CONEXIÓN CON BOOTSTRAP
+    ========================= */
+    --bs-primary: var(--accent);
+    --bs-primary-rgb: 214, 51, 132;
+
+    --bs-danger: var(--error);
+    --bs-success: var(--success);
+    --bs-warning: var(--warning);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--accent);
+    --bs-btn-border-color: var(--accent);
+
+    --bs-btn-hover-bg: var(--accent-dim);
+    --bs-btn-hover-border-color: var(--accent-dim);
+
+    --bs-btn-active-bg: var(--accent-dim);
+    --bs-btn-active-border-color: var(--accent-dim);
+
+    --bs-btn-focus-shadow-rgb: 214, 51, 132;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-dim);
+    border-color: var(--accent-dim);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--accent);
+    --bs-btn-border-color: var(--accent);
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--accent);
+    --bs-btn-hover-border-color: var(--accent);
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--accent-dim);
+    --bs-btn-active-border-color: var(--accent-dim);
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+}
+
+/* SVG */
+.icon svg {
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+    opacity: 0.9;
+}
+
+/* ── Tabla ── */
+/* =========================
+    TABLAS (Base)
+========================= */
+
+.table {
+    font-size: 0.85rem;
+    border-color: var(--border);
+}
+
+/* Header */
+.table thead {
+    background: var(--bg);
+}
+
+.table thead th {
+    padding: 0.7rem;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+}
+
+/* Body */
+.table tbody td {
+    padding: 0.7rem;
+    border-top: 1px solid var(--border);
+}
+
+/* Hover */
+.table tbody tr:hover {
+    background: var(--bg);
+}
+
+/* =========================
+    TABLA
+========================= */
+
+.table-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+
+
+/* Tabla base */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+thead {
+    background: var(--bg);
+}
+
+th {
+    text-align: left;
+    padding: 0.7rem;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+td {
+    padding: 0.7rem;
+    border-top: 1px solid var(--border);
+}
+
+/* Texto secundario */
+.td-muted {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+/* =========================
+    ACCIONES
+========================= */
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Botón icono base */
+.btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition: all 0.15s;
+}
+
+.btn-icon:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-bg);
+}
+
+.btn-icon.danger:hover {
+    border-color: var(--error);
+    color: var(--error);
+    background: rgba(224, 54, 74, 0.07);
+}
+
+.btn-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* =========================
+    BADGES
+========================= */
+
+.badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+}
+
+.badge-success {
+    background: rgba(45, 172, 114, 0.1);
+    color: var(--success);
+}
+
+.badge-error {
+    background: rgba(224, 54, 74, 0.1);
+    color: var(--error);
+}
