@@ -3,128 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Entrada/Salida</title>
+    <title>Registrar Asistencia</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 
+    <!-- css -->
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/attendance.style.css">
+
 </head>
 
-<body>
-<div class="container">
+<body class="bg-light">
 
-    <div class="header">
-        <h1 class="title">Asistencia</h1>
-        <p class="subtitle">Registrar entrada/salida</p>
+<div class="container py-5">
 
-        <div class="step-indicator">
-            <div class="step-dot active"></div>
-            <div class="step-dot"></div>
-            <div class="step-dot"></div>
+    <!-- HEADER -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold" style="font-family: var(--font-display);">Asistencia</h1>
+        <p class="text-muted" id="subtitle"></p>
+
+        <div class="d-flex justify-content-center gap-2 mt-2">
+            <span class="badge rounded-pill bg-primary step-dot active">1</span>
+            <span class="badge rounded-pill bg-secondary step-dot">2</span>
         </div>
     </div>
 
-    <div class="content-card">
-        
-        <div class="alert" id="alert"></div>
+    <!-- CARD PRINCIPAL -->
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 500px; border-radius: 12px;">
+        <div class="card-body p-4">
+            <!-- ALERT -->
+            <div id="alert" class="alert d-none" role="alert"></div>
 
-        <!-- STEP 1 -->
-        <div class="step active" id="step-1">
-
-            <div class="form-group">
-                <label>Ingresa tu número de DNI</label>
-
-                <input
-                    type="text"
-                    id="codeInput"
-                    maxlength="8"
-                    autocomplete="off"
-                >
-            </div>
-
-            <button type="button" class="btn-primary" id="validateCodeBtn">
-                Continuar
-            </button>
-
-            <button type="button" class="btn-secondary" id="backBtn">
-                Volver
-            </button>
-        </div>
-
-        <!-- STEP 2 -->
-        <div class="step" id="step-2">
-
-            <div class="employee-card">
-                <div class="employee-header">
-                    <div class="employee-avatar" id="avatarInitials"></div>
-
-                    <div class="employee-info">
-                        <h3 id="employeeName"></h3>
-                        <p id="employeeCategory"></p>
-                    </div>
+            <!-- STEP 1 -->
+            <div class="step active" id="step-1">
+                <div class="mb-3">
+                    <label class="form-label">Ingresa tu código</label>
+                    <input
+                        type="text"
+                        id="codeInput"
+                        maxlength="3"
+                        class="form-control"
+                        autocomplete="off"
+                    >
                 </div>
 
-                <div class="employee-details">
-                    <div class="detail-item">
-                        <div class="detail-label">DNI</div>
-                        <div class="detail-value" id="employeeCode"></div>
-                    </div>
-
-                    <div class="detail-item">
-                        <div class="detail-label">Área de trabajo</div>
-                        <div class="detail-value" id="employeeWorkArea"></div>
-                    </div>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-primary" id="validateCodeBtn">
+                        Continuar
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="backBtn">
+                        Volver
+                    </button>
                 </div>
             </div>
 
-            <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem;">
-                Verifica tus datos
-            </p>
-
-            <button type="button" class="btn-primary" id="confirmDataBtn">
-                Datos correctos
-            </button>
-
-            <button type="button" class="btn-secondary" id="changeCodeBtn">
-                Cambiar código
-            </button>
-            
-            <button type="button" class="btn-secondary" id="updateDataBtn">
-                Editar datos
-            </button>
-        </div>
-
-        <!-- STEP 3 -->
-        <div class="step" id="step-3">
-
-            <p style="text-align:center;margin-bottom:1rem;">
-                Selecciona acción
-            </p>
-
-            <div class="action-options">
-
-                <!-- TIEMPO -->
-                <div class="time-display" id="todayHours"></div>
-
-                <!-- BOTONES -->
-                <div class="options-row">
-                    <div class="option-btn entrada" id="checkInBtn">
-                        <div class="option-title">Entrada</div>
-                    </div>
-
-                    <div class="option-btn salida" id="checkOutBtn">
-                        <div class="option-title">Salida</div>
+            <!-- STEP 2 -->
+            <div class="step d-none" id="step-2">
+                <div class="card shadow-sm mb-3 border">
+                    <div class="card-body">
+                        <!-- HEADER EMPLEADO -->
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div id="avatarInitials"
+                                class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                                style="width:48px;height:48px;font-weight:600;">
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold" id="employeeName"></h6>
+                                <small class="text-muted" id="employeeCategory"></small>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- DETALLES -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-muted small">DNI</div>
+                                <div class="fw-semibold" id="employeeDni"></div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-muted small">Área de trabajo</div>
+                                <div class="fw-semibold" id="employeeWorkArea"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
+                <p class="text-muted small mb-3">
+                    Verifica tus datos
+                </p>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-success" id="confirmBtn">
+                        Confirmar
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="changeCodeBtn">
+                        Regresar
+                    </button>
+                </div>
             </div>
 
-            <button type="button" class="btn-secondary" id="backStep2Btn">
-                Volver
-            </button>
-
-            <div class="time-display" id="currentTime"></div>
         </div>
-
     </div>
 </div>
 
