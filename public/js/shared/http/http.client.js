@@ -43,10 +43,36 @@ async function request(endpoint, options = {}) {
     }
 }
 
+async function requestBlob(endpoint, options = {}) {
+    const token = authService.getToken();
+    try {
+        const res = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers: {
+                ...(token && { Authorization: `Bearer ${token}` }),
+                ...options.headers
+            }
+        });
+
+        if (!res.ok) {
+            throw new Error('Error descargando archivo');
+        }
+
+        return await res.blob();
+
+    } catch (err) {
+        if (err instanceof Error && err.message !== 'Error descargando archivo') {
+            throw err;
+        }
+        throw new Error('No se pudo conectar con el servidor');
+    }
+}
+
 export const api = {
-    get:    (url)       => request(url),
-    post:   (url, body) => request(url, { method: 'POST', body: JSON.stringify(body) }),
-    put:    (url, body) => request(url, { method: 'PUT', body: JSON.stringify(body) }),
-    patch:  (url, body) => request(url, { method: 'PATCH', body: JSON.stringify(body) }),
-    delete: (url)       => request(url, { method: 'DELETE' }),
+    get:     (url)       => request(url),
+    post:    (url, body) => request(url, { method: 'POST', body: JSON.stringify(body) }),
+    put:     (url, body) => request(url, { method: 'PUT', body: JSON.stringify(body) }),
+    patch:   (url, body) => request(url, { method: 'PATCH', body: JSON.stringify(body) }),
+    delete:  (url)       => request(url, { method: 'DELETE' }),
+    getBlob: (url)       => requestBlob(url), 
 };
