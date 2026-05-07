@@ -3,190 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil - Sistema de Asistencia</title>
+    <title>Actualizar Cuenta</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/form.style.css">
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/update_profile.style.css">
 </head>
+
 <body>
     <div class="container">
-        <div class="header">
-            <h1 class="title">Editar perfil</h1>
-            <p class="subtitle">Actualiza tu información</p>
-            
-            <div class="step-indicator">
-                <div class="step-dot active"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
+        <div class="form-card">
+            <div class="header">
+                <h1 class="title">Actualizar Perfil</h1>
+                <p class="subtitle">Edita información personal</p>
             </div>
-        </div>
-        
-        <div> 
-            <div class="alert" id="alert"></div>
-            
-            <!-- step 1 -->
-            <div class="step active" id="step-1">
+            <form id="updateForm" novalidate>
+                <!-- Alert -->
+            <div id="alert" class="alert d-none" role="alert"></div>
 
-                <div class="form-group">
-                    <label for="code">DNI de empleado</label>
-                    <input 
-                        type="text" 
-                        id="code" 
-                        readonly
-                    >
-                    <span class="helper-text">El DNI no se puede cambiar</span>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-3">
                         <label for="name">Nombres</label>
+                    </div>   
+
+                    <div class="col-md-9">
                         <input 
-                            type="text" 
-                            id="name" 
-                            placeholder="Tu nombre"
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Ingresa nombres"
+                            autocomplete="off"
                             required
                         >
                     </div>
-                    
-                    <div class="form-group">
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-3">
                         <label for="lastName">Apellidos</label>
-                        <input 
-                            type="text" 
-                            id="lastName" 
-                            placeholder="Tu apellido"
-                            required
-                        >
+                    </div>   
+
+                    <div class="col-md-9">
+                        <input type="text" id="lastName" name="lastName" placeholder="Ingresa apellidos" autocomplete="off" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="category">Categoría</label>
-                    <select id="category" required>
-                        <option value="Trabajador Planilla" selected>Trabajador planilla</option>
-                        <option value="Personal Habitual">Personal habitual</option>
-                        <option value="Practicante">Practicante</option>
-                        <option value="otro">Otro</option>
-                    </select>
-                </div>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-3">
+                        <label for="dni">DNI</label>
+                    </div>   
 
-                <div class="form-group category-extra" id="categoryExtra">
-                    <label for="categoryOther">
-                        Especifica la categoría <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="categoryOther" 
-                        name="categoryOther"
-                        placeholder="Describe tu categoría"
-                        maxlength="50"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="workArea">Área de trabajo</label>
-                    <select id="workArea" name="workArea" required>
-                        <option value="">Selecciona un área</option>
-                        <option value="Administración">Administración</option>
-                        <option value="Recursos Humanos">Recursos Humanos</option>
-                        <option value="Restaurante">Restaurante</option>
-                        <option value="otro">Otro</option>
-                    </select>
-                </div>
-
-                <div class="form-group category-extra" id="workAreaExtra">
-                    <label for="workAreaOther">
-                        Especifica el área
-                    </label>
-                    <input 
-                        type="text" 
-                        id="workAreaOther" 
-                        name="workAreaOther"
-                        placeholder="Describe el área"
-                        maxlength="50"
-                    >
-                </div>
-
-                <button type="button" class="btn-primary" id="confirmChanges">
-                    Continuar
-                </button>
-
-                <button type="button" class="btn-secondary" id="backBtn">
-                    Cancelar
-                </button>
-            </div>
-
-            <!-- step 2 -->
-            <div class="step" id="step-2">
-
-                <div class="security-info">
-                    <div class="icon-lock">🔒</div>
-                    <strong>Verificación requerida</strong>
-                    Este campo solo lo conoce el personal de seguridad. Dirígete a seguridad para obtenerlo.
-                </div>
-
-                <div class="form-group">
-                    <label for="securityCode">
-                        Código de seguridad</label>
-                    <input 
-                        type="password" 
-                        id="securityCode" 
-                        placeholder="Código proporcionado por seguridad"
-                        autocomplete="off"
-                        required
-                    >
-                    <span class="helper-text">Solicita este código al personal de seguridad</span>
-                </div>
-
-                <button type="button" class="btn-primary" id="verifySecurityCodeBtn">
-                    Verificar
-                </button>
-
-                <button type="button" class="btn-secondary" id="backToStep1">
-                    Volver
-                </button>
-            </div>
-
-            <!-- step 3 -->
-            <div class="step" id="step-3">
-
-                <div style="text-align: center; margin: 2rem 0;">
-                    <div style="font-size: 48px; margin-bottom: 1rem;">✓</div>
-                    <h3 style="margin-bottom: 0.5rem; font-weight: 600;">Identidad verificada</h3>
-                    <p style="color: var(--muted); font-size: 0.95rem;">
-                        Revisa los cambios a realizar
-                    </p>
-                </div>
-
-                <div class="summary-section">
-                    <div class="summary-title">Cambios a guardar</div>
-                    <div class="summary-item">
-                        <span class="summary-label">Nombres:</span>
-                        <span class="summary-value" id="summaryName">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Apellidos:</span>
-                        <span class="summary-value" id="summaryLastName">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Categoría:</span>
-                        <span class="summary-value" id="summaryCategory">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Área de trabajo:</span>
-                        <span class="summary-value" id="summaryWorkArea">-</span>
+                    <div class="col-md-9">
+                        <input type="text" id="dni" name="dni" placeholder="Ingresa DNI" maxlength="8" autocomplete="off" required>
                     </div>
                 </div>
 
-                <button type="button" class="btn-primary" id="submitDataBtn">
-                    Guardar cambios
-                </button>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-3">
+                        <label for="code">Código</label>
+                    </div>   
 
-                <button type="button" class="btn-secondary" id="goBackToStep1">
-                    Cancelar
-                </button>
-            </div>
+                    <div class="col-md-9">
+                        <input type="text" id="code" name="code" placeholder="Ingresa código de entrada" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-3">
+                        <label for="category">Categoría</label>
+                    </div>
+
+                    <div class="col-md-9">
+                        <select id="category" name="category" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="Trabajador Planilla">Trabajador planilla</option>
+                            <option value="Personal Habitual">Personal habitual</option>
+                            <option value="Practicante">Practicante</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-3">
+                        <label for="workArea">Área de trabajo</label>
+                    </div>
+
+                    <div class="col-md-9">
+                        <select id="workArea" name="workArea" required>
+                            <option value="">Selecciona un área</option>
+                            <option value="Administración">Administración</option>
+                            <option value="Recursos Humanos">Recursos Humanos</option>
+                            <option value="Restaurante">Restaurante</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="button" class="btn btn-secondary" id="backBtn">
+                        Volver
+                    </button>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        Actualizar
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
-
-    <script type="module" src="/js/users/ui/users_UpdateProfile.controller.js"></script>
+    <script type="module" src="/js/users/ui/update_user.controller.js"></script>
 </body>
 </html>
