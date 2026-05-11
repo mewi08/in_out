@@ -1,8 +1,7 @@
 const { AttendanceService } = require('./app/attendance.service');
 const { Response } = require('../../shared/core/http/response');
 const { generateExcel } = require('../../shared/utils/excel');
-const logger = require('../../shared/infrastructure/logger');
-const { parse } = require('dotenv');
+const { logger, logError} = require('../../shared/infrastructure/logger');
 
 async function create(req, res) {
     try {
@@ -11,7 +10,7 @@ async function create(req, res) {
         logger.info(`Movimiento registrado para usuario ${code}: ${record.message}`);
         return Response.sendCreated(res, record);
     } catch (error) {
-        logger.error('Error en create attendance', error);
+        logError('Error en create attendance', error);
         return Response.sendError(res, error);
     }
 }
@@ -21,7 +20,7 @@ async function getTodayHours(req, res) {
         const hours = await AttendanceService.getTodayHours(req.params.user_id);
         return Response.sendSuccess(res, hours);
     } catch (error) {
-        logger.error(`Error en getTodayHours (${req.params.user_id})`, error);
+        logError(`Error en getTodayHours (${req.params.user_id})`, error);
         return Response.sendError(res, error);
     }
 }
@@ -32,7 +31,7 @@ async function getTodayStatus(req, res) {
         const status = await AttendanceService.getTodayStatus(user_id);
         return Response.sendSuccess(res, status);
     } catch (error) {
-        logger.error(`Error en getTodayStatus (${req.params.user_id})`, error);
+        logError(`Error en getTodayStatus (${req.params.user_id})`, error);
         return Response.sendError(res, error);
     }
 }
@@ -43,7 +42,7 @@ async function getAttendanceReport(req, res) {
         const report = await AttendanceService.getAttendanceReport(page);
         return Response.sendSuccess(res, report);
     } catch (error) {
-        logger.error('Error en getAttendanceReport', error);
+        logError('Error en getAttendanceReport', error);
         return Response.sendError(res, error);
     }
 }
@@ -64,7 +63,7 @@ async function exportByUser(req, res) {
                 `asistencia_${user.dni}_${startDate}_${endDate}.xlsx`
         });
     } catch (error) {
-        logger.error('Error en exportByUser', error);
+        logError('Error en exportByUser', error);
         return Response.sendError(res, error);
     }
 }
@@ -81,7 +80,7 @@ async function exportAll(req, res) {
             filename: `asistencia_general_${startDate}_${endDate}.xlsx`
         });
     } catch (error) {
-        logger.error('Error en exportAll', error);
+        logError('Error en exportAll', error);
         return Response.sendError(res, error);
     }
 }
