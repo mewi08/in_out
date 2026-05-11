@@ -141,7 +141,7 @@ Database
 
 ---
 
-# Tecnologías Utilizadas
+# Technologies
 
 | Layer | Technology |
 |-------|-----------|
