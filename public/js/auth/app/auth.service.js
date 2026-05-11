@@ -18,10 +18,13 @@ export const authService = {
     },
 
     async login(code){
-        const res = await api.post('/auth/login', code);
-        if(!res.success) throw new Error(res.message);
-        return res;
-    },
+    const res = await api.post('/auth/login', { code });
+
+    if(!res.success)throw new Error(res.message);
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    return res.data;
+},
 
     logout() {
         localStorage.removeItem('token');

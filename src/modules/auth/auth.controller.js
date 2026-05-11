@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { Response } = require('../../shared/core/http/response');
 const pool = require('../../shared/infrastructure/database');
-const logger = require('../../shared/infrastructure/logger');
+const {logger, logError} = require('../../shared/infrastructure/logger');
 const { AppError } = require('../../shared/core/error/appError');
 
 async function login(req, res) {
@@ -16,14 +16,18 @@ async function login(req, res) {
         const [rows] = await pool.query(`
             SELECT id, name, last_name, role, is_active
             FROM users
-            WHERE code = ? AND is_active = 1`, 
+            WHERE code = ?`, 
             [code]
         );
 
         const user = rows[0];
 
         if (!user) {
-            throw new AppError('Código inválido o usuario inactivo', 404);
+            throw new AppError('Código inválido', 404);
+        }
+
+        if(!user.is_active){
+            throw new AppError('Usuario inactivo', 403);
         }
 
         if(user.role !== 'admin'){
@@ -41,14 +45,18 @@ async function login(req, res) {
             { expiresIn: '8h' }
         );
 
-        return res.json({
-            success: true,
+        return Response.sendSuccess(res, {
             token,
-            user
+            user: {
+                id: user.id,
+                name: user.name,
+                last_name: user.last_name,
+                role: user.role
+            }
         });
 
     }catch(error){
-        logger.error('Error en login', error)
+        logError('Error en login', error)
         return Response.sendError(res, error);
     }
 }

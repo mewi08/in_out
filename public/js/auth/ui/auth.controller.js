@@ -28,24 +28,25 @@ form.addEventListener('submit', async (e) => {
         return;
     }
     setLoading(submitBtn, true);
-    try{
-        const res = await authService.login({ code });
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('user', JSON.stringify(res.user));
-        showAlert('Ingreso exitoso', 'success','alert');
+    try {
+        await authService.login(code);
+        showAlert('Ingreso exitoso','success','alert');
         autoHideAlert('alert');
         setTimeout(() => {
-            window.location.href = '/pages/admin/dashboard.html';
+            window.location.href =
+                '/pages/admin/dashboard.html';
         }, 800);
-    }catch(err){
+    } catch(err) {
         const isNetwork = err instanceof TypeError;
         showAlert(
-            isNetwork ? 'No se pudo conectar con el servidor' : err.message,
+            isNetwork
+                ? 'No se pudo conectar con el servidor'
+                : err.message,
             'danger',
             'alert'
         );
         autoHideAlert('alert');
-    }finally{
+    } finally {
         setLoading(submitBtn, false);
     }
 });
