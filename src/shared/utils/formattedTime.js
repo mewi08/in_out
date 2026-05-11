@@ -9,5 +9,22 @@ function formatWorkedTime(totalMinutes) {
         minutes: remainingMinutes
     };
 }
+function formatDateISO(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toISOString().split('T')[0]; // YYYY-MM-DD
+}
 
-module.exports = { formatWorkedTime };
+function formatTime24(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleTimeString('es-PE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    });
+}
+
+module.exports = { formatWorkedTime, formatDateISO, formatTime24 };
