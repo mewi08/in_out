@@ -6,12 +6,14 @@ import { authService } from '../../auth/app/auth.service.js';
 import { applyRolePermissions } from '../../shared/ui/admin.js';
 import { buildQuery } from '../../shared/utils/query.js';
 import { debounce } from '../../shared/utils/debounce.js';
+import { downloadFile } from '../../shared/utils/download.js';
 let users = [];
 
 const addUser = document.getElementById('newUserBtn');
 const clear = document.getElementById('clearFilters');
+const modalElement = document.getElementById('exportAttendanceModal');
+const exportModal = new bootstrap.Modal(modalElement);
 
-// ==== INIT ====
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
@@ -32,7 +34,6 @@ async function init() {
     });
 }
 
-// ==== LOAD ====
 async function loadUsers() {
     try {
         const filters = getFilters();
@@ -48,19 +49,18 @@ async function loadUsers() {
     }
 }
 
-// ==== RENDER ====
 function render() {
     renderTable(users, {
         onEdit: handleEdit,
         onToggle: handleToggle,
-        export: handleExport
+        onExport: handleExport
     });
     applyRolePermissions();
 }
 
-function handleExport(dni) {
-    console.log('Exportar asistencias para usuario:',dni);
-    //await attendanceService.exportByUser()
+function handleExport(userId) {
+    document.getElementById('exportUserId').value = userId;
+    exportModal.show();
 }
 
 function handleEdit(id) {
@@ -118,3 +118,39 @@ function clearFilters() {
         }
     });
 }
+
+async function exportAttendanceByUser() {
+    try {
+        const user_id =
+            document.getElementById('exportUserId').value;
+        const start =
+            document.getElementById('exportStartDate').value;
+        const end =
+            document.getElementById('exportEndDate').value;
+        if (!user_id || !start || !end) {
+            console.log('Please complete all fields.');
+            return;
+        }
+        const user = await userService.getUserById(user_id);
+        const blob =
+            await attendanceService.exportByUserUrl({
+                user_id,
+                startDate: start,
+                endDate: end
+            });
+        downloadFile(
+            blob,
+            `attendance_report_${user.dni}_${start}_to_${end}.xlsx`
+        );
+    } catch (error) {
+        console.error(
+            'Error exporting attendance by user:',
+            error
+        );
+    }
+}
+
+document.getElementById('confirmExportAttendance').addEventListener('click', async () => {
+    await exportAttendanceByUser();
+    exportModal.hide();
+});
