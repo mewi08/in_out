@@ -113,13 +113,14 @@ class UserService {
     }
 
     static async updateStatus(id, is_active) {
-        await this.#validateUserExists(id);
+        const user = await this.#validateUserExists(id);
         const affected = await UserRepository.updateStatus(id, is_active);
         if (!affected) {
             throw new AppError('No se pudo actualizar el estado', 400);
         };
         return {
-            id,
+            id: user.id,
+            dni: user.dni,
             is_active,
             message: `Usuario ${is_active ? 'activado' : 'desactivado'}`
         };
