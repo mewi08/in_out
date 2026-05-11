@@ -21,7 +21,7 @@ async function getAdminUsers(req, res) {
         logError('Error en getAdminUsers', error);
         return Response.sendError(res, error);
     }
-};
+}
 
 async function getPublicUsers(req, res) {
     try{
@@ -46,7 +46,7 @@ async function getPublicUsers(req, res) {
         logError('Error en getPublicUsers', error);
         return Response.sendError(res, error);
     };
-};
+}
 
 async function getStats(req, res) {
     try {
@@ -56,7 +56,7 @@ async function getStats(req, res) {
         logError('Error en getStats', error);
         return Response.sendError(res, error);
     };
-};
+}
 
 async function getById(req, res) {
     try {
@@ -66,17 +66,7 @@ async function getById(req, res) {
         logError(`Error en getById user (${req.params.id})`, error);
         return Response.sendError(res, error);
     };
-};
-
-async function getByDni(req, res) {
-    try {
-        const user = await UserService.getByDni(req.params.dni);
-        return Response.sendSuccess(res, user);
-    } catch (error) {
-        logError(`Error en getByDni user (${req.params.dni})`, error);
-        return Response.sendError(res, error);
-    };
-};
+}
 
 async function getByCode(req, res) {
     try{
@@ -86,7 +76,7 @@ async function getByCode(req, res) {
         logError(`Error en getByCode user (${req.params.code})`, error);
         return Response.sendError(res, error);
     };
-};
+}
 
 async function create(req, res) {
     try {
@@ -156,7 +146,6 @@ module.exports = {
     getPublicUsers,
     getStats,
     getById,
-    getByDni,
     getByCode,
     create,
     update,
