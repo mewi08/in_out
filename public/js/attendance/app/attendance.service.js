@@ -23,21 +23,21 @@ export const attendanceService = {
         return res.data;
     },
 
-    async getAttendanceReport(){
-        const res = await api.get('/attendance/daily-report');
+    async getAttendanceReport(page=1){
+        const res = await api.get(`/attendance/reports/daily?page=${page}`);
         if(!res.success) throw new Error(res.message);
         return res.data;
     },
 
     async exportAllUrl({ startDate, endDate }){
         return await api.getBlob( 
-            `/attendance/export?startDate=${startDate}&endDate=${endDate}`
+            `/attendance/reports/export?startDate=${startDate}&endDate=${endDate}`
         );
     },
 
-    async exportByUserUrl({ dni, startDate, endDate }) {
+    async exportByUserUrl({ user_id, startDate, endDate }) {
         return await api.getBlob( 
-            `/attendance/export/${dni}?startDate=${startDate}&endDate=${endDate}`
+            `/attendance/reports/export/${user_id}?startDate=${startDate}&endDate=${endDate}`
         );
     }
 };
