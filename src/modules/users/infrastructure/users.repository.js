@@ -84,7 +84,7 @@ class UserRepository{
 
     static async findById(id){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, code, is_active
+            `SELECT id, name, last_name, dni, category, work_area, code, role, is_active
             FROM users
             WHERE id = ? `,
             [id]
