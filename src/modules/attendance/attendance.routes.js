@@ -28,23 +28,25 @@ router.get(
 );
 
 router.get(
-    '/daily-report',
+    '/reports/daily',
     authMiddleware,
     requireAdmin,
     AttendanceController.getAttendanceReport
 );
 
 router.get(
-    '/export',
+    '/reports/export',
     authMiddleware,
     requireAdmin,
     AttendanceController.exportAll
 );
 
 router.get(
-    '/export/:dni',
+    '/reports/export/:user_id',
     authMiddleware,
     requireAdmin,
+    validateId('user_id'),
+    verifyExists('users', 'user_id'),
     AttendanceController.exportByUser
 );
 
