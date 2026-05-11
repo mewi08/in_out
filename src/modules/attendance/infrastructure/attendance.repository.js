@@ -2,7 +2,7 @@ const pool = require('../../../shared/infrastructure/database');
 
 class AttendanceRepository {
 
-    static async findAttendanceReport(){
+    static async findAttendanceReport(limit, offset) {
         const [rows] = await pool.query(
             `SELECT 
                 u.dni,
@@ -13,27 +13,30 @@ class AttendanceRepository {
                 MAX(CASE WHEN ar.type = 'check_out' THEN TIME(ar.time_stamp) END) AS salida
             FROM attendance_records ar
             INNER JOIN users u ON ar.user_id = u.id
-            GROUP BY u.id, u.dni, u.name, DATE(ar.time_stamp)
-            ORDER BY date DESC, u.dni ASC`
+            GROUP BY u.id, u.dni, u.name, u.last_name, DATE(ar.time_stamp)
+            ORDER BY date DESC, u.dni ASC
+            LIMIT ? OFFSET ?`,
+            [limit, offset]
         );
         return rows;
     }
 
-    static async findByUserAndRange(dni, startDate, endDate) {
+    static async findByUserAndRange(user_id, startDate, endDate) {
         const [rows] = await pool.query(
             `SELECT 
                 u.id as user_id,
                 u.dni,
                 u.name,
+                u.last_name,
                 ar.type,
                 ar.time_stamp
             FROM attendance_records ar
             INNER JOIN users u ON ar.user_id = u.id
-            WHERE u.dni = ?
+            WHERE u.id = ?
             AND ar.time_stamp >= ?
-            AND ar.time_stamp < ?
+            AND ar.time_stamp < DATE_ADD(?, INTERVAL 1 DAY)
             ORDER BY ar.time_stamp ASC`,
-            [dni, startDate, endDate]
+            [user_id, startDate, endDate]
         );
         return rows;
     }
@@ -44,12 +47,13 @@ class AttendanceRepository {
                 u.id as user_id,
                 u.dni,
                 u.name,
+                u.last_name,
                 ar.type,
                 ar.time_stamp
              FROM attendance_records ar
              INNER JOIN users u ON ar.user_id = u.id
              WHERE ar.time_stamp >= ?
-             AND ar.time_stamp < ?
+             AND ar.time_stamp < DATE_ADD(?, INTERVAL 1 DAY)
              ORDER BY u.id ASC, ar.time_stamp ASC`,
             [startDate, endDate]
         );
