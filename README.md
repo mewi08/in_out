@@ -2,59 +2,166 @@
 
 Web system for employee registration and entry/exit control with clean architecture.
 
-## Architecture
+---
+# Features
+
+- Employee attendance registration and control system.
+- 3-step attendance workflow with real-time validations.
+- User authentication and administration panel.
+- User management and activity logging system.
+- Export attendance records and reports.
+- Smart UI state management (button locking and validations).
+- Modular frontend and backend architecture.
+- Clean Architecture with services, controllers, and repositories.
+- Frontend-backend communication using Fetch API.
+- Responsive web interface built with Bootstrap 5.
+- Centralized error handling and modular separation.
+---
+
+# Architecture
+
+The project follows a Layered / Clean Architecture approach, separating responsibilities between presentation, business logic, domain, and data access layers.
+
+## Design Design Principles
+
+- Separation of Concerns
+- Repository Pattern
+- Service Layer Pattern
+- Modular Architecture
+- Centralized Error Handling
+
+El sistema está organizado en módulos independientes para facilitar el mantenimiento y escalabilidad.
+
+## Estructura General
 
 ```
-├── src/                        # REST API (Node.js + Express + MySQL)
+├── src/                            # REST API (Node.js + Express + MySQL)
 │   ├── modules/
-│   │   ├── users/              # Users module
-│   │   │   ├── app/            # Business logic (services)
-│   │   │   ├── domain/         # Models & validation rules
-│   │   │   ├── infrastructure/ # Repositories (DB queries)
+│   │   ├── users/                  # Users module
+│   │   │   ├── app/                # Business logic (services)
+│   │   │   ├── domain/             # Models & validation rules
+│   │   │   ├── infrastructure/     # Repositories (DB queries)
 │   │   │   ├── users.controller.js # Handles request 
-│   │   │   └── users.routes.js  #Endpoints
-│   │   ├── auth/               # Auth module
-│   │   └── attendance/         # Attendance module
+│   │   │   └── users.routes.js     # Endpoints
+│   │   ├── auth/                   # Auth module
+│   │   ├── activity_log/           # Activity Log module
+│   │   └── attendance/             # Attendance module
 │   ├── shared/
 │   │   ├───core/
-│   │   │    ├───error/         # Error handling
-│   │   │    └───http/          # HTTP responses 
-│   │   ├── infrastructure/     # DB connection, logger
-│   │   ├── middleware/         # Auth, validation, guards
-│   │   └── utils/              # Time formatting, generate Excel
-│   └── app.js                  # Express app setup
+│   │   │    ├───error/             # Error handling
+│   │   │    └───http/              # HTTP responses 
+│   │   ├── infrastructure/         # DB connection, logger
+│   │   ├── middleware/             # Auth, validation, guards
+│   │   └── utils/                  # Time formatting, generate Excel
+│   └── app.js                      # Express app setup
 │
-├── public/                     # Frontend (Vanilla JS)
-│   ├── Bootstrap               # Frontend framework (locally included assets)
+├── public/                         # Frontend (Vanilla JS)
+│   ├── Bootstrap                   # Frontend framework (locally included assets)
 │   ├── js/
 │   │   ├── users/
-│   │   │   ├── app/            # API service calls
-│   │   │   └── ui/             # DOM controllers
+│   │   │   ├── app/                # API service calls
+│   │   │   └── ui/                 # DOM controllers
+│   │   ├── activity_log/
+│   │   │   ├── app/
+│   │   │   └── ui/
+│   │   ├── admin/
+│   │   │   ├── app/
+│   │   │   └── ui/
+│   │   ├── auth/
+│   │   │   ├── app/
+│   │   │   └── ui/
 │   │   ├── attendance/
 │   │   │   ├── app/
 │   │   │   └── ui/
-│   │   ├── shared/             # Clock, HTTP client, UI helpers
-│   │   └── main.js             # Entry point
-│   └── css/                    # Per-page stylesheets
+│   │   ├── shared/                 # Clock, HTTP client, UI helpers
+│   │   └── main.js                 # Entry point
+│   └── css/                        # Per-page stylesheets
 │
-└── views/                      # HTML pages
+└── views/                          # HTML pages
     ├── pages/
     │   ├── users/
+    │   ├── admin/
     │   └── attendance/
+    ├── partials/
     └── index.html
 
 ```
 
-## Technologies
+---
+
+# Modules
+
+## Auth
+- Authentication.
+- Credential validation.
+- Route protection.
+
+---
+
+## Attendance
+
+- Check in / Check out workflow
+- Attendance validation
+- Daily reports
+- Export records
+
+---
+
+## Users
+- User management
+- Profile administration
+- Status control
+
+---
+
+## Activity Log
+- System activity tracking
+- Audit history
+
+---
+
+# Architecture Flow
+
+```text
+Frontend UI
+   ↓
+Frontend Controllers 
+   ↓
+HTTP Client
+   ↓
+Backend Routes
+   ↓
+Controllers
+   ↓
+Services
+   ↓
+Repositories
+   ↓
+Database
+```
+
+---
+
+# Tecnologías Utilizadas
 
 | Layer | Technology |
 |-------|-----------|
 | Backend | Node.js, Express, MySQL |
-| Frontend | Vanilla JavaScript, CSS3, Bootstrap (locally included) |
+| Frontend | Vanilla JavaScript, CSS3, Bootstrap 5 |
 | Architecture | Clean Architecture / Layered Architecture |
 
 
-## Installation
+# Installation
+
+## Requirements
+
+- Node.js v18+
+- MySQL Server
+- npm
+
+---
+
+# Instalación
 
 ```bash
 # Clone repository
@@ -65,7 +172,7 @@ cd [folder-name]
 npm install
 
 # Configure environment variables
-cp .env.example .env
+copy .env.example .env
 # Edit .env with your MySQL credentials
 
 # Create database and tables
@@ -78,29 +185,35 @@ npm run create-admin
 npm run dev
 
 ```
+---
 
-## Usage
+# Usage
 
-### 1. Employee Registration
-- Go to `/pages/users/register_profile.html`
-- Complete: Name, Last Name, DNI (8 digits), Category, Work Area, Code, Role (system)
+## Employee Registration
 
-### 2. Mark Attendance
-- Go to `/pages/attendance/register_attendance.html`
-- **Step 1**: 
-  - Click **Check In** → starts shift (locks button)
-  - Click **Check Out** → ends shift (locks button)
-- **Step 2**: 
-  - User enters personal code 
-  - System validates automatically
-- **Step 3**: 
-  - Displays user info
-  - Confirms attendance record
+Route:
 
+```text
+/pages/users/register_profile.html
+```
 
-## API Endpoints
+## Attendance Registration
 
-### Users
+Route:
+
+```text
+/pages/attendance/register_attendance.html
+```
+Workflow
+1. Select Check In or Check Out.
+2. Enter personal code.
+3. System validates and registers attendance.
+---
+
+# API Endpoints
+
+## Users
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/user` | Create user |
@@ -112,45 +225,50 @@ npm run dev
 | PUT | `/api/user/:id` | Update user |
 | PATCH | `/api/user/:id/status` | Change status |
 
-### Attendance
+---
+
+## Attendance
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/attendance` | Register check in/out |
 | GET | `/api/attendance/today-hours/:user_id` | Today’s hours |
 | GET | `/api/attendance/today-status/:user_id` | Current status |
-| GET | `/api/attendance/daily-report/` | Daily report |
-| GET | `/api/attendance/export/` | Export all records |
-| GET | `/api/attendance/export/:dni` | Export by user |
+| GET | `/api/attendance/daily-report` | Daily report |
+| GET | `/api/attendance/export` | Export all records |
+| GET | `/api/attendance/export/:user_id` | Export by user |
 
-### Attendance Request Body
-```json
-{
-  "code": "15",
-  "type": "check_in"
-}
-```
+---
 
-## Key Features
+## Activity Log
 
-- 3-step attendance workflow for intuitive tracking
-- Real-time validations (code, required fields)
-- Clean Architecture with modular separation
-- Centralized error handling system
-- Smart UI state management (button locking)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/activity-logs/recent` | Activity logs |
 
-## Validations
+---
 
-### Frontend
-- Code validation (format controlled) 
-- Required fields validation
-- UI state control (lock/unlock buttons)
+# Validaciones
 
-### Backend
-- Unique constraint on user code
-- Prevent check-out without check-in
-- Prevent duplicate check-ins
+## Frontend
 
-## Environment Variables (.env)
+- Validación de formularios.
+- Control de estados UI.
+- Bloqueo de botones.
+- Validación de código.
+- Validación de campos requeridos.
+
+## Backend
+
+- Código único por usuario.
+- Prevención de check-out sin check-in.
+- Prevención de registros duplicados.
+- Manejo centralizado de errores.
+- Validación de autenticación.
+
+---
+
+# Variables de Entorno
 
 ```env
 # Servidor
@@ -177,6 +295,26 @@ ADMIN_WORK_AREA=
 ADMIN_CODE=
 ADMIN_ROLE=
 ```
+
+---
+
+# Security
+- Authentication middleware
+- Protected routes
+- Centralized HTTP responses
+- Access validation
+
+---
+
+# Scalability
+The modular architecture allows:
+
+- Easy addition of new modules
+- Reusable components
+- Cleaner maintenance
+- Better scalability
+
+---
 
 ## License
 
