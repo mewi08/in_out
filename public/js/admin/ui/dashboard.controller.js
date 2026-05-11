@@ -4,6 +4,7 @@ import { loadPartial, renderFooter, setActiveSidebar } from '../../shared/ui/par
 import { applyRolePermissions } from '../../shared/ui/admin.js';
 import { updateStats} from '../../users/ui/user.table.js';
 import { userService } from '../../users/app/users.service.js';
+import { loadActivities } from '../../activity_log/ui/activity_log.render.js';
 let stats = [];
 // ==== ELEMENTS DOM ====
 const user = document.getElementById('user');
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
     applyRolePermissions();
     renderFooter();
     loadStats();
+    await loadActivities();
 })
 
 // ==== EVENT LISTENER ====
