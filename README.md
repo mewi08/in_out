@@ -71,6 +71,9 @@ cp .env.example .env
 # Create database and tables
 npm run db:setup
 
+# Create admin
+npm run create-admin
+
 # Start server
 npm run dev
 
@@ -150,11 +153,29 @@ npm run dev
 ## Environment Variables (.env)
 
 ```env
+# Servidor
 PORT=
+NODE_ENV=
+
+# Base de datos
 DB_HOST=
+DB_PORT=
 DB_USER=
 DB_PASSWORD=
 DB_NAME=
+
+# JWT
+JWT_SECRET=
+JWT_EXPIRES_IN=
+
+# Administrador
+ADMIN_NAME=
+ADMIN_LAST_NAME=
+ADMIN_DNI=
+ADMIN_CATEGORY=
+ADMIN_WORK_AREA=
+ADMIN_CODE=
+ADMIN_ROLE=
 ```
 
 ## License
