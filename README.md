@@ -220,7 +220,6 @@ Workflow
 | GET | `/api/user/private` | All users |
 | GET | `/api/user/stats` | User statistics |
 | GET | `/api/user/code/:code` | Search by code |
-| GET | `/api/user/dni/:dni` | Search by DNI |
 | PUT | `/api/user/:id` | Update user |
 | PATCH | `/api/user/:id/status` | Change status |
 
