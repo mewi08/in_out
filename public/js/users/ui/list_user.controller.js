@@ -13,7 +13,7 @@ const addUser = document.getElementById('newUserBtn');
 const clear = document.getElementById('clearFilters');
 const modalElement = document.getElementById('exportAttendanceModal');
 const exportModal = new bootstrap.Modal(modalElement);
-
+let currentPage = 1;
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
@@ -21,8 +21,9 @@ async function init() {
     renderFooter();
     applyRolePermissions();
     setActiveSidebar('usuarios');
-    await loadUsers();
+    await loadUsers(currentPage);
     setupFilters();
+    initPagination();
 
     addUser.addEventListener('click',()=>{
         window.location.href = '/pages/users/register_profile.html';
@@ -30,11 +31,25 @@ async function init() {
 
     clear.addEventListener('click',()=>{
         clearFilters();
-        loadUsers();
+        loadUsers(currentPage);
     });
 }
 
-async function loadUsers() {
+function initPagination() {
+    document.getElementById('nextBtn').addEventListener('click', async () => {
+        currentPage++;
+        await loadUsers(currentPage);
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', async () => {
+        if (currentPage > 1) {
+            currentPage--;
+            await loadUsers(currentPage);
+        }
+    });
+}
+
+async function loadUsers(page=1) {
     try {
         const filters = getFilters();
         const query = buildQuery(filters);
@@ -94,7 +109,8 @@ function getFilters() {
         status: getValue('filterStatus'),
         area: getValue('filterArea'),
         category: getValue('filterCategory'),
-        role: getValue('filterRole')
+        role: getValue('filterRole'),
+        page: currentPage
     };
 }
 
