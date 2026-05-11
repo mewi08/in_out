@@ -1,6 +1,6 @@
 /**
  * ACTIVITY_LOG — Application Service
- * Casos de uso: createRecord, getRecords.
+ * Casos de uso: getRecords.
  * Orquesta el dominio y los adaptadores; no conoce el DOM salvo redirects.
  */
 import {api} from '../../shared/http/http.client.js';
