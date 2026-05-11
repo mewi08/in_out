@@ -15,16 +15,6 @@ async function create(req, res) {
     }
 }
 
-async function getTodayHours(req, res) {
-    try {
-        const hours = await AttendanceService.getTodayHours(req.params.user_id);
-        return Response.sendSuccess(res, hours);
-    } catch (error) {
-        logError(`Error en getTodayHours (${req.params.user_id})`, error);
-        return Response.sendError(res, error);
-    }
-}
-
 async function getTodayStatus(req, res) {
     try {
         const { user_id } = req.params;
