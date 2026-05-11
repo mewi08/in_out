@@ -17,6 +17,7 @@ const code = document.getElementById('code');
 const last_name = document.getElementById('lastName');
 const categorySelect = document.getElementById('category');
 const workAreaSelect = document.getElementById('workArea');
+const role = document.getElementById('role');
 
 // ===== VARIABLES =====
 let currentEmployee = null;
@@ -70,6 +71,11 @@ function setEmployeeData(employee) {
     if (workAreaOptions.includes(employee.work_area)) {
         workAreaSelect.value = employee.work_area;
     }
+    const roleOptions =
+    Array.from(role.options).map(opt => opt.value);
+    if (roleOptions.includes(employee.role)) {
+        role.value = employee.role;
+    }
 }
 
 function getFormData() {
@@ -79,13 +85,14 @@ function getFormData() {
         dni: dni.value.trim(),
         code: code.value.trim(),
         category: categorySelect.value,
-        work_area: workAreaSelect.value
+        work_area: workAreaSelect.value,
+        role: role.value
     };
 }
 
 async function updateData() {
     clearAlert('alert');
-    setLoading(submitBtn, true);
+    setLoading(submit, true);
     const formdata = getFormData();
     try{
         await userService.updateUser(currentEmployee.id, formdata);
@@ -104,7 +111,7 @@ async function updateData() {
         );
         autoHideAlert('alert');
     }finally{
-        setLoading(submitBtn, false);
+        setLoading(submit, false);
     }
 }
 
