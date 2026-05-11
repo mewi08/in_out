@@ -41,7 +41,7 @@ form.addEventListener('submit', async (e) => {
         const isNetwork = err instanceof TypeError;
         showAlert(
             isNetwork ? 'No se pudo conectar con el servidor' : err.message,
-            'error',
+            'danger',
             'alert'
         );
         autoHideAlert('alert');
