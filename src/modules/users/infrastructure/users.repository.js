@@ -2,18 +2,28 @@ const pool = require('../../../shared/infrastructure/database');
 class UserRepository{
     
     static async find(filters = {}) {
+
         let query = `
             SELECT 
-                id, name, last_name, dni, category, work_area, role, code, is_active, created_at
+                id,
+                name,
+                last_name,
+                dni,
+                category,
+                work_area,
+                role,
+                code,
+                is_active,
+                created_at
             FROM users
             WHERE 1=1
         `;
 
         const params = [];
-
+        
         if (filters.is_active !== undefined) {
             query += ` AND is_active = ?`;
-            params.push(filters.is_active);
+            params.push(Number(filters.is_active));
         }
 
         if (filters.work_area) {
@@ -32,13 +42,31 @@ class UserRepository{
         }
 
         if (filters.search) {
-            query += ` AND (name LIKE ? OR last_name LIKE ? OR dni LIKE ?)`;
-            params.push(`%${filters.search}%`, `%${filters.search}%`, `%${filters.search}%`);
+            query += `
+                AND (
+                    name LIKE ?
+                    OR last_name LIKE ?
+                    OR dni LIKE ?
+                )
+            `;
+            params.push(
+                `%${filters.search}%`,
+                `%${filters.search}%`,
+                `%${filters.search}%`
+            );
         }
-
         query += ` ORDER BY created_at DESC`;
 
-        const [rows] = await pool.query(query, params);
+        // PAGINACIÓN
+        const page =
+            parseInt(filters.page) || 1;
+        const limit = 5;
+        const offset =
+            (page - 1) * limit;
+        query += ` LIMIT ? OFFSET ?`;
+        params.push(limit, offset);
+        const [rows] =
+            await pool.query(query, params);
         return rows;
     };
 
