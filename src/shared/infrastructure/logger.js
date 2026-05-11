@@ -26,6 +26,19 @@ if (process.env.NODE_ENV !== 'production'){
             winston.format.simple()
         )
     }));
+};
+
+function logError(context, error) {
+    const status =
+        error.statusCode ||
+        error.status ||
+        500;
+
+    if (status >= 500) {
+        logger.error(context, error);
+    } else {
+        logger.warn(`${context}: ${error.message}`);
+    }
 }
 
-module.exports = logger;
+module.exports = { logger, logError };
