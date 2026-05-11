@@ -135,7 +135,11 @@ async function updateStatus(req, res) {
             user_id: req.user.id,
             action: 'UPDATE_STATUS',
             description:
-                `Estado usuario actualizado -> ${is_active}`
+                `Usuario ${user.dni} fue ${
+                    is_active
+                        ? 'activado'
+                        : 'desactivado'
+                }`
         });
         logger.info(
             `Estado usuario actualizado: ${req.params.id} -> ${is_active}`
