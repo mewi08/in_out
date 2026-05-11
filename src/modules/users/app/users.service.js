@@ -11,14 +11,6 @@ class UserService {
         return user;
     }
 
-    static async #validateDniExists(dni){
-        const user = await UserRepository.findByDni(dni);
-        if(!user){
-            throw new AppError('Usuario no encontrado', 404);
-        }
-        return user;
-    }
-
     static async #ensureDniNotExists(dni){
         const user = await UserRepository.findByDni(dni);
         if(user){
@@ -54,10 +46,6 @@ class UserService {
 
     static async getStats(){
         return await UserRepository.getStats();
-    }
-    
-    static async getByDni(dni) {
-        return await this.#validateDniExists(dni);
     }
 
     static async getByCodeActive(code) {
