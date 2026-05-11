@@ -263,7 +263,7 @@ Workflow
 
 ---
 
-# Variables de Entorno
+# Environment Variables
 
 ```env
 # Servidor
