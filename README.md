@@ -22,7 +22,7 @@ Web system for employee registration and entry/exit control with clean architect
 
 The project follows a Layered / Clean Architecture approach, separating responsibilities between presentation, business logic, domain, and data access layers.
 
-## Design Design Principles
+## Design Principles
 
 - Separation of Concerns
 - Repository Pattern
@@ -30,9 +30,8 @@ The project follows a Layered / Clean Architecture approach, separating responsi
 - Modular Architecture
 - Centralized Error Handling
 
-El sistema está organizado en módulos independientes para facilitar el mantenimiento y escalabilidad.
 
-## Estructura General
+## Project Structure
 
 ```
 ├── src/                            # REST API (Node.js + Express + MySQL)
@@ -161,7 +160,7 @@ Database
 
 ---
 
-# Instalación
+# Setup
 
 ```bash
 # Clone repository
@@ -248,23 +247,19 @@ Workflow
 
 ---
 
-# Validaciones
+# Validationss
 
 ## Frontend
 
-- Validación de formularios.
-- Control de estados UI.
-- Bloqueo de botones.
-- Validación de código.
-- Validación de campos requeridos.
+- Form validation
+- UI state control
+- Required fields validation
 
 ## Backend
 
-- Código único por usuario.
-- Prevención de check-out sin check-in.
-- Prevención de registros duplicados.
-- Manejo centralizado de errores.
-- Validación de autenticación.
+- Unique user code
+- Prevent duplicate check-ins
+- Authentication validation
 
 ---
 
