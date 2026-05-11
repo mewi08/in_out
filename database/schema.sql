@@ -11,7 +11,7 @@ CREATE TABLE users(
     created_at		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at 		TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )ENGINE = InnoDB;
-            
+
 CREATE TABLE attendance_records(
 	id 				INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id			INT UNSIGNED NOT NULL,
@@ -22,15 +22,13 @@ CREATE TABLE attendance_records(
     FOREIGN KEY (user_id) REFERENCES users(id)
 )ENGINE = InnoDB;
 
-CREATE TABLE audit_log (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    table_name VARCHAR(50),
-    record_id INT UNSIGNED,
-    action ENUM('INSERT', 'UPDATE', 'DELETE'),
-    old_values JSON,
-    new_values JSON,
-    user_id INT UNSIGNED,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    FOREIGN KEY (user_id) REFERENCES users(id)
-) ENGINE = InnoDB;
+CREATE TABLE activity_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    user_id INT UNSIGNED NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+);
