@@ -15,6 +15,7 @@ app.use(express.static('views'));
 app.use('/api/user', require('./modules/users/users.routes'));
 app.use('/api/attendance', require('./modules/attendance/attendance.routes'));
 app.use('/api/auth', require('./modules/auth/auth.routes'));
+app.use('/api/activity-logs', require('./modules/activity_log/activity_log.routes'));
 
 app.get('/', (req, res)=>{
     res.redirect('/views/index.html');
