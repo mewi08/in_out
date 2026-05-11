@@ -26,7 +26,6 @@ class UserService {
         }
     }
 
-
     static async #validateCodeExists(code){
         const user = await UserRepository.findByCode(code);
         if(!user){
@@ -61,12 +60,8 @@ class UserService {
         return await this.#validateDniExists(dni);
     }
 
-    static async getByCode(code){
-        return await this.#validateCodeExists(code);
-    }
-    
     static async getByCodeActive(code) {
-        const user = await UserRepository.findByCode(code);
+        const user = await this.#validateCodeExists(code);
         if (!user) {
             throw new AppError('Usuario no encontrado', 404);
         }
