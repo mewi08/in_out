@@ -23,7 +23,7 @@ async function login(req, res) {
         const user = rows[0];
 
         if (!user) {
-            throw new AppError('Código inválido', 404);
+            throw new AppError('Usuario no encontrado', 404);
         }
 
         if(!user.is_active){
