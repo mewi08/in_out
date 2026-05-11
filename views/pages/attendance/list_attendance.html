@@ -48,62 +48,36 @@
                 <div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Exportar Asistencias</h5>
-
-                        <div class="row g-2">
-
                         <!-- BLOQUE LOTE -->
-                        <div class="col-lg-6">
                             <div class="border rounded p-3 h-100 d-flex flex-column">
-
                                 <h6 class="mb-3">Exportación en lote</h6>
 
-                                <div class="d-flex align-items-center mb-2">
-                                    <label class="me-2 mb-0" style="width: 90px;">Inicio</label>
-                                    <input type="date" class="form-control form-control-sm" id="fechaInicioAll">
+                                <div class="row mb-3">
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Inicio</label>
+                                        <input type="date"
+                                            class="form-control form-control-sm"
+                                            id="fechaInicioAll">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Fin</label>
+                                        <input type="date"
+                                            class="form-control form-control-sm"
+                                            id="fechaFinAll">
+                                    </div>
+
                                 </div>
 
-                                <div class="d-flex align-items-center mb-2">
-                                    <label class="me-2 mb-0" style="width: 90px;">Fin</label>
-                                    <input type="date" class="form-control form-control-sm" id="fechaFinAll">
-                                </div>
-
-                                <!-- ESTE EMPUJA EL BOTÓN ABAJO -->
-                                <div class="mt-auto">
-                                    <button class="btn btn-primary btn-sm w-100" id="exportAttendanceAll">
+                                <div>
+                                    <button class="btn btn-primary btn-sm w-100"
+                                            id="exportAttendanceAll">
                                         Exportar Lote
                                     </button>
                                 </div>
-
                             </div>
-                        </div>
 
-                        <!-- BLOQUE USUARIO -->
-                        <div class="col-lg-6">
-                            <div class="border rounded p-3 h-100">
-                                <h6 class="mb-3">Exportación por usuario</h6>
-
-                                <div class="d-flex align-items-center mb-2">
-                                    <label class="me-2 mb-0" style="width: 90px;">DNI</label>
-                                    <input type="text" class="form-control form-control-sm" id="dniInput" maxlength="8">
-                                </div>
-
-                                <div class="d-flex align-items-center mb-2">
-                                    <label class="me-2 mb-0" style="width: 90px;">Inicio</label>
-                                    <input type="date" class="form-control form-control-sm" id="fechaInicioUser">
-                                </div>
-
-                                <div class="d-flex align-items-center mb-2">
-                                    <label class="me-2 mb-0" style="width: 90px;">Fin</label>
-                                    <input type="date" class="form-control form-control-sm" id="fechaFinUser">
-                                </div>
-
-                                <button class="btn btn-secondary btn-sm w-100 mt-2" id="exportAttendanceByUser">
-                                    Exportar Usuario
-                                </button>
-                            </div>
-                        </div>
-
-                        </div>
                     </div>
                 </div>
 
@@ -140,6 +114,17 @@
                                 </tbody>
 
                             </table>
+                            <div class="d-flex justify-content-end gap-2 mt-3">
+                                <button
+                                    id="prevBtn"
+                                    class="btn btn-outline-primary btn-sm"
+                                >← Anterior</button>
+
+                                <button
+                                    id="nextBtn"
+                                    class="btn btn-outline-primary btn-sm"
+                                >Siguiente →</button>
+                            </div>
                         </div>
 
                     </div>
