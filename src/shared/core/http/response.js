@@ -12,12 +12,18 @@ class Response {
     }
 
     static sendError(res, error) {
-
-        const status = error.statusCode || error.status || 500;
-        const message = 
+        const status =
+            error.statusCode ||
+            error.status ||
+            500;
+        let message = error.message;
+        if (
             process.env.NODE_ENV === 'production'
-                ? 'Error interno del servidor'
-                : error.message;
+            && status === 500
+        ) {
+            message =
+                'Error interno del servidor';
+        }
         return res.status(status).json({
             success: false,
             error: message
