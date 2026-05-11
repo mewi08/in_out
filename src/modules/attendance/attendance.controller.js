@@ -77,7 +77,6 @@ async function exportAll(req, res) {
 
 module.exports = {
     create,
-    getTodayHours,
     getTodayStatus,
     getAttendanceReport,
     exportByUser,
