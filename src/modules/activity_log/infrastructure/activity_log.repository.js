@@ -28,7 +28,7 @@ class ActivityLogRepository {
         return result.insertId;
     }
 
-    static async findRecent(limit = 10) {
+    static async findRecent(limit = 5) {
         const [rows] = await pool.query(
             `
             SELECT
@@ -43,8 +43,7 @@ class ActivityLogRepository {
                 ON u.id = al.user_id
             ORDER BY al.created_at DESC
             LIMIT ?
-            `,
-            [limit]
+            `,[limit]
         );
 
         return rows;
