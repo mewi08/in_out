@@ -26,11 +26,6 @@ router.get(
 );    
 
 router.get(
-    '/dni/:dni', 
-    UserController.getByDni
-);
-
-router.get(
     '/code/:code', 
     UserController.getByCode
 );
