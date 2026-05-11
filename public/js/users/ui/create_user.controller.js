@@ -33,6 +33,7 @@ async function handleSubmit(e) {
     const code = document.getElementById('code').value.trim();
     const category = document.getElementById('category').value;
     const work_area = document.getElementById('workArea').value;
+    const role = document.getElementById('role').value;
     
     // ===== VALIDACIONES BÁSICAS =====
     if (!name) {
@@ -69,6 +70,10 @@ async function handleSubmit(e) {
         showError('Por favor selecciona el área de trabajo');
         return;
     }
+    if (!role) {
+        showError('Por favor selecciona el rol');
+        return;
+    }
 
     // ===== NORMALIZACIÓN FINAL =====
     const data = {
@@ -77,7 +82,8 @@ async function handleSubmit(e) {
         dni,
         category,
         work_area,
-        code
+        code,
+        role
     };
     setLoading(submitBtn, true);
     try {
