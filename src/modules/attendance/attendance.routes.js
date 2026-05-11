@@ -14,13 +14,6 @@ router.post(
 );
 
 router.get(
-    '/today-hours/:user_id', 
-    validateId('user_id'), 
-    verifyExists('users', 'user_id'), 
-    AttendanceController.getTodayHours
-);
-
-router.get(
     '/today-status/:user_id', 
     validateId('user_id'), 
     verifyExists('users','user_id'), 
