@@ -1,6 +1,6 @@
 const { UserService } = require('./app/users.service');
 const { Response } = require('../../shared/core/http/response');
-const logger = require('../../shared/infrastructure/logger');
+const {logger, logError} = require('../../shared/infrastructure/logger');
 const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 async function getAdminUsers(req, res) {
     try {
@@ -18,7 +18,7 @@ async function getAdminUsers(req, res) {
         const users = await UserService.getUsers(filters);
         return Response.sendSuccess(res, users);
     } catch (error) {
-        logger.error('Error en getAdminUsers', error);
+        logError('Error en getAdminUsers', error);
         return Response.sendError(res, error);
     }
 };
@@ -43,7 +43,7 @@ async function getPublicUsers(req, res) {
         }));
         return Response.sendSuccess(res, safeUsers);
     } catch (error) {
-        logger.error('Error en getPublicUsers', error);
+        logError('Error en getPublicUsers', error);
         return Response.sendError(res, error);
     };
 };
@@ -53,7 +53,7 @@ async function getStats(req, res) {
         const stats = await UserService.getStats();
         return Response.sendSuccess(res, stats);
     } catch (error) {
-        logger.error('Error en getStats', error);
+        logError('Error en getStats', error);
         return Response.sendError(res, error);
     };
 };
@@ -63,7 +63,7 @@ async function getById(req, res) {
         const user = await UserService.getById(req.params.id);
         return Response.sendSuccess(res, user);
     } catch (error) {
-        logger.error(`Error en getById user (${req.params.id})`, error);
+        logError(`Error en getById user (${req.params.id})`, error);
         return Response.sendError(res, error);
     };
 };
@@ -73,7 +73,7 @@ async function getByDni(req, res) {
         const user = await UserService.getByDni(req.params.dni);
         return Response.sendSuccess(res, user);
     } catch (error) {
-        logger.error(`Error en getByDni user (${req.params.dni})`, error);
+        logError(`Error en getByDni user (${req.params.dni})`, error);
         return Response.sendError(res, error);
     };
 };
@@ -83,7 +83,7 @@ async function getByCode(req, res) {
         const user = await UserService.getByCode(req.params.code);
         return Response.sendSuccess(res, user);
     }catch(error){
-        logger.error(`Error en getByCode user (${req.params.code})`, error);
+        logError(`Error en getByCode user (${req.params.code})`, error);
         return Response.sendError(res, error);
     };
 };
@@ -99,7 +99,7 @@ async function create(req, res) {
         });
         return Response.sendCreated(res, user);
     } catch (error) {
-        logger.error('Error en create user', error);
+        logError('Error en create user', error);
         return Response.sendError(res, error);
     }
 }
@@ -118,7 +118,7 @@ async function update(req, res) {
         });
         return Response.sendSuccess(res, user);
     } catch (error) {
-        logger.error(`Error en update user (${req.params.id})`, error);
+        logError(`Error en update user (${req.params.id})`, error);
         return Response.sendError(res, error);
     }
 }
@@ -146,10 +146,7 @@ async function updateStatus(req, res) {
         );
         return Response.sendSuccess(res, user);
     } catch (error) {
-        logger.error(
-            `Error en updateStatus user (${req.params.id})`,
-            error
-        );
+        logError(`Error en updateStatus user (${req.params.id})`, error);
         return Response.sendError(res, error);
     }
 }
