@@ -6,12 +6,13 @@ async function getAdminUsers(req, res) {
     try {
         const filters = {
             is_active: req.query.status !== undefined
-                ? Boolean(Number(req.query.status))
+                ? Number(req.query.status)
                 : undefined,
             work_area: req.query.area || undefined,
             category: req.query.category || undefined,
             role: req.query.role || undefined,
-            search: req.query.search || undefined
+            search: req.query.search || undefined,
+            page: req.query.page || 1
         };
 
         const users = await UserService.getUsers(filters);
@@ -27,7 +28,8 @@ async function getPublicUsers(req, res) {
         const filters = {
             is_active: 1, 
             search: req.query.search || undefined,
-            work_area: req.query.area || undefined
+            work_area: req.query.area || undefined,
+            page: req.query.page || 1
         };
 
         const users = await UserService.getUsers(filters);
