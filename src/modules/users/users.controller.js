@@ -1,7 +1,7 @@
 const { UserService } = require('./app/users.service');
 const { Response } = require('../../shared/core/http/response');
 const logger = require('../../shared/infrastructure/logger');
-
+const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 async function getAdminUsers(req, res) {
     try {
         const filters = {
@@ -92,37 +92,63 @@ async function create(req, res) {
     try {
         const user = await UserService.create(req.body);
         logger.info(`Usuario creado: ${user.dni}`);
-        return Response.sendCreated(res, user); 
+        await ActivityLogService.create({
+            user_id: req.user.id,
+            action: 'CREATE_USER',
+            description: `Usuario creado: ${user.dni}`
+        });
+        return Response.sendCreated(res, user);
     } catch (error) {
         logger.error('Error en create user', error);
         return Response.sendError(res, error);
-    };
-};
+    }
+}
 
 async function update(req, res) {
     try {
-        const user = await UserService.update(req.params.id, req.body);
+        const user = await UserService.update(
+            req.params.id,
+            req.body
+        );
         logger.info(`Usuario actualizado: ${req.params.id}`);
+        await ActivityLogService.create({
+            user_id: req.user.id,
+            action: 'UPDATE_USER',
+            description: `Usuario actualizado: ${user.dni}`
+        });
         return Response.sendSuccess(res, user);
     } catch (error) {
         logger.error(`Error en update user (${req.params.id})`, error);
         return Response.sendError(res, error);
-    };
-};
+    }
+}
 
 async function updateStatus(req, res) {
     try {
         const { is_active } = req.body;
-
-        const user = await UserService.updateStatus(req.params.id, is_active);
-
-        logger.info(`Estado usuario actualizado: ${req.params.id} -> ${is_active}`);
+        const user =
+            await UserService.updateStatus(
+                req.params.id,
+                is_active
+            );
+        await ActivityLogService.create({
+            user_id: req.user.id,
+            action: 'UPDATE_STATUS',
+            description:
+                `Estado usuario actualizado -> ${is_active}`
+        });
+        logger.info(
+            `Estado usuario actualizado: ${req.params.id} -> ${is_active}`
+        );
         return Response.sendSuccess(res, user);
     } catch (error) {
-        logger.error(`Error en updateStatus user (${req.params.id})`, error);
+        logger.error(
+            `Error en updateStatus user (${req.params.id})`,
+            error
+        );
         return Response.sendError(res, error);
-    };
-};
+    }
+}
 
 module.exports = {
     getAdminUsers,
