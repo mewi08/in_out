@@ -103,7 +103,7 @@
 
                             <!-- Nuevo -->
                             <button class="btn btn-primary" id="newUserBtn" data-admin>
-                                + Agregar Usuario
+                                + Usuario
                             </button>
 
                         </div>
@@ -160,7 +160,60 @@
 
 </div>
 
+<!-- MODAL EXPORTAR ASISTENCIA -->
+<div class="modal fade" id="exportAttendanceModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Exportar asistencias
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+            <!-- BODY -->
+            <div class="modal-body">
+                <!-- usuario -->
+                <input type="hidden" id="exportUserId">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">
+                            Fecha inicio
+                        </label>
+                        <input type="date"
+                            class="form-control"
+                            id="exportStartDate">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">
+                            Fecha fin
+                        </label>
+                        <input type="date"
+                            class="form-control"
+                            id="exportEndDate">
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button"
+                        class="btn btn-primary"
+                        id="confirmExportAttendance">
+                    Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="module" src="/js/users/ui/list_user.controller.js"></script>
-
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
