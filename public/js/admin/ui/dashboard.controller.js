@@ -7,7 +7,7 @@ import { userService } from '../../users/app/users.service.js';
 let stats = [];
 // ==== ELEMENTS DOM ====
 const user = document.getElementById('user');
-const wh = document.getElementById('workingHours');
+const attendance = document.getElementById('attendance');
 
 // ==== INIT ====
 document.addEventListener('DOMContentLoaded', async()=>{
@@ -25,8 +25,8 @@ user.addEventListener('click',()=>{
     window.location.href = '/pages/users/list_users.html';
 });
 
-wh.addEventListener('click',()=>{
-    window.location.href = '/pages/users/working_hours';
+attendance.addEventListener('click',()=>{
+    window.location.href = '/pages/attendance/list_attendance.html';
 })
 
 // ==== FUNCTIONS ====
