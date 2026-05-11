@@ -80,7 +80,7 @@ async function getByDni(req, res) {
 
 async function getByCode(req, res) {
     try{
-        const user = await UserService.getByCode(req.params.code);
+        const user = await UserService.getByCodeActive(req.params.code);
         return Response.sendSuccess(res, user);
     }catch(error){
         logError(`Error en getByCode user (${req.params.code})`, error);
