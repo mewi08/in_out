@@ -50,9 +50,6 @@ class UserService {
 
     static async getByCodeActive(code) {
         const user = await this.#validateCodeExists(code);
-        if (!user) {
-            throw new AppError('Usuario no encontrado', 404);
-        }
         if (!user.is_active) {
             throw new AppError('Usuario inactivo', 400);
         }
