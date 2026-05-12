@@ -29,9 +29,10 @@ async function init() {
         window.location.href = '/pages/users/register_profile.html';
     });
 
-    clear.addEventListener('click',()=>{
+    clear.addEventListener('click', async ()=>{
+        currentPage = 1;
         clearFilters();
-        loadUsers(currentPage);
+        await loadUsers(currentPage);
     });
 }
 
