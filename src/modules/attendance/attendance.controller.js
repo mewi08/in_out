@@ -2,7 +2,7 @@ const { AttendanceService } = require('./app/attendance.service');
 const { Response } = require('../../shared/core/http/response');
 const { generateExcel } = require('../../shared/utils/excel');
 const { logger, logError} = require('../../shared/infrastructure/logger');
-
+const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 async function create(req, res) {
     try {
         const { code, type } = req.body;
@@ -46,6 +46,11 @@ async function exportByUser(req, res) {
             startDate,
             endDate
         );
+        await ActivityLogService.create({
+            user_id: req.user.id,
+            action: 'export_attendance_by_user',
+            description: `Exportó asistencia desde ${startDate} hasta ${endDate} para el usuario (${user.dni})`
+        });
         await generateExcel(rows, res, {
             mode: 'user',
             user,
@@ -65,6 +70,11 @@ async function exportAll(req, res) {
             startDate,
             endDate
         );
+        await ActivityLogService.create({
+            user_id: req.user.id,
+            action: 'export_attendance_all',
+            description: `Exportó asistencia general desde ${startDate} hasta ${endDate}`
+        });
         await generateExcel(rows, res, {
             mode: 'batch',
             filename: `asistencia_general_${startDate}_${endDate}.xlsx`
