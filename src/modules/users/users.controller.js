@@ -29,6 +29,7 @@ async function getPublicUsers(req, res) {
             is_active: 1, 
             search: req.query.search || undefined,
             work_area: req.query.area || undefined,
+            category: req.query.category || undefined,
             page: req.query.page || 1
         };
 
