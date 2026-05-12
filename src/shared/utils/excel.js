@@ -12,7 +12,7 @@ async function generateExcel(rows, res, options = {}) {
     const sheet = workbook.addWorksheet('Asistencia');
 
     const COLORS = {
-        accent: 'D63384',
+        accent: '87EAF5',
         bg: 'FAF9F7',
         border: 'EDE9E4',
         text: '1A1A1F',
@@ -110,8 +110,29 @@ async function generateExcel(rows, res, options = {}) {
         ];
     }
 
-    rows.forEach((rowData) => {
-        sheet.addRow(rowData);
+    rows.forEach((rowData, index) => {
+        const row = sheet.addRow(rowData);
+        const isEven = index % 2 === 0;
+        row.eachCell((cell) => {
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: {
+                    argb: isEven ? 'FFFFFF' : 'F3F4F6'
+                }
+            };
+            cell.font = {
+                name: 'DM Sans',
+                size: 10,
+                color: { argb: '1A1A1F' }
+            };
+            cell.border = {
+                bottom: {
+                    style: 'thin',
+                    color: { argb: 'EDE9E4' }
+                }
+            };
+        });
     });
 
     const headerRow = sheet.getRow(headerRowNumber);
