@@ -101,14 +101,11 @@ async function updateData() {
             resetAndGoHome();
         }, 1000);
     }catch(err){
-        const isNetwork = err instanceof TypeError;
-        showAlert(
-            isNetwork
-                ? 'No se pudo conectar con el servidor'
-                : err.message, 
-            'danger', 
-            'alert'
-        );
+        const type = 
+            err.status >= 500
+            ? 'danger'
+            : 'warning';
+        showAlert(err.message, type, 'alert');
         autoHideAlert('alert');
     }finally{
         setLoading(submit, false);
