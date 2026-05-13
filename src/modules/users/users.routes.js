@@ -4,8 +4,9 @@ const router = express.Router();
 const UserController = require('./users.controller');
 const {validateId} = require('../../shared/middleware/param.middleware');
 const {verifyExists} = require('../../shared/middleware/exists.middleware');
-const {validateInfo, validateStatus} = require('../users/domain/users.validator');
+const {validate} = require('../../shared/middleware/validate.middleware');
 const {authMiddleware, requireAdmin} = require('../../shared/middleware/auth.middleware');
+const {userSchema, statusSchema} = require('./schemas/users.schema');
 
 router.get(
     '/public',
@@ -40,28 +41,28 @@ router.get(
 router.post(
     '/', 
     authMiddleware,  
-    validateInfo, 
     requireAdmin, 
+    validate(userSchema), 
     UserController.create
 );
 
 router.put(
     '/:id', 
     authMiddleware,
+    requireAdmin,
     validateId(), 
     verifyExists('users'), 
-    validateInfo,     
-    requireAdmin, 
+    validate(userSchema),
     UserController.update
 );
 
 router.patch(
     '/:id/status', 
     authMiddleware,
+    requireAdmin, 
     validateId(), 
     verifyExists('users'),
-    validateStatus,
-    requireAdmin,  
+    validate(statusSchema),
     UserController.updateStatus
 );
 
