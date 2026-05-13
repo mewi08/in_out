@@ -1,7 +1,8 @@
 const express = require ('express');
 const helmet = require('helmet');
 const app = express();
-const logger = require('./shared/infrastructure/logger');
+const {logError} = require('./shared/infrastructure/logger');
+const { Response } = require('./shared/core/http/response');
 require('./shared/infrastructure/database');
 
 app.use(express.json());
@@ -20,14 +21,18 @@ app.use('/api/activity-logs', require('./modules/activity_log/activity_log.route
 app.get('/', (req, res)=>{
     res.redirect('/views/index.html');
 })
-app.use((req, res)=>{
-    res.status(404).json({ error: 'Ruta no encontrada' })
+
+app.use((req, res, next) => {
+    const error = new Error('Ruta no encontrada');
+    error.statusCode = 404;
+    next(error);
 });
 
 // Error global
 app.use((err, req, res, next) => {
-    logger.error(`Error no manejado: ${err.stack}`);
-    res.status(500).json({ success: false, error: 'Error interno del servidor' });
+    logError('Unhandled error:', err);
+    return Response.sendError(res, err);
 });
+
 
 module.exports = app;
