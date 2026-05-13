@@ -36,10 +36,11 @@ async function request(endpoint, options = {}) {
         return data;
 
     } catch (err) {
-        if (err instanceof Error && err.message !== 'Error del servidor') {
-            throw err;
+        if (err instanceof TypeError) {
+            throw new Error('No se pudo conectar con el servidor');
         }
-        throw new Error('No se pudo conectar con el servidor');
+
+        throw err;
     }
 }
 
