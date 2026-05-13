@@ -29,15 +29,17 @@ if (process.env.NODE_ENV !== 'production'){
 };
 
 function logError(context, error) {
-    const status =
-        error.statusCode ||
-        error.status ||
-        500;
-
+    const isObject = error && typeof error === 'object';
+    const status = isObject
+        ? (error.statusCode || error.status || 500)
+        : 500;
+    const message = isObject
+        ? error.message
+        : String(error);
     if (status >= 500) {
         logger.error(context, error);
     } else {
-        logger.warn(`${context}: ${error.message}`);
+        logger.warn(`${context}: ${message}`);
     }
 }
 
