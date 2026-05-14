@@ -9,7 +9,7 @@ async function getAdminUsers(req, res, next) {
             is_active: req.query.status !== undefined
                 ? Number(req.query.status)
                 : undefined,
-            work_area: req.query.area || undefined,
+            work_area_id: req.query.work_area_id  || undefined,
             category: req.query.category || undefined,
             role: req.query.role || undefined,
             search: req.query.search || undefined,
@@ -28,7 +28,7 @@ async function getPublicUsers(req, res, next) {
         const filters = {
             is_active: 1, 
             search: req.query.search || undefined,
-            work_area: req.query.area || undefined,
+            work_area_id: req.query.work_area_id  || undefined,
             category: req.query.category || undefined,
             page: req.query.page || 1
         };
@@ -39,7 +39,7 @@ async function getPublicUsers(req, res, next) {
             last_name: u.last_name,
             dni: u.dni,
             category: u.category,
-            work_area: u.work_area,
+            work_area_id: u.work_area_id,
             code: u.code
         }));
         return Response.sendSuccess(res, safeUsers);
