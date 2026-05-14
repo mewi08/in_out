@@ -6,7 +6,7 @@ const {validateId} = require('../../shared/middleware/param.middleware');
 const {verifyExists} = require('../../shared/middleware/exists.middleware');
 const {validate} = require('../../shared/middleware/validate.middleware');
 const {authMiddleware, requireAdmin} = require('../../shared/middleware/auth.middleware');
-const {userSchema, statusSchema} = require('./schemas/users.schema');
+const {userSchema, updateStatusSchema} = require('./schemas/users.schema');
 
 router.get(
     '/public',
@@ -62,7 +62,7 @@ router.patch(
     requireAdmin, 
     validateId(), 
     verifyExists('users'),
-    validate(statusSchema),
+    validate(updateStatusSchema),
     UserController.updateStatus
 );
 
