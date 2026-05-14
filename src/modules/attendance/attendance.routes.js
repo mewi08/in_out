@@ -4,12 +4,13 @@ const router = express.Router();
 const AttendanceController = require('./attendance.controller');
 const { validateId } = require('../../shared/middleware/param.middleware');
 const { verifyExists } = require('../../shared/middleware/exists.middleware');
-const { validateAttendance } = require('../attendance/domain/attendance.validator');
+const { validate } = require('../../shared/middleware/validate.middleware');
 const { requireAdmin, authMiddleware } = require('../../shared/middleware/auth.middleware');
+const { attendanceSchema } = require('./schemas/attendance.schema');
 
 router.post(
     '/', 
-    validateAttendance, 
+    validate(attendanceSchema), 
     AttendanceController.create
 );
 
