@@ -5,48 +5,49 @@ class UserRepository{
 
         let query = `
             SELECT 
-                id,
-                name,
-                last_name,
-                dni,
-                category,
-                work_area,
-                role,
-                code,
-                is_active,
-                created_at
-            FROM users
+                u.id,
+                u.name,
+                u.last_name,
+                u.dni,
+                u.category,
+                wa.name AS work_area,
+                u.role,
+                u.code,
+                u.is_active,
+                u.created_at
+            FROM users u
+            LEFT JOIN work_area wa ON u.work_area_id = wa.id
             WHERE 1=1
         `;
 
         const params = [];
         
         if (filters.is_active !== undefined) {
-            query += ` AND is_active = ?`;
+            query += ` AND u.is_active = ?`;
             params.push(Number(filters.is_active));
         }
 
-        if (filters.work_area) {
-            query += ` AND work_area = ?`;
-            params.push(filters.work_area);
+        if (filters.work_area_id) {
+            query += ` AND u.work_area_id = ?`;
+            params.push(Number(filters.work_area_id));
         }
 
         if (filters.category) {
-            query += ` AND category = ?`;
+            query += ` AND u.category = ?`;
             params.push(filters.category);
         }
 
         if (filters.role) {
-            query += ` AND role = ?`;
+            query += ` AND u.role = ?`;
             params.push(filters.role);
         }
 
         if (filters.search) {
             query += `
                 AND (
-                    name LIKE ?
-                    OR last_name LIKE ?
-                    OR dni LIKE ?
+                    u.name LIKE ?
+                    OR u.last_name LIKE ?
+                    OR u.dni LIKE ?
                 )
             `;
             params.push(
@@ -55,7 +56,7 @@ class UserRepository{
                 `%${filters.search}%`
             );
         }
-        query += ` ORDER BY created_at DESC`;
+        query += ` ORDER BY u.created_at DESC`;
 
         // PAGINACIÓN
         const page =
@@ -73,10 +74,10 @@ class UserRepository{
     static async getStats(){
         const [rows] = await pool.query(
             `SELECT COUNT(*) AS total,
-                SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) AS active,
-                SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) AS inactive,
+                SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) AS actives,
+                SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) AS inactives,
                 SUM(CASE WHEN role = 'admin' THEN 1 ELSE 0 END) AS admins,
-                SUM(CASE WHEN role = 'employee' THEN 1 ELSE 0 END) AS employee
+                SUM(CASE WHEN role = 'employee' THEN 1 ELSE 0 END) AS employees
             FROM users`
         );
         return rows;
@@ -84,9 +85,10 @@ class UserRepository{
 
     static async findById(id){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, code, role, is_active
-            FROM users
-            WHERE id = ? `,
+            `SELECT u.id, u.name, u.last_name, u.dni, u.category, wa.name AS work_area, u.code, u.role, u.is_active
+            FROM users u
+            INNER JOIN work_area wa ON u.work_area_id = wa.id
+            WHERE u.id = ? `,
             [id]
         );
         return rows[0] || null; 
@@ -94,9 +96,10 @@ class UserRepository{
 
     static async findByDni(dni){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, code, is_active
-            FROM users
-            WHERE dni = ?`,
+            `SELECT u.id, u.name, u.last_name, u.dni, u.category, wa.name AS work_area, u.code, u.is_active
+            FROM users u
+            INNER JOIN work_area wa ON u.work_area_id = wa.id
+            WHERE u.dni = ?`,
             [dni]
         );
         return rows[0] || null;
@@ -104,9 +107,10 @@ class UserRepository{
 
     static async findByCode(code){
         const [rows] = await pool.query(
-            `SELECT id, name, last_name, dni, category, work_area, code, is_active
-            FROM users
-            WHERE code = ?`,
+            `SELECT u.id, u.name, u.last_name, u.dni, u.category, wa.name AS work_area, u.code, u.is_active
+            FROM users u
+            INNER JOIN work_area wa ON u.work_area_id = wa.id
+            WHERE u.code = ?`,
             [code]
         );
         return rows[0] || null;
@@ -114,29 +118,29 @@ class UserRepository{
 
     static async create(data) {
         const {
-            name, last_name, dni, category, work_area, code, role
+            name, last_name, dni, category, work_area_id, code, role
         } = data;
 
         const [result] = await pool.query(
             `INSERT INTO users (
-                name, last_name, dni, category, work_area, code, role
+                name, last_name, dni, category, work_area_id, code, role
             ) VALUES (?,?,?,?,?,?,?)`,
-            [name, last_name, dni, category, work_area, code, role]
+            [name, last_name, dni, category, work_area_id, code, role]
         );
         return result.insertId;
     }
 
     static async update(id, data) {
         const {
-            name, last_name, dni, category, work_area, code, role
+            name, last_name, dni, category, work_area_id, code, role
         } = data;
 
         const [result] = await pool.query(
             `UPDATE users SET 
-                name = ?, last_name = ?, dni = ?, category = ?, work_area = ?, code = ?, role = ?, updated_at = NOW()
+                name = ?, last_name = ?, dni = ?, category = ?, work_area_id = ?, code = ?, role = ?, updated_at = NOW()
             WHERE id = ?`,
             [
-                name, last_name, dni, category, work_area, code, role, id
+                name, last_name, dni, category, work_area_id, code, role, id
             ]
         );
         return result.affectedRows;
