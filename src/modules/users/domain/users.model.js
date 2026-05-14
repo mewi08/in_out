@@ -1,10 +1,10 @@
 class User {
-    constructor({ name, last_name, dni, category, work_area, code, role }) {
+    constructor({ name, last_name, dni, category, work_area_id, code, role }) {
         this.name = name?.trim();
         this.last_name = last_name?.trim();
         this.dni = dni?.trim();
         this.category = category?.trim();
-        this.work_area = work_area?.trim();
+        this.work_area_id = work_area_id;
         this.code = code?.trim();
         this.role = role?.trim();
     }
@@ -16,7 +16,7 @@ class User {
             last_name: this.last_name,
             dni: this.dni,
             category: this.category,
-            work_area: this.work_area,
+            work_area_id: this.work_area_id,
             code: this.code,
             role: this.role
         };
