@@ -3,7 +3,8 @@ const { AppError } = require('../core/error/appError');
 
 const ALLOWED_TABLES = {
     users: 'users',
-    attendance_records: 'attendance_records'
+    attendance_records: 'attendance_records',
+    work_area : 'work_area'
 };
 
 function verifyExists(table, paramName = 'id') {
