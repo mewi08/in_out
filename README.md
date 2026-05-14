@@ -122,21 +122,19 @@ The project follows a Layered / Clean Architecture approach, separating responsi
 # Architecture Flow
 
 ```text
-Frontend UI
+Frontend (Vanilla JS)
    ↓
-Frontend Controllers 
+API Client (Fetch)
    ↓
-HTTP Client
-   ↓
-Backend Routes
+Express Routes
    ↓
 Controllers
    ↓
-Services
+Services (Business Logic)
    ↓
-Repositories
+Repositories (Database Access)
    ↓
-Database
+MySQL Database
 ```
 
 ---
@@ -156,11 +154,11 @@ Database
 
 - Node.js v18+
 - MySQL Server
-- npm
+- pnpm
 
 ---
 
-# Setup
+## Setup
 
 ```bash
 # Clone repository
@@ -168,21 +166,33 @@ git clone [url-repo]
 cd [folder-name]
 
 # Install dependencies
-npm install
+pnpm install
 
 # Configure environment variables
+# Windows:
 copy .env.example .env
-# Edit .env with your MySQL credentials
+
+# Mac/Linux:
+cp .env.example .env
 
 # Create database and tables
-npm run db:setup
+pnpm run db:setup
 
 # Create admin
-npm run create-admin
+pnpm run create-admin
 
 # Start server
-npm run dev
+pnpm run dev
 
+```
+---
+# Scripts
+
+```bash
+pnpm run dev            # Start development server
+pnpm start              # Start production server
+pnpm run db:setup       # Initialize database
+pnpm run create-admin   # Create admin user
 ```
 ---
 
@@ -246,7 +256,7 @@ Workflow
 
 ---
 
-# Validationss
+# Validations
 
 ## Frontend
 
@@ -293,10 +303,12 @@ ADMIN_ROLE=
 ---
 
 # Security
-- Authentication middleware
-- Protected routes
-- Centralized HTTP responses
-- Access validation
+- JWT-based authentication
+- Role-based access control (RBAC)
+- Input validation with Zod
+- Centralized error handling
+- Protected API routes
+- Secure HTTP headers with Helmet
 
 ---
 
@@ -310,6 +322,10 @@ The modular architecture allows:
 
 ---
 
-## License
+# Author
 
-MIT License - Free for personal and commercial use.
+Developed by Melanie Tello
+
+# License
+
+This project is licensed under the ISC License.
