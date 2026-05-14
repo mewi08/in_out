@@ -275,11 +275,11 @@ Workflow
 # Environment Variables
 
 ```env
-# Servidor
+# server
 PORT=
 NODE_ENV=
 
-# Base de datos
+# db
 DB_HOST=
 DB_PORT=
 DB_USER=
@@ -290,7 +290,7 @@ DB_NAME=
 JWT_SECRET=
 JWT_EXPIRES_IN=
 
-# Administrador
+# administrator
 ADMIN_NAME=
 ADMIN_LAST_NAME=
 ADMIN_DNI=
