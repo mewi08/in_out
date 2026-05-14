@@ -1,38 +1,39 @@
-const jwt = require('jsonwebtoken');
-const { Response } = require('../core/http/response');
+const jwt = require("jsonwebtoken");
+const { AppError } = require("../core/error/appError");
 
-function authMiddleware(req, res, next){
-    const authHead = req.headers.authorization;
+function authMiddleware(req, res, next) {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            throw new AppError("Token requerido", 401);
+        }
 
-    if(!authHead){
-        return Response.sendUnauthorized(res, 'Token requerido');
-    }
-
-    const token = authHead.split(' ')[1];
-
-    try{
+        const token = authHeader.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
-    }catch(error){
-        return Response.sendUnauthorized(res, 'Token inválido');
-    }
-}
+    } catch (error) {
 
-function authorizeRoles(...roles) {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return Response.sendForbidden(res, 'No autorizado');
+        if (error instanceof jwt.JsonWebTokenError) {
+            return next(new AppError("Token inválido", 401));
         }
-        next();
-    };
+
+        if (error instanceof jwt.TokenExpiredError) {
+            return next(new AppError("Token expirado", 401));
+        }
+        next(error);
+    }
 }
 
 function requireAdmin(req, res, next) {
-    if (req.user.role !== 'admin') {
-        return Response.sendForbidden(res, 'No autorizado');
+    try{
+        if (req.user.role !== 'admin') {
+        throw new AppError("No autorizado", 403);
     }
     next();
+    }catch(error){
+        next(error);
+    }
 }
 
 module.exports = { authMiddleware, requireAdmin };

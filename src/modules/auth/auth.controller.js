@@ -4,7 +4,7 @@ const pool = require('../../shared/infrastructure/database');
 const {logger, logError} = require('../../shared/infrastructure/logger');
 const { AppError } = require('../../shared/core/error/appError');
 
-async function login(req, res) {
+async function login(req, res, next) {
     try{
         const { code } = req.body;
 
@@ -56,8 +56,7 @@ async function login(req, res) {
         });
 
     }catch(error){
-        logError('Error en login', error)
-        return Response.sendError(res, error);
+        next(error);
     }
 }
 
