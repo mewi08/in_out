@@ -1,7 +1,7 @@
 const { UserService } = require('./app/users.service');
 const { Response } = require('../../shared/core/http/response');
 const { AppError } = require('../../shared/core/error/appError');
-const {logger, logError} = require('../../shared/infrastructure/logger');
+const { logger } = require('../../shared/infrastructure/logger');
 const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 async function getAdminUsers(req, res, next) {
     try {
@@ -71,8 +71,7 @@ async function getByCode(req, res, next) {
         const user = await UserService.getByCodeActive(req.params.code);
         return Response.sendSuccess(res, user);
     }catch(error){
-        logError(`Error en getByCode user (${req.params.code})`, error);
-        return Response.sendError(res, error);
+        next(error);
     };
 }
 
