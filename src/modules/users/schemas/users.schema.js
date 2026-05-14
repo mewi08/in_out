@@ -1,5 +1,5 @@
 const z = require('zod');
-
+const { statusSchema } = require('../../../shared/utils/validator/status.schema');
 
 const userSchema = z.object({
     name: z
@@ -22,29 +22,21 @@ const userSchema = z.object({
         .trim()
         .min(1, 'Categoría requerida'),
 
-    work_area: z
-        .string()
-        .trim()
-        .min(1, 'Área de trabajo requerida'),
+    work_area_id: z.coerce
+        .number({
+            required_error: 'Área de trabajo requerida'
+        })
+        .int()
+        .positive(),
 
     code: z
         .string()
         .trim()
         .min(1, 'Código requerido'),
 
-    role: z
-        .string()
-        .trim()
-        .min(1, 'Rol requerido')
+    role: z.enum(['admin', 'employee'])
 });
 
+const updateStatusSchema = statusSchema;
 
-const statusSchema = z.object({
-    is_active: z.boolean({
-        required_error: 'is_active es requerido',
-        invalid_type_error: 'is_active debe ser booleano'
-    })
-});
-
-
-module.exports = { userSchema, statusSchema };
+module.exports = { userSchema, updateStatusSchema };
