@@ -16,7 +16,15 @@ export function updateStats(stats) {
 
 export function renderTable(users, { onEdit, onToggle, onExport } = {}) {
     const tbody = document.getElementById("usersTableBody");
-
+    if(!tbody){
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9" class="text-center">
+                    No hay registros
+                </td>
+            </tr>
+        `
+    }
     tbody.innerHTML = users.map(u => `
         <tr>
             <td class="td-muted">${u.last_name}</td>
