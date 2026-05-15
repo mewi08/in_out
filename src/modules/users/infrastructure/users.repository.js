@@ -10,6 +10,7 @@ class UserRepository{
                 u.last_name,
                 u.dni,
                 u.category,
+                u.work_area_id,
                 wa.name AS work_area,
                 u.role,
                 u.code,
@@ -85,7 +86,7 @@ class UserRepository{
 
     static async findById(id){
         const [rows] = await pool.query(
-            `SELECT u.id, u.name, u.last_name, u.dni, u.category, wa.name AS work_area, u.code, u.role, u.is_active
+            `SELECT u.id, u.name, u.last_name, u.dni, u.category, u.work_area_id, wa.name AS work_area, u.code, u.role, u.is_active
             FROM users u
             INNER JOIN work_area wa ON u.work_area_id = wa.id
             WHERE u.id = ? `,
@@ -96,7 +97,7 @@ class UserRepository{
 
     static async findByDni(dni){
         const [rows] = await pool.query(
-            `SELECT u.id, u.name, u.last_name, u.dni, u.category, wa.name AS work_area, u.code, u.is_active
+            `SELECT u.id, u.name, u.last_name, u.dni, u.category, u.work_area_id, wa.name AS work_area, u.code, u.is_active
             FROM users u
             INNER JOIN work_area wa ON u.work_area_id = wa.id
             WHERE u.dni = ?`,
@@ -107,7 +108,7 @@ class UserRepository{
 
     static async findByCode(code){
         const [rows] = await pool.query(
-            `SELECT u.id, u.name, u.last_name, u.dni, u.category, wa.name AS work_area, u.code, u.is_active
+            `SELECT u.id, u.name, u.last_name, u.dni, u.category, u.work_area_id, wa.name AS work_area, u.code, u.is_active
             FROM users u
             INNER JOIN work_area wa ON u.work_area_id = wa.id
             WHERE u.code = ?`,
