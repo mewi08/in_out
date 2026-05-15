@@ -24,17 +24,26 @@ const userSchema = z.object({
 
     work_area_id: z.coerce
         .number({
-            required_error: 'Área de trabajo requerida'
+            required_error: 'Área requerida',
+            invalid_type_error: 'Área inválida'
         })
         .int()
-        .positive(),
+        .min(1, 'Selecciona un área válida'),
 
     code: z
         .string()
         .trim()
         .min(1, 'Código requerido'),
 
-    role: z.enum(['admin', 'employee'])
+    role: z
+        .string()
+        .trim()
+        .refine(
+            value => ['admin', 'employee'].includes(value),
+            {
+                message: 'Selecciona un rol válido'
+            }
+        ),
 });
 
 const updateStatusSchema = statusSchema;
