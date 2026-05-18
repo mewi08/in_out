@@ -66,7 +66,7 @@ class UserRepository{
         // PAGINACIÓN
         const page =
             parseInt(filters.page) || 1;
-        const limit = 5;
+        const limit = 6;
         const offset =
             (page - 1) * limit;
         query += ` LIMIT ? OFFSET ?`;
