@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async()=>{
 
     await loadPartial('sidebar-container', '/partials/sidebar.html');
     renderFooter();
-    requireAuth();
     applyRolePermissions();
     setActiveSidebar('usuarios');
     await renderFilterAreas();
