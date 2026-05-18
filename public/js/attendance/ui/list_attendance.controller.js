@@ -1,7 +1,7 @@
 import { attendanceService } from '../app/attendance.service.js';
 import { clearAlert } from '../../shared/ui/message.ui.js';
 import { loadPartial, renderFooter, setActiveSidebar } from '../../shared/ui/partials.loader.js';
-import { applyRolePermissions } from '../../shared/ui/admin.js';
+import { applyRolePermissions, requireAuth } from '../../shared/ui/admin.js';
 import { formatDate } from '../../shared/utils/date.helper.js';
 document.addEventListener('DOMContentLoaded', init);
 let currentPage = 1;
@@ -9,6 +9,7 @@ let currentPage = 1;
 async function init() {
     await loadPartial('sidebar-container', '/partials/sidebar.html');
     renderFooter();
+    requireAuth();
     applyRolePermissions();
     setActiveSidebar('asistencias');
     await loadAttendance(currentPage);

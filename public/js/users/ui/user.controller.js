@@ -5,7 +5,7 @@ import { attendanceService } from "../../attendance/app/attendance.service.js";
 import { loadPartial, renderFooter, setActiveSidebar } from "../../shared/ui/partials.loader.js";
 import { renderTable } from "./user.table.js";
 import { authService } from '../../auth/app/auth.service.js';
-import { applyRolePermissions } from '../../shared/ui/admin.js';
+import { requireAuth, applyRolePermissions } from '../../shared/ui/admin.js';
 import { buildQuery } from '../../shared/utils/query.js';
 import { debounce } from '../../shared/utils/debounce.js';
 import { downloadFile } from '../../shared/utils/download.js';
@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async()=>{
 
     await loadPartial('sidebar-container', '/partials/sidebar.html');
     renderFooter();
+    requireAuth();
     applyRolePermissions();
     setActiveSidebar('usuarios');
     await renderFilterAreas();

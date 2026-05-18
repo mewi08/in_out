@@ -1,7 +1,7 @@
 import { authService } from '../../auth/app/auth.service.js';
 import { showAlert, autoHideAlert, setLoading, clearAlert } from '../../shared/ui/message.ui.js';
 import { loadPartial, renderFooter, setActiveSidebar } from '../../shared/ui/partials.loader.js';
-import { applyRolePermissions } from '../../shared/ui/admin.js';
+import { applyRolePermissions, requireAuth } from '../../shared/ui/admin.js';
 import { updateStats} from '../../users/ui/user.table.js';
 import { userService } from '../../users/app/users.service.js';
 import { loadActivities } from '../../activity_log/ui/activity_log.render.js';
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
 
     await loadPartial('sidebar-container','/partials/sidebar.html');
     setActiveSidebar('dashboard');
+    requireAuth();
     applyRolePermissions();
     renderFooter();
     loadStats();
