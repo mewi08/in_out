@@ -17,8 +17,8 @@ export function renderTable(workArea, { onEdit, onToggle }){
                 <td class="td-muted">${wa.name}</td>
                 <td class="td-muted">${wa.total_users}</td>
                 <td>
-                    <span class="badge ${u.is_active ? 'badge-success' : 'badge-error'}">
-                        ${u.is_active ? 'Activo' : 'Inactivo'}
+                    <span class="badge ${wa.is_active ? 'badge-success' : 'badge-error'}">
+                        ${wa.is_active ? 'Activo' : 'Inactivo'}
                     </span>
                 </td>
                 <td class="td-muted">${formatDate(wa.created_at)}</td>
@@ -52,13 +52,13 @@ export function renderTable(workArea, { onEdit, onToggle }){
         }
 
         if(action === 'toggle' && onToggle){
-            ontoggle(id, btn.dataset.active === 'true');
+            onToggle(id, btn.dataset.active === 'true');
         }
     };
 }
 
-export function renderSelect() {
-    const data = await workAreaService.getWorkArea();
+export async function renderSelect() {
+    const data = await workAreaService.getAll('status=1');
     const select = document.getElementById('workArea');
 
     if (!select) return;
@@ -72,7 +72,7 @@ export function renderSelect() {
 
     data.forEach(wa => {
         const option = document.createElement("option");
-        option.value = wa.id;
+        option.value = String(wa.id);
         option.textContent = wa.name;
         select.appendChild(option);
     });
