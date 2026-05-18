@@ -1,14 +1,9 @@
 import { attendanceService } from "../app/attendance.service.js";
 import { formatDate } from '../../shared/utils/date.helper.js';
 import { downloadFile } from "../../shared/utils/download.js";
+import { showAlert, autoHideAlert } from "../../shared/ui/message.ui.js";
 
-document.addEventListener('DOMContentLoaded', init);
-
-async function init() {
-    await bindExportAll();
-}
-
-async function bindExportAll() {
+document.addEventListener('DOMContentLoaded', async ()=>{
     const btn = document.getElementById('exportAttendanceAll');
     btn.addEventListener('click', async () => {
         try {
@@ -21,8 +16,13 @@ async function bindExportAll() {
             }
             const blob =  await attendanceService.exportAllUrl({startDate: start, endDate: end});
             downloadFile(blob, `attendance_report_${start}_${end}.xlsx`);
-        } catch (error) {
-            console.error('Error exporting attendance:', error);
+        } catch (err) {
+            const type =
+                err.status >= 500
+                    ? 'danger'
+                    : 'warning';
+            showAlert(err.message, type, 'alert');
+            autoHideAlert('alert');
         }
     });
-}
+});
