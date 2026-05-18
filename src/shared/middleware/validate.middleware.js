@@ -1,9 +1,8 @@
 const { AppError } = require('../core/error/appError');
 
-function validate(schema) {
-
+function validate(schema, source = 'body') {
     return (req, res, next) => {
-        const result = schema.safeParse(req.body);
+        const result = schema.safeParse(req[source]);
         if (!result.success) {
             const firstError =
                 result.error.issues[0].message;
@@ -11,7 +10,7 @@ function validate(schema) {
                 new AppError(firstError, 400)
             );
         }
-        req.body = result.data;
+        req[source] = result.data;
         next();
     };
 }
