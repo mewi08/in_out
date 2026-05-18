@@ -1,4 +1,3 @@
-import { authService } from '../../auth/app/auth.service.js';
 import { showAlert, autoHideAlert, setLoading, clearAlert } from '../../shared/ui/message.ui.js';
 import { loadPartial, renderFooter, setActiveSidebar } from '../../shared/ui/partials.loader.js';
 import { applyRolePermissions, requireAuth } from '../../shared/ui/admin.js';
