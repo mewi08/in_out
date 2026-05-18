@@ -2,8 +2,8 @@ import { api } from '../../shared/http/http.client.js';
 
 export const workAreaService = {
 
-    async getWorkArea() {
-        const res = await api.get('/work-area');
+    async getAll(query) {
+        const res = await api.get(`/work-area?${query}`);
         if (!res.success) throw new Error(res.message);
         return res.data;
     },
@@ -14,14 +14,14 @@ export const workAreaService = {
         return res.data;
     },
 
-    async createWorkArea(name) {
-        const res = await api.post('/work-area', { name });
+    async createWorkArea(data) {
+        const res = await api.post('/work-area', data);
         if (!res.success) throw new Error(res.message);
         return res.data;
     },
 
-    async updateWorkArea(id, name) {
-        const res = await api.patch(`/work-area/${id}`, { name });
+    async updateWorkArea(id, data) {
+        const res = await api.patch(`/work-area/${id}`, data);
         if (!res.success) throw new Error(res.message);
         return res.data;
     },
