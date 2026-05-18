@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Áreas de trabajo</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/sidebar.style.css">
+    
+    <!-- ajuste importante para sticky navbar -->
+    <style>
+        .main-area {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div id="sidebar-container"></div>
+        <div class="main-area">
+            <!-- NAVBAR (BOOTSTRAP STICKY) -->
+            <nav class="navbar navbar-light bg-white border-bottom shadow-sm px-4 py-2 sticky-top">
+                <div class="container-fluid">
+                    <!-- Title -->
+                    <span class="navbar-brand mb-0 h1 fs-5 fw-semibold text-dark">
+                        Gestión de empleados
+                    </span>
+                </div>
+            </nav>
+            <!-- Container -->
+            <main class="flex-grow-1 p-3">
+                
+                <div class="container-fluid">
+                    <!-- Filters -->
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Filtro de áreas</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <!-- search -->
+                                <input type="text" 
+                                    class="form-control" 
+                                    id="searchInput"
+                                    placeholder="Buscar por nombre"
+                                    style="max-width: 220px;"
+                                >
+
+                                <!-- Status -->
+                                <select class="form-select" id="filterStatus" style="max-width: 160px;">
+                                    <option value="">Todos</option>
+                                    <option value="1">Activos</option>
+                                    <option value="0">Inactivos</option>
+                                </select>
+
+                                <!-- Clean -->
+                                <button class="btn btn-outline-secondary ms-auto" id="clearFilters">
+                                    Limpiar
+                                </button>
+
+                                <button class="btn btn-primary" id="newAreaBtn">
+                                    + Nueva área
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <table class="table table-sm align-items-center mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th colspan="5"
+                                            class="text-center fw-semibold fs-5">
+                                            Lista de áreas
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Usuarios</th>
+                                        <th>Estado</th>
+                                        <th>Creado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workAreaTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4">
+                                            Cargando...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end gap-2 mt-3">
+                                <button
+                                    id="prevBtn"
+                                    class="btn btn-outline-primary btn-sm"
+                                >← Anterior</button>
+
+                                <button
+                                    id="nextBtn"
+                                    class="btn btn-outline-primary btn-sm"
+                                >Siguiente →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+<!-- Modal Create/Update Work Area -->
+<div class="modal fade" id="workAreaModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Área de trabajo</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body">
+        <form id="areaForm">
+            <!-- Alert -->
+            <div id="alert" class="alert d-none" role="alert"></div>
+            <!-- Area -->
+            <input type="hidden" id="workAreaId">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="areaName">
+        </form>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">
+            Cancelar
+        </button>
+
+        <button type="button" class="btn btn-primary" id="saveBtn">
+            Guardar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script type="module" src="/js/work_area/ui/work_area.controller.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
