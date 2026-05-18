@@ -27,6 +27,7 @@ async function getPublicUsers(req, res, next) {
     try{
         const filters = {
             is_active: 1, 
+            only_active_work_area: true,
             search: req.query.search || undefined,
             work_area_id: req.query.work_area_id  || undefined,
             category: req.query.category || undefined,
@@ -39,6 +40,7 @@ async function getPublicUsers(req, res, next) {
             last_name: u.last_name,
             dni: u.dni,
             category: u.category,
+            work_area: u.work_area,
             work_area_id: u.work_area_id,
             code: u.code
         }));
