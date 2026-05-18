@@ -6,7 +6,7 @@ const { validateId } = require('../../shared/middleware/param.middleware');
 const { verifyExists } = require('../../shared/middleware/exists.middleware');
 const { validate } = require('../../shared/middleware/validate.middleware');
 const { requireAdmin, authMiddleware } = require('../../shared/middleware/auth.middleware');
-const { attendanceSchema } = require('./schemas/attendance.schema');
+const { attendanceSchema, exportAllSchema, exportUserSchema } = require('./schemas/attendance.schema');
 
 router.post(
     '/', 
@@ -32,6 +32,7 @@ router.get(
     '/reports/export',
     authMiddleware,
     requireAdmin,
+    validate(exportAllSchema, 'query'),
     AttendanceController.exportAll
 );
 
@@ -41,6 +42,7 @@ router.get(
     requireAdmin,
     validateId('user_id'),
     verifyExists('users', 'user_id'),
+    validate(exportUserSchema, 'query'),
     AttendanceController.exportByUser
 );
 
