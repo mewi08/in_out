@@ -28,6 +28,10 @@ class UserRepository{
             params.push(Number(filters.is_active));
         }
 
+        if (filters.only_active_work_area) {
+            query += ` AND wa.is_active = 1`;
+        }
+
         if (filters.work_area_id) {
             query += ` AND u.work_area_id = ?`;
             params.push(Number(filters.work_area_id));
