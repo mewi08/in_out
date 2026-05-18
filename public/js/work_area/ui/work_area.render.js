@@ -77,3 +77,25 @@ export async function renderSelect() {
         select.appendChild(option);
     });
 }
+
+export async function renderFilterAreas() {
+    const data = await workAreaService.getAll('status=1');
+
+    const select =
+        document.getElementById('filterArea');
+
+    if (!select) return;
+
+    select.innerHTML =
+        '<option value="">Todas las áreas</option>';
+
+    data.forEach(area => {
+        const option =
+            document.createElement('option');
+
+        option.value = area.id;
+        option.textContent = area.name;
+
+        select.appendChild(option);
+    });
+}
