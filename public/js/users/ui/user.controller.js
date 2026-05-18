@@ -163,17 +163,17 @@ async function saveUser(){
             showAlert(
                 'Usuario actualizado correctamente',
                 'success',
-                'alert'
+                'userAlert'
             );
         } else {
             await userService.createUser(data);
             showAlert(
                 'Usuario creado correctamente',
                 'success',
-                'alert'
+                'userAlert'
             );
         }
-        autoHideAlert();
+        autoHideAlert('userAlert');
         await loadUsers(currentPage);
         setTimeout(() => {
             userModal.hide();
@@ -183,8 +183,8 @@ async function saveUser(){
             err.status >= 500
                 ? 'danger'
                 : 'warning';
-        showAlert(err.message || 'Error al guardar usuario', type, 'alert');
-        autoHideAlert();
+        showAlert(err.message || 'Error al guardar usuario', type, 'userAlert');
+        autoHideAlert('userAlert');
     } finally {
         setLoading(submitBtn, false);
     }
@@ -217,8 +217,8 @@ async function exportAttendanceByUser() {
             err.status >= 500
                 ? 'danger'
                 : 'warning';
-        showAlert(err.message, type, 'alert');
-        autoHideAlert();
+        showAlert(err.message, type, 'exportAlert');
+        autoHideAlert('exportAlert');
     } finally {
         setLoading(confirm, false);
     }
