@@ -6,10 +6,14 @@ class WorkAreaController {
 
     static async getAll(req, res, next) {
         try {
-            const areas =
-                await WorkAreaService.getAll(
-                    req.query
-                );
+            const filters = {
+                is_active: req.query.status !== undefined
+                    ? Number(req.query.status)
+                    : undefined,
+                search: req.query.search || undefined,
+                page: req.query.page || 1
+            };
+            const areas = await WorkAreaService.getAll(filters);
             return Response.sendSuccess(res, areas);
         } catch (error) {
             next(error);
