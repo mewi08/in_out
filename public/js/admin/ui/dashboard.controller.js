@@ -6,9 +6,6 @@ import { updateStats} from '../../users/ui/user.table.js';
 import { userService } from '../../users/app/users.service.js';
 import { loadActivities } from '../../activity_log/ui/activity_log.render.js';
 let stats = [];
-// ==== ELEMENTS DOM ====
-const user = document.getElementById('user');
-const attendance = document.getElementById('attendance');
 
 // ==== INIT ====
 document.addEventListener('DOMContentLoaded', async()=>{
@@ -20,16 +17,21 @@ document.addEventListener('DOMContentLoaded', async()=>{
     renderFooter();
     loadStats();
     await loadActivities();
-})
 
-// ==== EVENT LISTENER ====
-user.addEventListener('click',()=>{
-    window.location.href = '/pages/users/list_users.html';
+    // ==== EVENT LISTENER ====
+    document.getElementById('user').addEventListener('click',()=>{
+        window.location.href = '/pages/users/list_users.html';
+    });
+
+    document.getElementById('attendance').addEventListener('click',()=>{
+        window.location.href = '/pages/attendance/list_attendance.html';
+    });
+
+    document.getElementById('areas').addEventListener('click', ()=>{
+        window.location.href = '/pages/work_area/list_workArea.html';
+    });
+
 });
-
-attendance.addEventListener('click',()=>{
-    window.location.href = '/pages/attendance/list_attendance.html';
-})
 
 // ==== FUNCTIONS ====
 async function loadStats() {
