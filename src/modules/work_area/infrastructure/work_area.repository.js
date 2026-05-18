@@ -32,7 +32,7 @@ class WorkAreaRepository {
         `;
 
         const page = parseInt(filters.page) || 1;
-        const limit = 10;
+        const limit = 6;
         const offset = (page - 1) * limit;
         query += ` LIMIT ? OFFSET ?`;
         params.push(limit, offset);
