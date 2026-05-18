@@ -3,6 +3,10 @@ import { startClock } from './shared/utils/clock.js';
 import { authService } from './auth/app/auth.service.js';
 import { applyRolePermissions } from './shared/ui/admin.js';
 document.addEventListener('DOMContentLoaded', async () => {
+    const user = authService.getCurrentUser();
+    if (user?.role === 'admin') {
+        window.location.replace('pages/admin/dashboard.html');
+    }
     await loadPartial('sidebar-container', '/partials/sidebar.html');
     renderFooter();
     applyRolePermissions();
