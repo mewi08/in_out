@@ -27,29 +27,29 @@ class WorkAreaService {
         return this.#getAreaOrFail(id);
     }
 
-    static async create(name) {
-        if (!name) {
+    static async create(data) {
+        if (!data) {
             throw new AppError('Datos inválidos', 400);
         }
-        await this.#assertUniqueName(name);
-        const id = await WorkAreaRepository.create(name);
+        await this.#assertUniqueName(data.name);
+        const id = await WorkAreaRepository.create(data);
 
         return this.getById(id);
     }
 
-    static async update(id, name) {
+    static async update(id, data) {
         await this.#getAreaOrFail(id);
-        if (!name) {
+        if (!data) {
             throw new AppError('Datos inválidos para actualizar', 400);
         }
 
-        if (name) {
+        if (data) {
             await this.#assertUniqueName(
-                name,
+                data,
                 id
             );
         }
-        await WorkAreaRepository.update(id, name);
+        await WorkAreaRepository.update(id, data);
 
         return this.getById(id);
     }
