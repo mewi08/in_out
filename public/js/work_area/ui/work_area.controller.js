@@ -97,7 +97,7 @@ async function saveWorkArea(){
             await workAreaService.createWorkArea(data);
             showAlert('Área creada correctamente', 'success', 'alert');
         }
-        autoHideAlert();
+        autoHideAlert('alert');
         await loadWorkAreas();
         setTimeout(() => {
             workAreaModal.hide();
@@ -108,7 +108,7 @@ async function saveWorkArea(){
                 ? 'danger'
                 : 'warning';
         showAlert(err.message || 'Error al guardar área', type, 'alert');
-        autoHideAlert();
+        autoHideAlert('alert');
     } finally {
         setLoading(submitBtn, false);
     }
