@@ -1,7 +1,7 @@
 const { WorkAreaService } = require('./app/work_area.service');
 const { Response } = require('../../shared/core/http/response');
 const { logger } = require('../../shared/infrastructure/logger');
-
+const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 class WorkAreaController {
 
     static async getAll(req, res, next) {
@@ -41,6 +41,11 @@ class WorkAreaController {
             logger.info(
                 `Área creada: ${area.name} (ID: ${area.id})`
             );
+            await ActivityLogService.create({
+                user_id: req.user.id,
+                action: 'Create_work_area',
+                description: `Agrego una nueva área de trabajo (${area.name})`
+            })
             return Response.sendCreated(res, area);
         } catch (error) {
             next(error);
@@ -57,6 +62,11 @@ class WorkAreaController {
             logger.info(
                 `Área actualizada: ${area.name} (ID: ${area.id})`
             );
+            await ActivityLogService.create({
+                user_id: req.user.id,
+                action: 'Update_work_area',
+                description: `Área de trabajo actualizada (${area.name})`
+            })
             return Response.sendSuccess(res, area);
         } catch (error) {
             next(error);
@@ -74,11 +84,19 @@ class WorkAreaController {
             logger.info(
                 `Estado de área actualizado: ID ${area.id} -> ${is_active}`
             );
+            await ActivityLogService.create({
+                user_id: req.user.id,
+                action: 'Update_status_work_area',
+                description: `Área de ${area.name} fue ${
+                    is_active
+                    ? 'activado'
+                    : 'desactivado'}`
+            })
             return Response.sendSuccess(res, area);
         } catch (error) {
             next(error);
         }
-    }
+    } 
 }
 
 module.exports = { WorkAreaController };
