@@ -1,7 +1,8 @@
 # Attendance Registration System
 
-Web system for employee registration and entry/exit control with clean architecture.
+# Overview
 
+This is a full-stack Attendance Registration System built with Node.js, Express, MySQL, and Vanilla JavaScript following Clean Architecture principles. It allows managing employees, tracking attendance, and generating reports in a modular and scalable way.
 ---
 # Features
 
@@ -153,9 +154,34 @@ MySQL Database
 ## Requirements
 
 - Node.js v18+
-- MySQL Server
+- XAMPP
 - pnpm
 
+---
+## Database Setup
+
+Make sure XAMPP is running and the MySQL service is started before running the project.
+
+### Using XAMPP MySQL Console
+
+1. Open XAMPP Control Panel
+2. Start **Apache** and **MySQL**
+3. Open **XAMPP Shell**
+4. Enter MySQL:
+
+```bash
+mysql -u root
+```
+5. Create the dabase:
+
+```bash
+CREATE DATABASE db_name;
+```
+6. Select the dabase;
+
+```bash
+USE db_name;
+```
 ---
 
 ## Setup
