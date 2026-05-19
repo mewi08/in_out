@@ -9,9 +9,9 @@ const statInactive = document.getElementById("statInactive");
 export function updateStats(stats) {
     if(statTotal){statTotal.textContent = stats[0].total}
     if(statAdmin){statAdmin.textContent = stats[0].admins}
-    if(statEmployee){statEmployee.textContent = stats[0].employee}
-    if(statActive){statActive.textContent = stats[0].active}
-    if(statInactive){statInactive.textContent = stats[0].inactive}    
+    if(statEmployee){statEmployee.textContent = stats[0].employees}
+    if(statActive){statActive.textContent = stats[0].actives}
+    if(statInactive){statInactive.textContent = stats[0].inactives}    
 }
 
 export function renderTable(users, { onEdit, onToggle, onExport } = {}) {
