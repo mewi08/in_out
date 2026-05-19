@@ -3,7 +3,7 @@ const { Response } = require('../../shared/core/http/response');
 const pool = require('../../shared/infrastructure/database');
 const {logger, logError} = require('../../shared/infrastructure/logger');
 const { AppError } = require('../../shared/core/error/appError');
-
+const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 async function login(req, res, next) {
     try{
         const { code } = req.body;
@@ -44,7 +44,11 @@ async function login(req, res, next) {
             process.env.JWT_SECRET,
             { expiresIn: '8h' }
         );
-
+        await ActivityLogService.create({
+            user_id: user.id,
+            action: 'Login',
+            description: `El usuario (${user.name} ${user.last_name}) inició sesión`
+        });
         return Response.sendSuccess(res, {
             token,
             user: {
