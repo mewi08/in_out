@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = '/api';
 import { authService } from "../../auth/app/auth.service.js";
 
 async function request(endpoint, options = {}) {
