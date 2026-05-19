@@ -14,7 +14,7 @@ async function createAdmin() {
             last_name: process.env.ADMIN_LAST_NAME,
             dni: process.env.ADMIN_DNI,
             category: process.env.ADMIN_CATEGORY,
-            work_area: process.env.ADMIN_WORK_AREA,
+            work_area_id: process.env.ADMIN_WORK_AREA,
             code: process.env.ADMIN_CODE,
             role: process.env.ADMIN_ROLE
         };
@@ -37,7 +37,7 @@ async function createAdmin() {
                 last_name,
                 dni,
                 category,
-                work_area,
+                work_area_id,
                 code,
                 role
             ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -46,7 +46,7 @@ async function createAdmin() {
                 adminData.last_name,
                 adminData.dni,
                 adminData.category,
-                adminData.work_area,
+                adminData.work_area_id,
                 adminData.code,
                 adminData.role
             ]
