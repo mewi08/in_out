@@ -216,7 +216,7 @@ pnpm run dev
 
 ```bash
 pnpm run dev            # Start development server
-pnpm start              # Start production server
+pnpm run start          # Start production server
 pnpm run db:setup       # Initialize database
 pnpm run create-admin   # Create admin user
 ```
