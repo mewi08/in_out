@@ -54,18 +54,23 @@ async function requestBlob(endpoint, options = {}) {
                 ...options.headers
             }
         });
-
         if (!res.ok) {
-            throw new Error('Error descargando archivo');
+            let msg = 'Error descargando archivo';
+            try {
+                const data = await res.json();
+                if (data?.message) {
+                    msg = data.message;
+                }
+            } catch (_) {}
+            throw new Error(msg);
         }
 
         return await res.blob();
-
     } catch (err) {
-        if (err instanceof Error && err.message !== 'Error descargando archivo') {
-            throw err;
+        if (err instanceof TypeError) {
+            throw new Error('No se pudo conectar con el servidor');
         }
-        throw new Error('No se pudo conectar con el servidor');
+        throw err;
     }
 }
 
