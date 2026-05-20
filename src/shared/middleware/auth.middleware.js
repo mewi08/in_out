@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { AppError } = require("../core/error/appError");
-
+const { AuthService } = require("../../modules/auth/app/auth.service");
 function authMiddleware(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
@@ -10,7 +10,8 @@ function authMiddleware(req, res, next) {
 
         const token = authHeader.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        const user = await AuthService.validateAuthenticatedUser(decoded.id);
+        req.user = user;
         next();
     } catch (error) {
 
