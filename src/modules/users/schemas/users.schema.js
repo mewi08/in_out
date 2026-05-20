@@ -39,7 +39,7 @@ const userSchema = z.object({
         .string()
         .trim()
         .refine(
-            value => ['admin', 'employee'].includes(value),
+            value => ['admin', 'user'].includes(value),
             {
                 message: 'Selecciona un rol válido'
             }

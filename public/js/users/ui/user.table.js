@@ -9,7 +9,7 @@ const statInactive = document.getElementById("statInactive");
 export function updateStats(stats) {
     if(statTotal){statTotal.textContent = stats[0].total}
     if(statAdmin){statAdmin.textContent = stats[0].admins}
-    if(statEmployee){statEmployee.textContent = stats[0].employees}
+    if(statEmployee){statEmployee.textContent = stats[0].users}
     if(statActive){statActive.textContent = stats[0].actives}
     if(statInactive){statInactive.textContent = stats[0].inactives}    
 }

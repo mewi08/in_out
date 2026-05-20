@@ -82,7 +82,7 @@ class UserRepository{
                 SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) AS actives,
                 SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) AS inactives,
                 SUM(CASE WHEN role = 'admin' THEN 1 ELSE 0 END) AS admins,
-                SUM(CASE WHEN role = 'employee' THEN 1 ELSE 0 END) AS employees
+                SUM(CASE WHEN role = 'user' THEN 1 ELSE 0 END) AS users
             FROM users`
         );
         return rows;
