@@ -45,7 +45,7 @@ async function exportByUser(req, res, next) {
         );
         await ActivityLogService.create({
             user_id: req.user.id,
-            action: 'export_attendance_by_user',
+            action: 'Export_attendance_by_user',
             description: `Exportó asistencia desde ${startDate} hasta ${endDate} para el usuario (${user.dni})`
         });
         await generateExcel(rows, res, {
@@ -68,7 +68,7 @@ async function exportAll(req, res, next) {
         );
         await ActivityLogService.create({
             user_id: req.user.id,
-            action: 'export_attendance_all',
+            action: 'Export_attendance_all',
             description: `Exportó asistencia general desde ${startDate} hasta ${endDate}`
         });
         await generateExcel(rows, res, {

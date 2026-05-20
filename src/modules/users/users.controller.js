@@ -83,7 +83,7 @@ async function create(req, res, next) {
         logger.info(`Usuario creado: ${user.dni}`);
         await ActivityLogService.create({
             user_id: req.user.id,
-            action: 'CREATE_USER',
+            action: 'Create_user',
             description: `Usuario creado: ${user.dni}`
         });
         return Response.sendCreated(res, user);
@@ -101,7 +101,7 @@ async function update(req, res, next) {
         logger.info(`Usuario actualizado: ${req.params.id}`);
         await ActivityLogService.create({
             user_id: req.user.id,
-            action: 'UPDATE_USER',
+            action: 'Update_user',
             description: `Usuario actualizado: ${user.dni}`
         });
         return Response.sendSuccess(res, user);
@@ -120,7 +120,7 @@ async function updateStatus(req, res, next) {
             );
         await ActivityLogService.create({
             user_id: req.user.id,
-            action: 'UPDATE_STATUS',
+            action: 'Update_status',
             description:
                 `Usuario ${user.dni} fue ${
                     is_active
