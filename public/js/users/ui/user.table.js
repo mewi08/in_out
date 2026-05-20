@@ -2,14 +2,14 @@ import { formatDate } from '../../shared/utils/date.helper.js';
 
 const statTotal = document.getElementById("statTotal");
 const statAdmin = document.getElementById("statAdmin");
-const statEmployee = document.getElementById("statEmployee");
+const statUser = document.getElementById("statUser");
 const statActive = document.getElementById("statActive");
 const statInactive = document.getElementById("statInactive");
 
 export function updateStats(stats) {
     if(statTotal){statTotal.textContent = stats[0].total}
     if(statAdmin){statAdmin.textContent = stats[0].admins}
-    if(statEmployee){statEmployee.textContent = stats[0].users}
+    if(statUser){statUser.textContent = stats[0].users}
     if(statActive){statActive.textContent = stats[0].actives}
     if(statInactive){statInactive.textContent = stats[0].inactives}    
 }
