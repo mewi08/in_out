@@ -13,6 +13,12 @@ async function request(endpoint, options = {}) {
         });
 
         const data = await res.json();
+        if (res.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+            throw new Error('Sesión expirada');
+        }
 
         if (!res.ok) {
             let msg = 'Error del servidor';
