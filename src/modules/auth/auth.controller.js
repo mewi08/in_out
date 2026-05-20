@@ -1,5 +1,5 @@
 const { Response } = require('../../shared/core/http/response');
-const { AuthService } = require('../app/auth.service');
+const { AuthService } = require('./app/auth.service');
 
 async function login(req, res, next) {
     try {

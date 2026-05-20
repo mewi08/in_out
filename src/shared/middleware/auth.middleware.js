@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { AppError } = require("../core/error/appError");
 const { AuthService } = require("../../modules/auth/app/auth.service");
-function authMiddleware(req, res, next) {
+async function authMiddleware(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith("Bearer ")) {

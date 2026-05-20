@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { AppError } = require('../../shared/core/error/appError');
+const { AppError } = require('../../../shared/core/error/appError');
 const { AuthRepository } = require('../infrastructure/auth.repository');
 const { ActivityLogService } = require('../../activity_log/app/activity_log.service');
 
