@@ -2,16 +2,12 @@ import { authService } from '../../auth/app/auth.service.js';
 
 export function requireAuth() {
     const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/';
-        return;
-    }
-
     const user = authService.getCurrentUser();
-    if (!user) {
-        localStorage.removeItem('token');
-        window.location.href = '/';
+    if (!token || !user) {
+        authService.logout();
+        return false;
     }
+    return true;
 }
 
 export function applyRolePermissions() {
