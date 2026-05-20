@@ -3,18 +3,18 @@ import { clearAlert } from '../../shared/ui/message.ui.js';
 import { loadPartial, renderFooter, setActiveSidebar } from '../../shared/ui/partials.loader.js';
 import { applyRolePermissions, requireAuth } from '../../shared/ui/admin.js';
 import { formatDate } from '../../shared/utils/date.helper.js';
-document.addEventListener('DOMContentLoaded', init);
+
 let currentPage = 1;
 
-async function init() {
+document.addEventListener('DOMContentLoaded', async ()=>{
+    if (!requireAuth()) return;
     await loadPartial('sidebar-container', '/partials/sidebar.html');
     renderFooter();
-    requireAuth();
     applyRolePermissions();
     setActiveSidebar('asistencias');
     await loadAttendance(currentPage);
     initPagination();
-}
+});
 
 function initPagination() {
     document.getElementById('nextBtn').addEventListener('click', async () => {
