@@ -14,7 +14,7 @@ CREATE TABLE users(
 	category		VARCHAR(50) NOT NULL,
     work_area_id 	INT UNSIGNED NOT NULL,
     code 			VARCHAR(10) UNIQUE NOT NULL,
-    role 			ENUM('admin', 'employee') DEFAULT 'employee' NOT NULL,
+    role 			ENUM('admin', 'user') DEFAULT 'user' NOT NULL,
     is_active		BOOLEAN DEFAULT TRUE,
     created_at		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at 		TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
