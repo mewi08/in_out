@@ -19,11 +19,6 @@ export function clearAlert(containerId='alert') {
     el.textContent = '';
 }
 
-export function setFieldError(field, show) {
-    document.getElementById(field).classList.toggle('error', show);
-    document.getElementById(`${field}-error`).classList.toggle('visible', show);
-}
-
 export function setLoading(element, loading) {
     element.disabled = loading;
 
