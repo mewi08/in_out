@@ -10,10 +10,6 @@ document.addEventListener('DOMContentLoaded', async ()=>{
             const start = document.getElementById('fechaInicioAll').value;
             const end = document.getElementById('fechaFinAll').value;
 
-            if(!start || !end) {
-                console.log('Please select both start and end dates.');
-                return;
-            }
             const blob =  await attendanceService.exportAllUrl({startDate: start, endDate: end});
             downloadFile(blob, `attendance_report_${start}_${end}.xlsx`);
         } catch (err) {
@@ -21,8 +17,8 @@ document.addEventListener('DOMContentLoaded', async ()=>{
                 err.status >= 500
                     ? 'danger'
                     : 'warning';
-            showAlert(err.message, type, 'alert');
-            autoHideAlert('alert');
+            showAlert(err.message, type, 'attendanceAlert');
+            autoHideAlert('attendanceAlert');
         }
     });
 });
