@@ -40,8 +40,6 @@ router.get(
 
 router.post(
     '/', 
-    authMiddleware,  
-    requireAdmin, 
     validate(userSchema), 
     UserController.create
 );
