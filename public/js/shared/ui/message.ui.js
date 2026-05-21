@@ -15,7 +15,7 @@ export function showAlert(message, type, containerId='alert') {
 export function clearAlert(containerId='alert') {
     const el = document.getElementById(containerId);
     if(!el) return;
-    el.className = 'alert';
+    el.className = 'd-none';
     el.textContent = '';
 }
 
