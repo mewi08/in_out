@@ -82,7 +82,7 @@ async function create(req, res, next) {
         const user = await UserService.create(req.body);
         logger.info(`Usuario creado: ${user.dni}`);
         await ActivityLogService.create({
-            user_id: req.user.id,
+            user_id: user.id,
             action: 'Create_user',
             description: `Usuario creado: ${user.dni}`
         });
