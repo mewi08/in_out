@@ -1,7 +1,7 @@
 {
   "name": "inout",
   "version": "1.0.0",
-  "description": "",
+  "description": "Attendance registration system",
   "main": "electron/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
