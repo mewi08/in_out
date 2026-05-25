@@ -85,12 +85,12 @@ class AttendanceRepository {
     }
 
     static async create(data) {
-        const { user_id, type } = data;
+        const { user_id, type, time_stamp } = data;
 
         const [result] = await pool.query(
             `INSERT INTO attendance_records (user_id, type, time_stamp)
-             VALUES (?, ?, NOW())`,
-            [user_id, type]
+             VALUES (?, ?, ?)`,
+            [user_id, type, time_stamp]
         );
 
         return result.insertId;

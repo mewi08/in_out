@@ -22,7 +22,8 @@ class Attendance {
         return {
             user_id: this.user_id,
             type: this.type,
-            code: this.code
+            code: this.code,
+            time_stamp: this.time_stamp
         };
     }
 }
