@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencias</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/sidebar.style.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- ajuste importante para sticky navbar -->
+    <style>
+        .main-area {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <div class="main-area">
+        <!-- NAVBAR (BOOTSTRAP STICKY) -->
+        <nav class="navbar navbar-light bg-white border-bottom shadow-sm px-4 py-2 sticky-top">
+            <div class="container-fluid">
+                <!-- Título -->
+                <span class="navbar-brand mb-0 h1 fs-5 fw-semibold text-dark">
+                    Gestión de asistencias
+                </span>
+            </div>
+        </nav>
+        <!-- CONTENIDO -->
+        <main class="flex-grow-1 p-3">
+            <div class="container-fluid">
+
+                <!-- SECCIÓN DE EXPORTACIÓN -->
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Exportar Asistencias</h5>
+                        <!-- BLOQUE LOTE -->
+                            <div class="border rounded p-3 h-100 d-flex flex-column">
+                                <h6 class="mb-3">Exportación en lote</h6>
+                                    <div id="attendanceAlert" class="alert d-none" role="alert"></div>
+                                <div class="row mb-3">
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Inicio</label>
+                                        <input type="date"
+                                            class="form-control form-control-sm"
+                                            id="fechaInicioAll">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Fin</label>
+                                        <input type="date"
+                                            class="form-control form-control-sm"
+                                            id="fechaFinAll">
+                                    </div>
+
+                                </div>
+
+                                <div>
+                                    <button class="btn btn-primary btn-sm w-100"
+                                            id="exportAttendanceAll">
+                                        Exportar Lote
+                                    </button>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+
+                <!-- TABLA -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle mb-0">
+
+                                <thead class="table-light">
+                                    <tr>
+                                        <th colspan="6" 
+                                            class="text-center fw-semibold fs-5">
+                                            Historial de asistencias
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>DNI</th>
+                                        <th>Nombres</th>
+                                        <th>Apellidos</th>
+                                        <th>Fecha</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="attendanceTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-4">
+                                            Cargando...
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div class="d-flex justify-content-end gap-2 mt-3">
+                                <button
+                                    id="prevBtn"
+                                    class="btn btn-outline-primary btn-sm"
+                                >← Anterior</button>
+
+                                <button
+                                    id="nextBtn"
+                                    class="btn btn-outline-primary btn-sm"
+                                >Siguiente →</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>   
+</div>
+
+<script type="module" src="/js/attendance/ui/list_attendance.controller.js"></script>
+<script type="module" src="/js/attendance/ui/export_attendance.js"></script>
+</body>
+</html>
+
