@@ -1,4 +1,10 @@
 .env
 node_modules
-logs
-test
+logs/
+test/
+
+# Electron / builds
+dist/
+out/
+release/
+build/
