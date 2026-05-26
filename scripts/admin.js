@@ -1,8 +1,6 @@
 // scripts/admin.js
-const dotenv = require('dotenv');
+require('dotenv').config();
 const pool = require('../src/shared/infrastructure/database');
-
-dotenv.config();
 
 async function createAdmin() {
     console.log('\n=== CREACIÓN DE ADMINISTRADOR ===\n');
