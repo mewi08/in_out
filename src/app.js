@@ -1,17 +1,22 @@
-require('dotenv').config();
-const express = require ('express');
+const express = require('express');
 const helmet = require('helmet');
+const path = require('path');
+
 const app = express();
-const {logError} = require('./shared/infrastructure/logger');
+
+const { logError } = require('./shared/infrastructure/logger');
 const { Response } = require('./shared/core/http/response');
+
 require('./shared/infrastructure/database');
 
 app.use(express.json());
-app.use(express.urlencoded({extended : true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(helmet());
 
-app.use(express.static('public'));
+app.use(express.static(
+    path.join(__dirname, '../public')
+));
 
 app.use('/api/user', require('./modules/users/users.routes'));
 app.use('/api/attendance', require('./modules/attendance/attendance.routes'));
@@ -29,6 +34,5 @@ app.use((err, req, res, next) => {
     logError('Unhandled error:', err);
     return Response.sendError(res, err);
 });
-
 
 module.exports = app;
