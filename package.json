@@ -15,6 +15,18 @@
   "build": {
     "appId": "com.inout.app",
     "productName": "InOut",
+    "asar": true,
+    "files": [
+      "**/*",
+      "!dist/**/*",
+      "!logs/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": ".env",
+        "to": ".env"
+      }
+    ],
     "win": {
       "target": "nsis"
     }
