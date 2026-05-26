@@ -1,16 +1,20 @@
-require('dotenv').config();
 const { app, BrowserWindow } = require('electron');
+const http = require('http');
+
 require('../server');
 
 const PORT = process.env.PORT || 3000;
-function waitServer(){
-    return new Promise(resolve =>{
-        const interval = setInterval(() => {
-            if( global.serverReady){
-                clearInterval(interval);
+
+function waitServer() {
+    return new Promise(resolve => {
+        const checkServer = () => {
+            http.get(`http://127.0.0.1:${PORT}`, () => {
                 resolve();
-            }
-        }, 100);
+            }).on('error', () => {
+                setTimeout(checkServer, 500);
+            });
+        };
+        checkServer();
     });
 }
 
@@ -25,7 +29,7 @@ function createWindow() {
         }
     });
 
-    win.loadURL(`http://localhost:${PORT}`);
+    win.loadURL(`http://127.0.0.1:${PORT}`);
 }
 
 app.whenReady().then(async () => {
