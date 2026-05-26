@@ -87,6 +87,7 @@ async function generateExcel(rows, res, options = {}) {
             'DNI',
             'Nombre',
             'Apellido',
+            'Área',
             'Fecha',
             'Entrada',
             'Salida'
@@ -96,7 +97,8 @@ async function generateExcel(rows, res, options = {}) {
         sheet.columns = [
             { key: 'dni', width: 15 },
             { key: 'name', width: 25 },
-            { key: 'lastname', width: 25 },
+            { key: 'last_name', width: 25 },
+            { key: 'work_area', width: 15},
             { key: 'date', width: 15 },
             { key: 'entry', width: 12 },
             { key: 'exit', width: 12 },

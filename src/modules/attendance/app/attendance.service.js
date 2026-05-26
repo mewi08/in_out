@@ -9,7 +9,7 @@ const {
 
 class AttendanceService {
     static async #getTodayAttendances(user_id) {
-        const today = new Date().toLocaleDateString('en-CA');
+        const today = formatDateISO(new Date());
         const records = await AttendanceRepository.findByUserAndDate(user_id, today);
         return records.map(r => new Attendance(r));
     }
@@ -67,6 +67,7 @@ class AttendanceService {
                     dni: r.dni,
                     name: r.name,
                     last_name: r.last_name,
+                    work_area: r.work_area || '',
                     shifts: []
                 };
             }
@@ -110,7 +111,8 @@ class AttendanceService {
                 rows.push({
                     dni: user.dni,
                     name: user.name,
-                    lastname: user.last_name,
+                    last_name: user.last_name,
+                    work_area: user.work_area,
                     date: s.date,
                     entry: s.entry ? formatTime24(s.entry) : '',
                     exit: s.exit ? formatTime24(s.exit) : ''

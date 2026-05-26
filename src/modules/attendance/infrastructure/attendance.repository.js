@@ -44,17 +44,19 @@ class AttendanceRepository {
     static async findAllByRange(startDate, endDate) {
         const [rows] = await pool.query(
             `SELECT 
-                u.id as user_id,
+                u.id AS user_id,
                 u.dni,
                 u.name,
                 u.last_name,
+                wa.name AS work_area,
                 ar.type,
                 ar.time_stamp
-             FROM attendance_records ar
-             INNER JOIN users u ON ar.user_id = u.id
-             WHERE ar.time_stamp >= ?
-             AND ar.time_stamp < DATE_ADD(?, INTERVAL 1 DAY)
-             ORDER BY u.id ASC, ar.time_stamp ASC`,
+            FROM attendance_records ar
+            INNER JOIN users u ON ar.user_id = u.id
+            INNER JOIN work_area wa ON wa.id = u.work_area_id
+            WHERE ar.time_stamp >= ?
+            AND ar.time_stamp < DATE_ADD(?, INTERVAL 1 DAY)
+            ORDER BY u.id ASC, ar.time_stamp ASC`,
             [startDate, endDate]
         );
         return rows;
