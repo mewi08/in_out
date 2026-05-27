@@ -3,13 +3,14 @@ const { UserService } = require('../../users/app/users.service');
 const { Attendance } = require('../domain/attendance.model');
 const { AppError } = require('../../../shared/core/error/appError');
 const {
+    now,
     formatDateISO,
     formatTime24
-} = require('../../../shared/utils/formattedTime');
+} = require('../../../shared/utils/date');
 
 class AttendanceService {
     static async #getTodayAttendances(user_id) {
-        const today = formatDateISO(new Date());
+        const today = now().toFormat('yyyy-MM-dd');
         const records = await AttendanceRepository.findByUserAndDate(user_id, today);
         return records.map(r => new Attendance(r));
     }
@@ -26,19 +27,23 @@ class AttendanceService {
         const user = await UserService.getByCodeActive(attendance.code);
         attendance.user_id = user.id;
         const todayRecords = await this.#getTodayAttendances(user.id);
-        const last = todayRecords[todayRecords.length - 1];
-        if (last) {
-            if (last.isCheckIn() && attendance.isCheckIn()) {
-                throw new AppError('Ya registraste tu entrada.', 400);
-            }
-            if (last.isCheckOut() && attendance.isCheckOut()) {
-                throw new AppError('Ya registraste tu salida.', 400);
+        
+        let checkIns = 0;
+        let checkOuts = 0;
+
+        for (const r of todayRecords) {
+            if (r.isCheckIn()) {
+                checkIns++;
+            } else if (r.isCheckOut()) {
+                checkOuts++;
             }
         }
-        if (attendance.isCheckOut()) {
-            if (!last || !last.isCheckIn()) {
-                throw new AppError('Debes registrar entrada antes de salir.', 400);
-            }
+
+        if (attendance.isCheckIn() && checkIns > checkOuts) {
+            throw new AppError('Ya registraste tu entrada.', 400);
+        }
+        if (attendance.isCheckOut() && checkOuts >= checkIns) {
+            throw new AppError('Debes registrar entrada antes de salir.', 400);
         }
         const id = await AttendanceRepository.create(attendance.toJSON());
         return {
@@ -49,18 +54,20 @@ class AttendanceService {
         };
     }
 
-    static async getAttendanceReport(page = 1, limit = 5) {
+    static getAttendanceReport(page = 1, limit = 5) {
         const offset = (page - 1) * limit;
-        return await AttendanceRepository.findAttendanceReport(
+        return AttendanceRepository.findAttendanceReport(
             limit,
             offset
         );
     }
 
     static buildShifts(records) {
-        records.sort((a, b) => new Date(a.time_stamp) - new Date(b.time_stamp));
+        const sortedRecords = [...records].sort(
+            (a, b) => new Date(a.time_stamp) - new Date(b.time_stamp)
+        );
         const result = {};
-        for (const r of records) {
+        for (const r of sortedRecords) {
             const key = r.user_id;
             if (!result[key]) {
                 result[key] = {
@@ -78,11 +85,8 @@ class AttendanceService {
                     entry: r.time_stamp,
                     exit: null
                 });
-            }
-            if (r.type === 'check_out') {
-                const lastShift = [...user.shifts]
-                    .reverse()
-                    .find(s => !s.exit);
+            } else if (r.type === 'check_out') {
+                const lastShift = user.shifts.findLast(s => !s.exit);
                 if (lastShift) {
                     lastShift.exit = r.time_stamp;
                 }
