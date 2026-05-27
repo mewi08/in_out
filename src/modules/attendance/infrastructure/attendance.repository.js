@@ -74,18 +74,6 @@ class AttendanceRepository {
         return rows;
     }
 
-    static async findLastByUserId(user_id) {
-        const [rows] = await pool.query(
-            `SELECT user_id, type, time_stamp
-             FROM attendance_records
-             WHERE user_id = ?
-             ORDER BY time_stamp DESC
-             LIMIT 1`,
-            [user_id]
-        );
-        return rows[0] || null;
-    }
-
     static async create(data) {
         const { user_id, type, time_stamp } = data;
 

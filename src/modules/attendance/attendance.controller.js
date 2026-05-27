@@ -1,7 +1,7 @@
 const { AttendanceService } = require('./app/attendance.service');
 const { Response } = require('../../shared/core/http/response');
 const { generateExcel } = require('../../shared/utils/excel');
-const { logger, logError} = require('../../shared/infrastructure/logger');
+const { logger } = require('../../shared/infrastructure/logger');
 const { ActivityLogService } = require('../activity_log/app/activity_log.service');
 async function create(req, res, next) {
     try {
@@ -9,16 +9,6 @@ async function create(req, res, next) {
         const record = await AttendanceService.register({ code, type });
         logger.info(`Movimiento registrado para usuario ${code}: ${record.message}`);
         return Response.sendCreated(res, record);
-    } catch (error) {
-        next(error);
-    }
-}
-
-async function getTodayStatus(req, res, next) {
-    try {
-        const { user_id } = req.params;
-        const status = await AttendanceService.getTodayStatus(user_id);
-        return Response.sendSuccess(res, status);
     } catch (error) {
         next(error);
     }
@@ -82,7 +72,6 @@ async function exportAll(req, res, next) {
 
 module.exports = {
     create,
-    getTodayStatus,
     getAttendanceReport,
     exportByUser,
     exportAll

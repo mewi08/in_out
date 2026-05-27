@@ -15,13 +15,6 @@ router.post(
 );
 
 router.get(
-    '/today-status/:user_id', 
-    validateId('user_id'), 
-    verifyExists('users','user_id'), 
-    AttendanceController.getTodayStatus
-);
-
-router.get(
     '/reports/daily',
     authMiddleware,
     requireAdmin,
