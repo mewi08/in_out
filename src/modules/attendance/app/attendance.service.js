@@ -42,9 +42,7 @@ class AttendanceService {
         if (attendance.isCheckIn() && checkIns > checkOuts) {
             throw new AppError('Ya registraste tu entrada.', 400);
         }
-        if (attendance.isCheckOut() && checkOuts >= checkIns) {
-            throw new AppError('Debes registrar entrada antes de salir.', 400);
-        }
+
         const id = await AttendanceRepository.create(attendance.toJSON());
         return {
             id,
@@ -89,6 +87,12 @@ class AttendanceService {
                 const lastShift = user.shifts.findLast(s => !s.exit);
                 if (lastShift) {
                     lastShift.exit = r.time_stamp;
+                }else {
+                    user.shifts.push({
+                        date: formatDateISO(r.time_stamp),
+                        entry: null,
+                        exit: r.time_stamp
+                    })
                 }
             }
         }
@@ -102,8 +106,8 @@ class AttendanceService {
         };
         return user.shifts.map(s => ({
             date: s.date,
-            entry: s.entry ? formatTime24(s.entry) : '',
-            exit: s.exit ? formatTime24(s.exit) : ''
+            entry: s.entry ? formatTime24(s.entry) : '-',
+            exit: s.exit ? formatTime24(s.exit) : '-'
         }));
     }
 
@@ -118,8 +122,8 @@ class AttendanceService {
                     last_name: user.last_name,
                     work_area: user.work_area,
                     date: s.date,
-                    entry: s.entry ? formatTime24(s.entry) : '',
-                    exit: s.exit ? formatTime24(s.exit) : ''
+                    entry: s.entry ? formatTime24(s.entry) : '-',
+                    exit: s.exit ? formatTime24(s.exit) : '-'
                 });
             });
         }
