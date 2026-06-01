@@ -83,7 +83,7 @@ async function handleMarkAttendance() {
         showAlert(attendance.message, 'success', 'alert');
         setTimeout(() => {
             resetAndGoHome();
-        }, 2000);
+        },500);
     } catch (err) {
         const isNetwork = err instanceof TypeError;
         showAlert(
