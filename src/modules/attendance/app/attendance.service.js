@@ -102,7 +102,7 @@ class AttendanceService {
     static toExcelRowsUser(shiftsByUser) {
         const user = Object.values(shiftsByUser)[0];
         if (!user) {
-            throw new AppError('No se encontraron registros para el usuario en el rango dado.', 404);
+            throw new AppError('No se encontraron registros', 404);
         };
         return user.shifts.map(s => ({
             date: s.date,
