@@ -375,7 +375,6 @@ DB_NAME=
 
 # JWT
 JWT_SECRET=
-JWT_EXPIRES_IN=
 
 # administrator
 ADMIN_NAME=
