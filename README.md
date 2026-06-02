@@ -7,7 +7,7 @@ This is a full-stack Attendance Registration System built with Node.js, Express,
 # Features
 
 - Employee attendance registration and control system.
-- 3-step attendance workflow with real-time validations.
+- Attendance workflow with real-time validations.
 - User authentication and administration panel.
 - User management and activity logging system.
 - Export attendance records and reports.
@@ -39,51 +39,55 @@ The project follows a Layered / Clean Architecture approach, separating responsi
 │   ├── modules/
 │   │   ├── users/                  # Users module
 │   │   │   ├── app/                # Business logic (services)
-│   │   │   ├── domain/             # Models & validation rules
+│   │   │   ├── domain/             # Models
 │   │   │   ├── infrastructure/     # Repositories (DB queries)
+│   │   │   ├── schemas/            # Validation rules
 │   │   │   ├── users.controller.js # Handles request 
 │   │   │   └── users.routes.js     # Endpoints
 │   │   ├── auth/                   # Auth module
 │   │   ├── activity_log/           # Activity Log module
+│   │   ├── work_area/              # Work area module
 │   │   └── attendance/             # Attendance module
 │   ├── shared/
 │   │   ├───core/
-│   │   │    ├───error/             # Error handling
-│   │   │    └───http/              # HTTP responses 
+│   │   │    ├─── error/            # Error handling
+│   │   │    └─── http/             # HTTP responses 
 │   │   ├── infrastructure/         # DB connection, logger
 │   │   ├── middleware/             # Auth, validation, guards
-│   │   └── utils/                  # Time formatting, generate Excel
+│   │   └── utils/                  # Shared utilities
+│   │        └─── validator/        # Validation 
 │   └── app.js                      # Express app setup
 │
-├── public/                         # Frontend (Vanilla JS)
-│   ├── Bootstrap                   # Frontend framework (locally included assets)
-│   ├── js/
-│   │   ├── users/
-│   │   │   ├── app/                # API service calls
-│   │   │   └── ui/                 # DOM controllers
-│   │   ├── activity_log/
-│   │   │   ├── app/
-│   │   │   └── ui/
-│   │   ├── admin/
-│   │   │   ├── app/
-│   │   │   └── ui/
-│   │   ├── auth/
-│   │   │   ├── app/
-│   │   │   └── ui/
-│   │   ├── attendance/
-│   │   │   ├── app/
-│   │   │   └── ui/
-│   │   ├── shared/                 # Clock, HTTP client, UI helpers
-│   │   └── main.js                 # Entry point
-│   └── css/                        # Per-page stylesheets
-│
-└── views/                          # HTML pages
-    ├── pages/
+└── public/                         # Frontend (Vanilla JS)
+    ├── Bootstrap                   # Frontend framework (locally included assets)
+    ├── js/
+    │   ├── users/
+    │   │   ├── app/                # API service calls
+    │   │   └── ui/                 # DOM controllers
+    │   ├── activity_log/
+    │   │   ├── app/
+    │   │   └── ui/
+    │   ├── admin/
+    │   │   ├── app/
+    │   │   └── ui/
+    │   ├── auth/
+    │   │   ├── app/
+    │   │   └── ui/
+    │   ├── work_area/
+    │   │   ├── app/
+    │   │   └── ui/
+    │   ├── attendance/
+    │   │   ├── app/
+    │   │   └── ui/
+    │   ├── shared/                 # Clock, HTTP client, UI helpers
+    │   └── main.js                 # Entry point
+    ├── pages/                      # HTML pages
     │   ├── users/
     │   ├── admin/
     │   └── attendance/
-    ├── partials/
-    └── index.html
+    ├── partials/                   # HTML sidebar
+    ├── index.html                  # Index
+    └── css/                        # Per-page stylesheets
 
 ```
 
@@ -92,6 +96,7 @@ The project follows a Layered / Clean Architecture approach, separating responsi
 # Modules
 
 ## Auth
+
 - Authentication.
 - Credential validation.
 - Route protection.
@@ -100,14 +105,15 @@ The project follows a Layered / Clean Architecture approach, separating responsi
 
 ## Attendance
 
-- Check in / Check out workflow
-- Attendance validation
-- Daily reports
+- Attendance registration workflow
+- Duplicate attendance prevention
+- Daily attendance tracking
 - Export records
 
 ---
 
 ## Users
+
 - User management
 - Profile administration
 - Status control
@@ -115,8 +121,18 @@ The project follows a Layered / Clean Architecture approach, separating responsi
 ---
 
 ## Activity Log
+
 - System activity tracking
 - Audit history
+- Administrative action records
+
+---
+
+## Work Area
+
+- Work area management
+- Register work areas
+- Status control
 
 ---
 
@@ -146,7 +162,11 @@ MySQL Database
 |-------|-----------|
 | Backend | Node.js, Express, MySQL |
 | Frontend | Vanilla JavaScript, CSS3, Bootstrap 5 |
-| Architecture | Clean Architecture / Layered Architecture |
+| Desktop | Electron |
+| Validation | Zod |
+| Security | Helmet |
+| Date Handling | Luxon |
+| Export | ExcelJS |
 
 
 # Installation
@@ -155,7 +175,7 @@ MySQL Database
 
 - Node.js v18+
 - XAMPP
-- pnpm
+- npm
 
 ---
 ## Database Setup
@@ -172,12 +192,12 @@ Make sure XAMPP is running and the MySQL service is started before running the p
 ```bash
 mysql -u root
 ```
-5. Create the dabase:
+5. Create the database:
 
 ```bash
 CREATE DATABASE db_name;
 ```
-6. Select the dabase;
+6. Select the database;
 
 ```bash
 USE db_name;
@@ -192,7 +212,7 @@ git clone [url-repo]
 cd [folder-name]
 
 # Install dependencies
-pnpm install
+npm install
 
 # Configure environment variables
 # Windows:
@@ -202,23 +222,26 @@ copy .env.example .env
 cp .env.example .env
 
 # Create database and tables
-pnpm run db:setup
+npm run db:setup
 
 # Create admin
-pnpm run create-admin
+npm run create-admin
 
 # Start server
-pnpm run dev
+npm run dev
 
 ```
 ---
 # Scripts
 
 ```bash
-pnpm run dev            # Start development server
-pnpm run start          # Start production server
-pnpm run db:setup       # Initialize database
-pnpm run create-admin   # Create admin user
+npm run dev            # Start development server
+npm run start          # Start production server
+npm run db:setup       # Initialize database
+npm run create-admin   # Create admin user
+npm run electron       # Run desktop application
+npm run dist           # Build installer
+
 ```
 ---
 
@@ -229,7 +252,7 @@ pnpm run create-admin   # Create admin user
 Route:
 
 ```text
-/pages/users/register_profile.html
+/public/pages/users/register_profile.html
 ```
 
 ## Attendance Registration
@@ -237,9 +260,9 @@ Route:
 Route:
 
 ```text
-/pages/attendance/register_attendance.html
+/public/pages/attendance/register_attendance.html
 ```
-Workflow
+Workflow:
 1. Select Check In or Check Out.
 2. Enter personal code.
 3. System validates and registers attendance.
@@ -252,6 +275,7 @@ Workflow
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/user` | Create user |
+| GET | `/api/user/:id` | Search by id |
 | GET | `/api/user/public` | Active users only |
 | GET | `/api/user/private` | All users |
 | GET | `/api/user/stats` | User statistics |
@@ -266,7 +290,6 @@ Workflow
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/attendance` | Register check in/out |
-| GET | `/api/attendance/today-hours/:user_id` | Today’s hours |
 | GET | `/api/attendance/today-status/:user_id` | Current status |
 | GET | `/api/attendance/daily-report` | Daily report |
 | GET | `/api/attendance/export` | Export all records |
@@ -282,6 +305,18 @@ Workflow
 
 ---
 
+## Work Area
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/work-area` | Register work area |
+| GET | `/api/work-area/` | All work area |
+| GET | `/api/work-area/:id` | Search by id |
+| PATCH | `/api/work-area/:id` | Update work area |
+| PATCH | `/api/work-area/:id/status` | Change status |
+
+---
+
 # Validations
 
 ## Frontend
@@ -292,9 +327,34 @@ Workflow
 
 ## Backend
 
-- Unique user code
+- Input validation with Zod
+- Unique user code validation
+- Attendance workflow validation
 - Prevent duplicate check-ins
 - Authentication validation
+- Status validation (active/inactive)
+- Route parameter validation
+
+---
+
+# Desktop Application
+The system can be executed as a desktop application using Electron.
+
+```bash
+npm run electron       # Run desktop application
+
+```
+To generate an installer:
+
+```bash
+npm run dist           # Build installer
+
+```
+Generated files are located in:
+
+```text
+/dist
+```
 
 ---
 
@@ -328,9 +388,20 @@ ADMIN_ROLE=
 
 ---
 
+# Auditing
+
+The system records key actions such as:
+
+- User creation
+- User updates
+- Status changes
+- Attendance registration
+- Administrative operations
+
+---
+
 # Security
 - JWT-based authentication
-- Role-based access control (RBAC)
 - Input validation with Zod
 - Centralized error handling
 - Protected API routes
