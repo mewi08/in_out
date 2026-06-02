@@ -2,7 +2,8 @@
 
 # Overview
 
-This is a full-stack Attendance Registration System built with Node.js, Express, MySQL, and Vanilla JavaScript following Clean Architecture principles. It allows managing employees, tracking attendance, and generating reports in a modular and scalable way.
+This is a full-stack Attendance Registration System built with Node.js, Express, MySQL, and Vanilla JavaScript following Clean Architecture principles. The system can be deployed as a web application or packaged as a desktop application using Electron. It provides employee management, attendance tracking, and report generation through a modular and scalable architecture.
+
 ---
 # Features
 
