@@ -41,3 +41,8 @@ CREATE TABLE activity_logs (
         REFERENCES users(id)
         ON DELETE SET NULL
 );
+
+-- init
+INSERT INTO work_area (name)
+VALUES
+('Administración');
